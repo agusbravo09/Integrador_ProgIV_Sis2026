@@ -1,0 +1,4 @@
+FROM postgres:18-alpine
+RUN apk add --no-cache tzdata
+ENV TZ=America/Buenos_Aires
+COPY init.sql /docker-entrypoint-initdb.d/

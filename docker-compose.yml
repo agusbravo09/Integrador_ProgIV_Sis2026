@@ -1,0 +1,16 @@
+services:
+  db:
+    build: .
+    container_name: postgres_fcad_progiv
+    restart: always
+    environment:
+      POSTGRES_DB: fcad_cursos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  postgres_data:
