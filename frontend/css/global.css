@@ -1,7 +1,8 @@
-/* Importamos la fuente Inter desde Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Aplicamos la fuente Inter importada desde Google Fonts */
+/* 1. Importamos la fuente Chiron GoRound TC desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap');
+
+/* 2. Aplicamos la fuente a todo el body */
 body { 
-    font-family: 'Inter', sans-serif; 
+    font-family: 'Chiron GoRound TC', sans-serif; 
 }

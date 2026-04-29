@@ -5,23 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gestión Académica FCAD</title>
-
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Paleta de colores de la facu -->
+    <!-- Paleta de colores fcad-->
     <script src="js/tailwind-config.js"></script>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Vinculación de tu archivo CSS separado -->
+    <!-- Archivo CSS global -->
     <link rel="stylesheet" href="css/global.css">
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
@@ -51,16 +40,22 @@
                 class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none rounded-b-[4rem] md:rounded-b-none md:rounded-tr-[6rem] md:rounded-br-[6rem]">
                 <div class="absolute -top-20 -left-20 w-64 h-64 bg-institucional-400 rounded-full blur-3xl"></div>
             </div>
-
-            <h2 class="text-3xl md:text-4xl font-bold mb-2 text-center tracking-tight relative z-10">¡Bienvenido!</h2>
-            <p class="text-sm text-institucional-100 mb-10 text-center font-medium relative z-10">Gestión Académica FCAD
+            <img src="imgs/Logo con texto.png" alt="Logo Institucional"
+                class="w-40 md:w-48 mb-6 relative z-10 drop-shadow-md">
+            <h2 class="text-4xl md:text-5xl font-bold mb-2 text-center tracking-tight relative z-10">¡Bienvenido!</h2>
+            <p class="text-sm text-institucional-100 mb-10 text-center font-medium relative z-10"> Sistema de
+                Inscripción
+                a Cursos
             </p>
 
+            <!-- Formulario de registro (opcional) -->
+            <!--
             <p class="text-sm mb-3 text-center relative z-10">¿No tienes cuenta institucional?</p>
             <button type="button"
                 class="relative z-10 border border-white text-white rounded-lg px-10 py-2 hover:bg-white hover:text-institucional-600 transition-colors font-medium tracking-wide shadow-sm hover:shadow-md">
                 Solicitar acceso
             </button>
+        -->
         </div>
 
         <!-- Panel Formulario (Derecha) -->
