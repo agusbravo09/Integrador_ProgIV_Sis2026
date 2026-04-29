@@ -1,12 +1,12 @@
 // frontend/js/login.js
 
-document.getElementById('loginForm').addEventListener('submit', function(e) {
+document.getElementById('loginForm').addEventListener('submit', function (e) {
     e.preventDefault(); // Evitamos que la página se recargue
 
     const btn = document.getElementById('loginBtn');
     const msgBox = document.getElementById('messageBox');
     const usuario = document.getElementById('nombre_usuario').value;
-    const contrasenia = document.getElementById('contrasenia').value;
+    const contrasenia = document.getElementById('password').value;
 
     // Limpiar mensajes previos
     msgBox.innerHTML = '';
@@ -26,7 +26,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     // 2. Simulamos la llamada al Backend (Node.js) con un retraso
     setTimeout(() => {
         // SIMULACIÓN: Si el usuario escribe 'admin' accede, sino da error.
-        if(usuario === 'admin' && contrasenia !== '') {
+        if (usuario === 'admin' && contrasenia !== '') {
             // Éxito
             msgBox.innerHTML = `
                 <div class="p-3 mb-6 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center">
@@ -35,12 +35,12 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
                 </div>
             `;
             btn.innerHTML = 'Redirigiendo...';
-            
+
             // Simulamos la redirección hacia el dashboard
             setTimeout(() => {
                 window.location.href = 'html/dashboard.html';
             }, 1000);
-            
+
         } else {
             // Error de credenciales
             msgBox.innerHTML = `
@@ -56,3 +56,24 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         }
     }, 1500);
 });
+function togglePassword() {
+
+    const contrasenia = document.getElementById('password').value;
+    const eye = document.getElementById("eyeIcon");
+
+    if (password.type === "password") {
+        password.type = "text";
+        eye.innerHTML = `
+            <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C5 20 1 12 1 12a21.81 21.81 0 0 1 5.06-6.94"/>
+            <path d="M9.88 9.88A3 3 0 1 0 14.12 14.12"/>
+            <line x1="1" y1="1" x2="23" y2="23"/>
+        `;
+    } else {
+        password.type = "password";
+        eye.innerHTML = `
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+            <circle cx="12" cy="12" r="3"/>
+        `;
+    }
+
+}

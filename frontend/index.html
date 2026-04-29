@@ -29,7 +29,6 @@
 
     </div>
 
-
     <!-- Contenedor principal -->
     <div class="relative z-10 w-full md:max-w-[1000px] bg-white/70 backdrop-blur-md
     rounded-none md:rounded-[3rem] shadow-none md:shadow-2xl
@@ -38,24 +37,17 @@
 
         <!-- Panel Azul -->
         <div
-            class="bg-institucional-600 text-white px-10 py-12 md:p-12 flex flex-col justify-center items-center w-full md:w-[45%] rounded-none rounded-b-[4rem] md:rounded-b-none md:rounded-tr-[6rem] md:rounded-br-[6rem] z-10 relative shrink-0 transition-all">
+            class="bg-institucional-600 text-white px-10 py-12 md:p-12 flex flex-col justify-center items-center w-full md:w-[45%] rounded-none rounded-b-[4rem] md:rounded-b-none md:rounded-tr-[6rem] md:rounded-br-[6rem] z-10 relative shrink-0">
 
-            <!-- Decoración -->
-            <div
-                class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none rounded-b-[3rem] md:rounded-tr-[6rem] md:rounded-br-[6rem]">
-                <div class="absolute -top-20 -left-20 w-64 h-64 bg-institucional-400 rounded-full blur-3xl"></div>
-            </div>
-
-            <!-- Contenido -->
             <div class="flex flex-col items-center text-center relative z-10">
 
                 <img src="imgs/Logo con texto.png" alt="Logo" class="w-36 md:w-48 mb-6 drop-shadow-md">
 
-                <h2 class="text-4xl md:text-5xl font-bold mb-2 shadow-text">
+                <h2 class="text-4xl md:text-5xl font-bold mb-2">
                     ¡Bienvenido!
                 </h2>
 
-                <p class="text-sm text-institucional-100 font-medium shadow-text-sm">
+                <p class="text-sm text-institucional-100 font-medium">
                     Sistema de Inscripción a Cursos
                 </p>
 
@@ -63,14 +55,12 @@
 
         </div>
 
-
         <!-- Panel Formulario -->
         <div class="p-8 md:p-14 flex flex-col items-center w-full md:w-[55%] bg-transparent flex-grow justify-center">
 
             <h2 class="text-3xl font-bold text-slate-800 tracking-tight text-center mb-8">
                 Iniciar Sesión
             </h2>
-
 
             <form id="loginForm" class="w-full space-y-4">
 
@@ -90,24 +80,26 @@
 
                 </div>
 
-
                 <!-- Contraseña -->
-                <div class="relative">
+                <div class="relative w-full">
 
-                    <input type="password" id="contrasenia" name="contrasenia" required placeholder="Contraseña"
-                        class="w-full bg-slate-50 text-slate-700 rounded-lg pl-4 pr-10 py-3 border border-transparent outline-none focus:border-institucional-400 focus:ring-4 focus:ring-institucional-100 focus:bg-white transition-all text-sm placeholder-slate-400 font-medium">
+                    <input id="password" type="password" placeholder="Contraseña"
+                        class="w-full px-4 py-3 pr-12 rounded-xl bg-white/60 backdrop-blur-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-                    <svg class="w-5 h-5 text-slate-400 absolute right-4 top-3.5 pointer-events-none"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <button type="button" onclick="togglePassword()"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
 
-                        <path fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd" />
+                        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
+                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 
-                    </svg>
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
+                            <circle cx="12" cy="12" r="3" />
+
+                        </svg>
+
+                    </button>
 
                 </div>
-
 
                 <!-- Olvidé contraseña -->
                 <div class="text-center pt-2">
@@ -121,17 +113,17 @@
 
                 </div>
 
-
                 <!-- Mensajes -->
                 <div id="messageBox" class="w-full" role="alert"></div>
 
-
                 <!-- Botón -->
-                <button id="loginBtn" type="submit" <button class="w-full bg-institucional-600 text-white rounded-lg py-3 font-semibold tracking-wide 
-                hover:bg-institucional-700 transition-all duration-200 ease-out
-                shadow-md hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0
-                flex justify-center items-center">
+                <button id="loginBtn" type="submit" class="w-full bg-institucional-600 text-white rounded-lg py-3 font-semibold tracking-wide 
+                    hover:bg-institucional-700 transition-all duration-200 ease-out
+                    shadow-md hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0
+                    flex justify-center items-center">
+
                     Ingresar
+
                 </button>
 
             </form>
@@ -142,9 +134,8 @@
 
     </div>
 
-
     <!-- JS -->
-    <script src="js/login.js"></script>
+    <script src="js/login.js" defer></script>
 
 </body>
 
