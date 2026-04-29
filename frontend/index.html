@@ -1,95 +1,123 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gestión Académica FCAD</title>
-    
-    <!-- Tailwind CSS (Enlace corregido y limpio) -->
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Configuración de colores institucionales -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        institucional: {
-                            50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9',
-                            600: '#0284c7', 700: '#0369a1', 900: '#0c4a6e',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Google Fonts (Enlace corregido) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <!-- Paleta de colores de la facu -->
+    <script src="js/tailwind-config.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Vinculación de tu archivo CSS separado -->
     <link rel="stylesheet" href="css/global.css">
-</head>
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
 
-    <!-- Contenedor Principal -->
-    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden">
-        
-        <!-- Encabezado del Login -->
-        <div class="bg-institucional-700 p-6 text-center">
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
-                <!-- Icono SVG corregido -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-institucional-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v7" />
-                </svg>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+
+    <!-- Fondo de Olas Blurreado -->
+    <div class="fixed inset-0 z-0">
+        <!-- Capa base de color suave -->
+        <div class="absolute inset-0 bg-institucional-50"></div>
+
+        <!-- Imagen de fondo con efecto Blur extremo (Cristal/Gradiente) -->
+        <!-- Se usa scale-125 para evitar bordes transparentes causados por el blur -->
+        <div
+            class="absolute inset-0 bg-[url('imgs/logoFCAD.svg')] bg-cover bg-center bg-no-repeat opacity-60 blur-3xl scale-125">
+        </div>
+    </div>
+
+    <!-- Contenedor Principal Dividido -->
+    <div
+        class="relative z-10 w-full max-w-[1000px] bg-white/95 backdrop-blur-sm rounded-[2rem] shadow-2xl flex flex-col md:flex-row overflow-hidden min-h-[700px]">
+
+        <!-- Panel Azul (Izquierda) -->
+        <div
+            class="bg-institucional-600 text-white p-10 flex flex-col justify-center items-center w-full md:w-[45%] rounded-b-[4rem] md:rounded-b-none md:rounded-tr-[6rem] md:rounded-br-[6rem] z-10 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.2)] md:shadow-[10px_0_20px_-10px_rgba(0,0,0,0.1)] relative">
+
+            <!-- Detalle decorativo sutil simulando ola en el panel -->
+            <div
+                class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none rounded-b-[4rem] md:rounded-b-none md:rounded-tr-[6rem] md:rounded-br-[6rem]">
+                <div class="absolute -top-20 -left-20 w-64 h-64 bg-institucional-400 rounded-full blur-3xl"></div>
             </div>
-            <h2 class="text-2xl font-bold text-white tracking-tight">Gestión Académica</h2>
-            <p class="text-institucional-100 text-sm mt-1">Facultad de Ciencias de la Administración</p>
+
+            <h2 class="text-3xl md:text-4xl font-bold mb-2 text-center tracking-tight relative z-10">¡Bienvenido!</h2>
+            <p class="text-sm text-institucional-100 mb-10 text-center font-medium relative z-10">Gestión Académica FCAD
+            </p>
+
+            <p class="text-sm mb-3 text-center relative z-10">¿No tienes cuenta institucional?</p>
+            <button type="button"
+                class="relative z-10 border border-white text-white rounded-lg px-10 py-2 hover:bg-white hover:text-institucional-600 transition-colors font-medium tracking-wide shadow-sm hover:shadow-md">
+                Solicitar acceso
+            </button>
         </div>
 
-        <!-- Cuerpo del Formulario -->
-        <div class="p-8">
-            <div id="messageBox"></div>
+        <!-- Panel Formulario (Derecha) -->
+        <div class="p-10 md:p-14 flex flex-col justify-center items-center w-full md:w-[55%] bg-transparent">
+            <h2 class="text-3xl font-bold text-slate-800 mb-8 tracking-tight">Iniciar Sesión</h2>
 
-            <form id="loginForm" class="space-y-6">
+            <!-- Contenedor de mensajes de error/éxito -->
+            <div id="messageBox" class="w-full max-w-xs"></div>
+
+            <form id="loginForm" class="w-full max-w-xs space-y-4">
+
                 <!-- Input Usuario -->
-                <div>
-                    <label for="nombre_usuario" class="block text-sm font-medium text-slate-700 mb-1">Nombre de Usuario</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-                        </div>
-                        <input type="text" id="nombre_usuario" name="nombre_usuario" required class="pl-10 block w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-institucional-500 focus:border-institucional-500 text-sm transition-colors" placeholder="Ej: jperez">
-                    </div>
+                <div class="relative">
+                    <input type="text" id="nombre_usuario" name="nombre_usuario" required
+                        class="w-full bg-slate-50 text-slate-700 rounded-lg pl-4 pr-10 py-3 border border-transparent outline-none focus:border-institucional-400 focus:ring-4 focus:ring-institucional-100 focus:bg-white transition-all text-sm placeholder-slate-400 font-medium"
+                        placeholder="Usuario">
+                    <!-- Icono Usuario -->
+                    <svg class="w-5 h-5 text-slate-400 absolute right-4 top-3.5 pointer-events-none"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd" />
+                    </svg>
                 </div>
 
                 <!-- Input Contraseña -->
-                <div>
-                    <label for="contrasenia" class="block text-sm font-medium text-slate-700 mb-1">Contraseña</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
-                        </div>
-                        <input type="password" id="contrasenia" name="contrasenia" required class="pl-10 block w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-institucional-500 focus:border-institucional-500 text-sm transition-colors" placeholder="••••••••">
-                    </div>
+                <div class="relative">
+                    <input type="password" id="contrasenia" name="contrasenia" required
+                        class="w-full bg-slate-50 text-slate-700 rounded-lg pl-4 pr-10 py-3 border border-transparent outline-none focus:border-institucional-400 focus:ring-4 focus:ring-institucional-100 focus:bg-white transition-all text-sm placeholder-slate-400 font-medium"
+                        placeholder="Contraseña">
+                    <!-- Icono Candado -->
+                    <svg class="w-5 h-5 text-slate-400 absolute right-4 top-3.5 pointer-events-none"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd" />
+                    </svg>
                 </div>
 
-                <!-- Botón Submit -->
-                <button type="submit" id="loginBtn" class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-institucional-600 hover:bg-institucional-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-institucional-500 transition-colors">
+                <!-- Olvidé mi contraseña -->
+                <div class="text-center pt-2">
+                    <a href="#"
+                        class="text-[13px] font-medium text-slate-500 hover:text-institucional-600 transition-colors">¿Olvidaste
+                        tu contraseña?</a>
+                </div>
+
+                <!-- Botón Ingresar -->
+                <button type="submit" id="loginBtn"
+                    class="w-full bg-institucional-600 text-white rounded-lg py-3 font-semibold tracking-wide hover:bg-institucional-700 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 mt-2 flex justify-center items-center">
                     Ingresar
                 </button>
             </form>
-        </div>
-        
-        <!-- Footer -->
-        <div class="bg-slate-50 px-8 py-4 border-t border-slate-100 text-center">
-            <p class="text-xs text-slate-500 font-medium">Trabajo Final Integrador • Programación IV • UNER</p>
+
         </div>
     </div>
 
     <!-- Vinculación de tu archivo JavaScript separado -->
     <script src="js/login.js"></script>
 </body>
+
 </html>
