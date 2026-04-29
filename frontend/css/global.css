@@ -1,0 +1,4 @@
+/* Aplicamos la fuente Inter importada desde Google Fonts */
+body { 
+    font-family: 'Inter', sans-serif; 
+}
