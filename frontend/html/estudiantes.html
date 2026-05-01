@@ -19,84 +19,99 @@
 <body class="min-h-screen flex items-center justify-center md:p-4 relative overflow-hidden">
     <!-- Header Fijo -->
     <!-- Sidebar Traslúcida --->
-    <aside id="sidebar"
-        class="fixed top-0 left-0 h-screen w-64 flex flex-col justify-between bg-white/70 backdrop-blur-md border-r border-white/50 shadow-[4px_0_24px_rgba(0,0,0,0.05)] z-50 transition-all duration-300 rounded-r-3xl">
+    <aside id="sidebar" class="fixed top-4 left-4 h-[calc(100vh-2rem)] w-64 flex flex-col justify-between bg-white/70 backdrop-blur-md border border-white/50 shadow-[4px_0_24px_rgba(0,0,0,0.05)] z-50 transition-all duration-300 rounded-3xl overflow-hidden">
+        
         <!-- Parte Superior: Logo y Menú -->
         <div>
-            <!-- Logo de la Facultad -->
-            <div class="h-24 flex items-center justify-center border-b border-white/50 px-6">
-                <img src="../imgs/Logo con texto dark.png" alt="Logo UNER" class="max-h-12 w-auto drop-shadow-sm">
+            <!-- Cabecera de Sidebar -->
+            <!-- px-4 da el margen interior, relative permite mover la flecha -->
+            <div id="sidebar-header" class="h-24 flex items-center relative border-b border-white/50 transition-all duration-300 px-4">
+                
+                <!-- Wrapper del logo: Esto se achicará a 0 para una animación fluida -->
+                <div id="sidebar-logo-wrapper" class="overflow-hidden transition-all duration-300 w-40 flex items-center opacity-100 flex-shrink-0">
+                    <img src="../imgs/Logo con texto dark.png" alt="Logo UNER" class="max-h-12 w-auto drop-shadow-sm max-w-none">
+                </div>
+                
+                <!-- Botón para colapsar/expandir (Absoluto a la derecha) -->
+                <button id="toggle-btn" onclick="toggleSidebar()" class="absolute right-4 p-2 rounded-lg text-slate-500 hover:bg-white/60 hover:text-institucional-600 transition-all duration-300 flex-shrink-0 z-10">
+                    <svg id="toggle-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+                    </svg>
+                </button>
             </div>
 
             <!-- Menú de Navegación -->
             <nav class="flex flex-col gap-2 px-4 py-6">
+                
                 <!-- Inicio -->
-                <a id="btn-inicio" onclick="cambiarVista('inicio')"
-                    class="menu-btn flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                        </path>
-                    </svg>
-                    Inicio
+                <!-- Eliminamos el gap-3 y px-4 interno. El centrado lo hace el contenedor del ícono -->
+                <a id="btn-inicio" onclick="cambiarVista('inicio')" class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Inicio</span>
                 </a>
 
-                <!-- Estudiantes -->
-                <a id="btn-estudiantes" onclick="cambiarVista('estudiantes')"
-                    class="menu-btn flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all cursor-pointer bg-institucional-600 text-white shadow-md shadow-institucional-600/20"">
-                    <svg class=" w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                    </path>
-                    </svg>
-                    Estudiantes
+                <!-- Estudiantes (Activo por defecto) -->
+                <a id="btn-estudiantes" onclick="cambiarVista('estudiantes')" class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer bg-institucional-600 text-white shadow-md shadow-institucional-600/20 overflow-hidden whitespace-nowrap">
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Estudiantes</span>
                 </a>
 
                 <!-- Cursos -->
-                <a id="btn-cursos" onclick="cambiarVista('cursos')"
-                    class="menu-btn flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
-                        </path>
-                    </svg>
-                    Cursos
+                <a id="btn-cursos" onclick="cambiarVista('cursos')" class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Cursos</span>
                 </a>
 
                 <!-- Inscripciones -->
-                <a id="btn-inscripciones" onclick="cambiarVista('inscripciones')"
-                    class="menu-btn flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
-                        </path>
-                    </svg>
-                    Inscripciones
+                <a id="btn-inscripciones" onclick="cambiarVista('inscripciones')" class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                    </div>
+                    <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Inscripciones</span>
                 </a>
             </nav>
         </div>
 
         <!-- Parte Inferior: Perfil y Salir -->
-        <div class="px-4 py-6 border-t border-white/50">
-            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50/50 mb-2 border border-white/60">
-                <div
-                    class="w-8 h-8 rounded-full bg-institucional-600 flex items-center justify-center text-white font-bold text-xs">
-                    AD
+        <div class="py-6 border-t border-white/50 flex flex-col items-center w-full px-4">
+            
+            <!-- Caja de Perfil -->
+            <div id="profile-box" class="flex items-center py-3 rounded-xl bg-slate-50/50 mb-2 border border-white/60 transition-all duration-300 w-full overflow-hidden whitespace-nowrap">
+                <div class="w-12 flex justify-center flex-shrink-0">
+                    <div class="w-8 h-8 rounded-full bg-institucional-600 flex items-center justify-center text-white font-bold text-xs">
+                        AD
+                    </div>
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-sm font-bold text-slate-700">Admin</span>
-                    <span class="text-xs text-slate-500">Administrador</span>
+                <div class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">
+                    <div class="flex flex-col text-left">
+                        <span class="text-sm font-bold text-slate-700">Admin</span>
+                        <span class="text-[11px] text-slate-500 leading-tight">Administrador</span>
+                    </div>
                 </div>
             </div>
 
-            <button
-                class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-red-500 hover:bg-red-50 transition-all font-medium text-sm">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
-                    </path>
-                </svg>
-                Cerrar Sesión
+            <!-- Botón de Salir -->
+            <button id="logout-btn" class="flex items-center py-2 rounded-xl text-red-500 hover:bg-red-50 transition-all font-medium text-sm w-full overflow-hidden whitespace-nowrap">
+                <div class="w-12 flex justify-center flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                </div>
+                <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Cerrar Sesión</span>
             </button>
         </div>
     </aside>
