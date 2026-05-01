@@ -1,0 +1,21 @@
+meta {
+  name: Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/estudiantes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "documento": "22333111",
+    "apellido": "Perez",
+    "nombres": "Pedrito",
+    "email": "pedro.perez@example.com",
+    "fecha_nacimiento": "2001-04-12"
+  }
+}
