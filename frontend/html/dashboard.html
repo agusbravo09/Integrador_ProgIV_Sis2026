@@ -1,11 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard - Gestión Académica</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Paleta de colores fcad (Corregido: ../js/) -->
+    <script src="../js/tailwind-config.js"></script>
+
+    <!-- CSS global (Corregido: ../css/) -->
+    <link rel="stylesheet" href="../css/global.css">
 </head>
-<body>
-    <h1>Prueba 500 mil</h1>
+
+<body class="min-h-screen flex items-center justify-center md:p-4 relative overflow-hidden">
+
+    <!-- Fondo -->
+    <div class="fixed inset-0 z-0">
+        <!-- Color base -->
+        <div class="absolute inset-0 bg-institucional-50"></div>
+
+        <!-- Imagen desenfocada (Corregido: ../imgs/) -->
+        <div
+            class="absolute inset-0 bg-[url('../imgs/logoFCAD.svg')] bg-cover bg-center bg-no-repeat opacity-60 blur-3xl scale-125">
+        </div>
+    </div> <!-- Cerramos el contenedor de fondo -->
+
+
+
+    <!-- JS (Corregido: ../js/) -->
+    <script src="../js/dashboard.js" defer></script>
+
 </body>
+
 </html>
