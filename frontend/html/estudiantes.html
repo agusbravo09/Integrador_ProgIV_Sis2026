@@ -17,7 +17,90 @@
 </head>
 
 <body class="min-h-screen flex items-center justify-center md:p-4 relative overflow-hidden">
+    <!-- Header Fijo -->
+    <!-- Sidebar Traslúcida -->
+    <aside
+        class="fixed top-0 left-0 h-screen w-64 flex flex-col justify-between bg-white/70 backdrop-blur-md border-r border-white/50 shadow-[4px_0_24px_rgba(0,0,0,0.05)] z-50">
 
+        <!-- Parte Superior: Logo y Menú -->
+        <div>
+            <!-- Logo de la Facultad -->
+            <div class="h-24 flex items-center justify-center border-b border-white/50 px-6">
+                <img src="../imgs/Logo con texto dark.png" alt="Logo UNER" class="max-h-12 w-auto drop-shadow-sm">
+            </div>
+
+            <!-- Menú de Navegación -->
+            <nav class="flex flex-col gap-2 px-4 py-6">
+                <!-- Inicio -->
+                <a id="btn-inicio" onclick="cambiarVista('inicio')"
+                    class="menu-btn flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                        </path>
+                    </svg>
+                    Inicio
+                </a>
+
+                <!-- Estudiantes -->
+                <a id="btn-estudiantes" onclick="cambiarVista('estudiantes')"
+                    class="menu-btn flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all cursor-pointer bg-institucional-600 text-white shadow-md shadow-institucional-600/20"">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                        </path>
+                    </svg>
+                    Estudiantes
+                </a>
+
+                <!-- Cursos -->
+                <a id="btn-cursos" onclick="cambiarVista('cursos')"
+                    class="menu-btn flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                        </path>
+                    </svg>
+                    Cursos
+                </a>
+
+                <!-- Inscripciones -->
+                <a id="btn-inscripciones" onclick="cambiarVista('inscripciones')"
+                    class="menu-btn flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                        </path>
+                    </svg>
+                    Inscripciones
+                </a>
+            </nav>
+        </div>
+
+        <!-- Parte Inferior: Perfil y Salir -->
+        <div class="px-4 py-6 border-t border-white/50">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50/50 mb-2 border border-white/60">
+                <div
+                    class="w-8 h-8 rounded-full bg-institucional-600 flex items-center justify-center text-white font-bold text-xs">
+                    AD
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-slate-700">Admin</span>
+                    <span class="text-xs text-slate-500">Administrador</span>
+                </div>
+            </div>
+
+            <button
+                class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-red-500 hover:bg-red-50 transition-all font-medium text-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                    </path>
+                </svg>
+                Cerrar Sesión
+            </button>
+        </div>
+    </aside>
     <!-- Fondo -->
     <div class="fixed inset-0 z-0">
         <!-- Color base -->
@@ -29,7 +112,32 @@
         </div>
     </div> <!-- Cerramos el contenedor de fondo -->
 
+    <main class="ml-64 p-8 min-h-screen bg-slate-50/50">
+        <!-- Sección Inicio (Dashboard) -->
+        <section id="seccion-inicio" class="block">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Dashboard</h1>
+            <p class="text-slate-600">Bienvenido al resumen del sistema.</p>
+            <!-- Aquí irán tus tarjetas de totales -->
+        </section>
 
+        <!-- Sección Estudiantes -->
+        <section id="seccion-estudiantes" class="hidden">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Gestión de Estudiantes</h1>
+            <!-- Aquí irá tu BREAD de estudiantes -->
+        </section>
+
+        <!-- Sección Cursos -->
+        <section id="seccion-cursos" class="hidden">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Gestión de Cursos</h1>
+            <!-- Aquí irá tu BREAD de cursos -->
+        </section>
+
+        <!-- Sección Inscripciones -->
+        <section id="seccion-inscripciones" class="hidden">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Gestión de Inscripciones</h1>
+            <!-- Aquí irá tu listado de inscripciones -->
+        </section>
+    </main>
 
     <!-- JS (Corregido: ../js/) -->
     <script src="../js/estudiantes.js" defer></script>
