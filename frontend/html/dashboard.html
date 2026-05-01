@@ -9,29 +9,175 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Paleta de colores fcad (Corregido: ../js/) -->
+    <!-- Paleta de colores fcad -->
     <script src="../js/tailwind-config.js"></script>
 
-    <!-- CSS global (Corregido: ../css/) -->
+    <!-- CSS global -->
     <link rel="stylesheet" href="../css/global.css">
 </head>
 
-<body class="min-h-screen flex items-center justify-center md:p-4 relative overflow-hidden">
+<body class="min-h-screen md:p-4 relative overflow-hidden bg-slate-50/50">
 
-    <!-- Fondo -->
-    <div class="fixed inset-0 z-0">
-        <!-- Color base -->
+    <!-- Fondo Institucional -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
         <div class="absolute inset-0 bg-institucional-50"></div>
-
-        <!-- Imagen desenfocada (Corregido: ../imgs/) -->
         <div
             class="absolute inset-0 bg-[url('../imgs/logoFCAD.svg')] bg-cover bg-center bg-no-repeat opacity-60 blur-3xl scale-125">
         </div>
-    </div> <!-- Cerramos el contenedor de fondo -->
+    </div>
 
+    <!-- Sidebar Traslúcida -->
+    <aside id="sidebar"
+        class="fixed top-4 left-4 h-[calc(100vh-2rem)] w-64 flex flex-col justify-between bg-white/70 backdrop-blur-md border border-white/50 shadow-[4px_0_24px_rgba(0,0,0,0.05)] z-50 transition-all duration-300 rounded-3xl overflow-hidden">
 
+        <div>
+            <!-- Cabecera de Sidebar -->
+            <div class="h-24 flex items-center relative border-b border-white/50 transition-all duration-300 px-4">
+                <div
+                    class="overflow-hidden transition-all duration-300 w-40 flex items-center opacity-100 flex-shrink-0">
+                    <!-- Asegurate de tener esta imagen o cambiar la ruta a "Logo con texto.png" si no existe la versión dark -->
+                    <img src="../imgs/Logo con texto dark.png" alt="Logo UNER"
+                        class="max-h-12 w-auto drop-shadow-sm max-w-none">
+                </div>
+            </div>
 
-    <!-- JS (Corregido: ../js/) -->
+            <!-- Menú de Navegación -->
+            <nav class="flex flex-col gap-2 px-4 py-6">
+                <!-- Inicio (Activo) -->
+                <a href="dashboard.html"
+                    class="flex items-center py-3 rounded-xl font-medium transition-all bg-institucional-600 text-white shadow-md shadow-institucional-600/20 overflow-hidden whitespace-nowrap">
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="pl-1">Inicio</span>
+                </a>
+
+                <!-- Estudiantes -->
+                <a href="estudiantes.html"
+                    class="flex items-center py-3 rounded-xl font-medium transition-all text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="pl-1">Estudiantes</span>
+                </a>
+
+                <!-- Cursos -->
+                <a href="cursos.html"
+                    class="flex items-center py-3 rounded-xl font-medium transition-all text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="pl-1">Cursos</span>
+                </a>
+
+                <!-- Inscripciones -->
+                <a href="inscripciones.html"
+                    class="flex items-center py-3 rounded-xl font-medium transition-all text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="pl-1">Inscripciones</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="py-6 border-t border-white/50 flex flex-col items-center w-full px-4">
+            <button id="logout-btn"
+                class="flex items-center py-2 rounded-xl text-red-500 hover:bg-red-50 transition-all font-medium text-sm w-full overflow-hidden whitespace-nowrap">
+                <div class="w-12 flex justify-center flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                </div>
+                <span class="pl-1">Cerrar Sesión</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="ml-72 mr-4 mt-4 p-8 min-h-[calc(100vh-2rem)] relative z-10">
+
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold text-slate-800 tracking-tight">Panel de Control</h1>
+            <p class="text-slate-500 font-medium mt-1">Resumen general del sistema de gestión académica.</p>
+        </header>
+
+        <!-- Tarjetas de Totales -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+
+            <!-- Total Estudiantes -->
+            <div
+                class="bg-white/70 backdrop-blur-md border border-white/60 p-6 rounded-3xl shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Estudiantes Registrados
+                    </p>
+                    <h3 id="total-estudiantes" class="text-4xl font-bold text-institucional-600">--</h3>
+                </div>
+                <div
+                    class="w-14 h-14 bg-institucional-50 rounded-2xl flex items-center justify-center text-institucional-500">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Total Cursos -->
+            <div
+                class="bg-white/70 backdrop-blur-md border border-white/60 p-6 rounded-3xl shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Cursos Totales</p>
+                    <h3 id="total-cursos" class="text-4xl font-bold text-institucional-600">--</h3>
+                </div>
+                <div
+                    class="w-14 h-14 bg-institucional-50 rounded-2xl flex items-center justify-center text-institucional-500">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Accesos rápidos a Cursos Activos -->
+        <section>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-slate-800">Cursos Activos</h2>
+                <a href="cursos.html"
+                    class="text-sm font-bold text-institucional-600 hover:text-institucional-800 transition-colors">Ver
+                    todos &rarr;</a>
+            </div>
+
+            <!-- Contenedor donde JS inyectará las tarjetas -->
+            <div id="cursos-activos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Se cargan dinámicamente desde dashboard.js -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JS -->
     <script src="../js/dashboard.js" defer></script>
 
 </body>
