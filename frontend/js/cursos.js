@@ -21,6 +21,11 @@ const cursos = [
 
 const contenedor = document.getElementById("cursosContainer");
 
+// por las dudas , asi no se rompe
+if (contenedor) {
+    renderCursos();
+}
+
 function renderCursos() {
     contenedor.innerHTML = "";
 
@@ -90,6 +95,14 @@ document.querySelectorAll("button[data-index]").forEach(btn => {
 
     });
 });
+        
 }
 
-renderCursos();
+// Logout
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        window.location.href = "../index.html";
+    });
+}
