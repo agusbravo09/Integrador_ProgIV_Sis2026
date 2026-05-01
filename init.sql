@@ -377,11 +377,11 @@ COPY public.cursos_estados (id_curso_estado, descripcion, es_activo) FROM stdin;
 --
 
 COPY public.estudiantes (id_estudiante, documento, apellido, nombres, email, fecha_nacimiento, activo, id_usuario_modificacion, fecha_hora_modificacion) FROM stdin;
-6	35211111	GARCÍA	MATEO EMILIO	mateogarcia@gmail.com	2000-02-15	1	1	2023-03-06 17:30:00
-7	28922222	TORRES	SANTIAGO JULIÁN	santiagotorres@gmail.com	1994-05-10	1	1	2023-03-07 18:15:00
-8	38133333	GÓMEZ	LUISA LUCIANA	luisalopez@gmail.com	2002-01-05	1	1	2023-03-08 19:00:00
-9	31944444	RIVAS	GABRIEL EDUARDO	gabrielrivas@gmail.com	1997-09-25	1	1	2023-03-09 20:45:00
-10	34855555	MARTÍNEZ	VALENTINA SOFÍA	valentinamartinez@gmail.com	2000-08-15	1	1	2023-03-10 22:30:00
+1	35211111	GARCÍA	MATEO EMILIO	mateogarcia@gmail.com	2000-02-15	1	1	2023-03-06 17:30:00
+2	28922222	TORRES	SANTIAGO JULIÁN	santiagotorres@gmail.com	1994-05-10	1	1	2023-03-07 18:15:00
+3	38133333	GÓMEZ	LUISA LUCIANA	luisalopez@gmail.com	2002-01-05	1	1	2023-03-08 19:00:00
+4	31944444	RIVAS	GABRIEL EDUARDO	gabrielrivas@gmail.com	1997-09-25	1	1	2023-03-09 20:45:00
+5	34855555	MARTÍNEZ	VALENTINA SOFÍA	valentinamartinez@gmail.com	2000-08-15	1	1	2023-03-10 22:30:00
 \.
 
 
@@ -437,7 +437,7 @@ SELECT pg_catalog.setval('public.cursos_estados_id_curso_estado_seq', 4, true);
 -- Name: cursos_id_curso_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cursos_id_curso_seq', 1, false);
+SELECT pg_catalog.setval('public.cursos_id_curso_seq', 5, true);
 
 
 --
@@ -446,8 +446,7 @@ SELECT pg_catalog.setval('public.cursos_id_curso_seq', 1, false);
 -- Name: estudiantes_id_estudiante_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.estudiantes_id_estudiante_seq', 1, false);
-
+SELECT pg_catalog.setval('public.estudiantes_id_estudiante_seq', 5, true);
 
 --
 -- TOC entry 5008 (class 0 OID 0)

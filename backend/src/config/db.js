@@ -15,7 +15,10 @@ pool.on('error', (err) => {
 });
 
 // wrapper para queries simples
-export const query = (text, params) => pool.query(text, params);
+export const query = async (text, params) => {
+  const response = await pool.query(text, params);
+  return response.rows;
+}
 
 // devuelve un client para usar en transacciones
 export const getClient = () => pool.connect();
