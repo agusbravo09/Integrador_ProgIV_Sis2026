@@ -47,8 +47,8 @@ function renderCursos() {
                 </p>
 
                 <div class="flex justify-between text-sm text-slate-500 mt-2">
-                    <span>⏱ ${curso.horas} hs</span>
-                    <span>👥 ${curso.cupos} cupos</span>
+                    <span> ${curso.horas} hs</span>
+                    <span> ${curso.cupos} cupos</span>
                 </div>
             </div>
 
