@@ -1,0 +1,15 @@
+meta {
+  name: Get By Id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/estudiantes/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 2
+}
