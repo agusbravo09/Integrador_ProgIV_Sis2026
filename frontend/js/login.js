@@ -10,7 +10,16 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 
     // Limpiar mensajes previos
     msgBox.innerHTML = '';
-
+    // NUEVO: Validación rápida de campos vacíos
+    if (usuario.trim() === '' || contrasenia.trim() === '') {
+        msgBox.innerHTML = `
+            <div class="p-3 mb-6 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                Por favor, completa ambos campos.
+            </div>
+        `;
+        return; // Detenemos la ejecución aquí, no iniciamos el spinner
+    }
     // 1. Estado de carga visual (Spinner)
     const originalBtnText = 'Ingresar';
     btn.disabled = true;
@@ -57,23 +66,22 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
     }, 1500);
 });
 function togglePassword() {
-
-    const contrasenia = document.getElementById('password').value;
+    // Obtenemos el elemento input, no solo su valor
+    const passwordInput = document.getElementById('password');
     const eye = document.getElementById("eyeIcon");
 
-    if (password.type === "password") {
-        password.type = "text";
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
         eye.innerHTML = `
             <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C5 20 1 12 1 12a21.81 21.81 0 0 1 5.06-6.94"/>
             <path d="M9.88 9.88A3 3 0 1 0 14.12 14.12"/>
             <line x1="1" y1="1" x2="23" y2="23"/>
         `;
     } else {
-        password.type = "password";
+        passwordInput.type = "password";
         eye.innerHTML = `
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
             <circle cx="12" cy="12" r="3"/>
         `;
     }
-
 }
