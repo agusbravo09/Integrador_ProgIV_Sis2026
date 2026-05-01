@@ -1,57 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cursos - Gestión Académica FCAD</title>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Config -->
-    <script src="../js/tailwind-config.js"></script>
-
-    <!-- CSS global -->
-    <link rel="stylesheet" href="../css/global.css">
-</head>
-
-<body class="min-h-screen flex flex-col relative overflow-hidden">
-
-    <!-- FONDO -->
-    <div class="fixed inset-0 z-0">
-        <div class="absolute inset-0 bg-institucional-50"></div>
-
-        <div
-            class="absolute inset-0 bg-[url('../imgs/logoFCAD.svg')] bg-cover bg-center bg-no-repeat opacity-60 blur-3xl scale-125">
+<!-- html/cursos.html -->
+<div class="animate-fade-in flex flex-col h-full">
+    
+    <!-- Topbar / Header de la sección -->
+    <header class="bg-white shadow-sm px-8 py-5 flex justify-between items-center rounded-2xl mb-8 border border-slate-200">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800">Cursos Disponibles</h1>
+            <p class="text-sm text-slate-500 mt-1">Explora e inscríbete en nuestras propuestas formativas</p>
         </div>
-    </div>
-
-    <!-- HEADER -->
-    <header class="relative z-10 bg-institucional-600/90 backdrop-blur-md text-white px-6 py-4 shadow-lg flex justify-between items-center">
-        <h1 class="text-xl md:text-2xl font-bold tracking-wide">
-            Cursos Disponibles
-        </h1>
-
-        <button id="logoutBtn"
-            class="bg-white/90 text-institucional-600 px-4 py-2 rounded-xl font-semibold 
-            hover:bg-white transition shadow-md hover:shadow-lg">
-            Cerrar sesión
+        
+        <!-- Botón para Admin (Opcional, si quieres mantener la coherencia BREAD) -->
+        <button class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-colors">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+            Nuevo Curso
         </button>
     </header>
 
-    <!-- CONTENEDOR -->
-    <main class="relative z-10 flex-grow p-6 md:p-10 max-w-6xl mx-auto w-full">
-
-        <div id="cursosContainer" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <!-- Se renderiza con JS -->
-        </div>
-
-    </main>
-
-    <!-- JS -->
-    <script src="../js/cursos.js" defer></script>
-
-</body>
-
-</html>
+    <!-- Contenedor Grid para las Tarjetas -->
+    <div id="cursosContainer" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 pb-8">
+        <!-- Las tarjetas se inyectan acá con JS -->
+    </div>
+    
+</div>
