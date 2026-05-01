@@ -1,20 +1,16 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Inicializar el Dashboard
-    cargarDatosDashboard();
+// frontend/js/dashboard.js
 
-    // 2. Configurar botón de cerrar sesión
-    const btnLogout = document.getElementById('logout-btn');
-    if (btnLogout) {
-        btnLogout.addEventListener('click', () => {
-            // Lógica para borrar JWT token en el futuro
-            window.location.href = '../index.html'; // Redirige al login
-        });
-    }
-});
+/**
+ * Función principal de inicialización. 
+ * main.js la llamará en cuanto el HTML del dashboard se inyecte.
+ */
+function initDashboard() {
+    console.log("initDashboard ejecutado correctamente");
+    cargarDatosDashboard();
+}
 
 /**
  * Función que simula la petición a la API Rest para traer los totales y cursos activos.
- * En el futuro, aquí usarán fetch() conectándose al backend de sus compañeros.
  */
 function cargarDatosDashboard() {
     // --- DATOS SIMULADOS (Mock Data) ---
@@ -28,9 +24,12 @@ function cargarDatosDashboard() {
         ]
     };
 
-    // Actualizar Totales en el HTML
-    document.getElementById('total-estudiantes').textContent = dashboardData.totalEstudiantes;
-    document.getElementById('total-cursos').textContent = dashboardData.totalCursos;
+    // Actualizar Totales en el HTML (Aseguramos que existan antes de modificar)
+    const elEstudiantes = document.getElementById('total-estudiantes');
+    const elCursos = document.getElementById('total-cursos');
+    
+    if (elEstudiantes) elEstudiantes.textContent = dashboardData.totalEstudiantes;
+    if (elCursos) elCursos.textContent = dashboardData.totalCursos;
 
     // Renderizar Cursos Activos
     renderizarCursosActivos(dashboardData.cursosActivos);
@@ -41,6 +40,8 @@ function cargarDatosDashboard() {
  */
 function renderizarCursosActivos(cursos) {
     const container = document.getElementById('cursos-activos-container');
+    if (!container) return; // Abortar si no encuentra el contenedor
+    
     container.innerHTML = ''; // Limpiar contenedor
 
     if (cursos.length === 0) {
@@ -55,7 +56,7 @@ function renderizarCursosActivos(cursos) {
         const badgeText = cupoIleno ? 'Cupo Lleno' : 'Disponible';
 
         const cardHTML = `
-            <div class="bg-white/80 backdrop-blur-md border border-white p-6 rounded-3xl shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+            <div class="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm hover:-translate-y-1 hover:shadow-lg hover:border-institucional-300 transition-all duration-300 flex flex-col justify-between">
                 <div>
                     <div class="flex justify-between items-start mb-3">
                         <h3 class="text-lg font-bold text-slate-800">${curso.nombre}</h3>
@@ -71,9 +72,10 @@ function renderizarCursosActivos(cursos) {
                         <span>🕒 ${curso.horas} hs</span>
                         <span>👥 ${curso.inscriptos}/${curso.cupoMax}</span>
                     </div>
-                    <a href="cursos.html?id=${curso.id}" class="text-sm font-bold text-white bg-institucional-600 hover:bg-institucional-700 px-4 py-2 rounded-xl transition-colors">
+                    <!-- Llamamos a la vista de cursos para simular la gestión -->
+                    <button onclick="cambiarVista('cursos')" class="text-sm font-bold text-white bg-institucional-600 hover:bg-institucional-700 px-4 py-2 rounded-xl transition-colors">
                         Gestionar
-                    </a>
+                    </button>
                 </div>
             </div>
         `;

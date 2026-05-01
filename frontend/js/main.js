@@ -40,6 +40,15 @@ async function cambiarVista(vistaDestino) {
         // Actualizamos las clases del menú para pintar el botón activo
         actualizarMenu(vistaDestino);
 
+        // --- INICIALIZAMOS LA LÓGICA DE CADA VISTA ---
+        if (vistaDestino === 'cursos' && typeof initCursos === 'function') {
+            initCursos();
+        }
+        if (vistaDestino === 'dashboard' && typeof initDashboard === 'function') {
+            initDashboard();
+        }
+        // Más adelante aquí agregarás: if (vistaDestino === 'estudiantes') initEstudiantes();
+
     } catch (error) {
         console.error("Error cargando la vista:", error);
         contenedor.innerHTML = `
