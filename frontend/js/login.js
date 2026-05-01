@@ -47,7 +47,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 
             // Simulamos la redirección hacia el dashboard
             setTimeout(() => {
-                window.location.href = 'html/dashboard.html';
+                window.location.href = 'main.html';
             }, 1000);
 
         } else {
