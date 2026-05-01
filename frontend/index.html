@@ -62,12 +62,18 @@
                 Iniciar Sesión
             </h2>
 
-            <form id="loginForm" class="w-full space-y-4">
+            <form id="loginForm" class="w-full space-y-4" novalidate>
 
                 <!-- Usuario -->
                 <div class="relative">
 
-                    <input type="text" id="nombre_usuario" name="nombre_usuario" required placeholder="Usuario"
+                    <input 
+                        type="text" 
+                        id="nombre_usuario" 
+                        name="nombre_usuario" 
+                        required 
+                        autocomplete="nombre_usuario"
+                        placeholder="Usuario"
                         class="w-full bg-slate-50 text-slate-700 rounded-lg pl-4 pr-10 py-3 border border-transparent outline-none focus:border-institucional-400 focus:ring-4 focus:ring-institucional-100 focus:bg-white transition-all text-sm placeholder-slate-400 font-medium">
 
                     <svg class="w-5 h-5 text-slate-400 absolute right-4 top-3.5 pointer-events-none"
@@ -83,7 +89,13 @@
                 <!-- Contraseña -->
                 <div class="relative w-full">
 
-                    <input id="password" type="password" placeholder="Contraseña"
+                    <input 
+                        id="password" 
+                        name="password" 
+                        type="password" 
+                        required 
+                        autocomplete="current-password"
+                        placeholder="Contraseña"
                         class="w-full px-4 py-3 pr-12 rounded-xl bg-white/60 backdrop-blur-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
                     <button type="button" onclick="togglePassword()"
