@@ -18,3 +18,28 @@ input::-webkit-credentials-auto-fill-button {
     visibility: hidden;
     display: none !important;
 }
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Evita selección molesta en botones */
+button {
+    user-select: none;
+}
+
+/* Cards (para cursos) */
+.card-hover:hover {
+    transform: translateY(-5px);
+}
+
+/* Transiciones suaves */
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Botón deshabilitado */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
