@@ -44,3 +44,12 @@ export const remove = async (req, res, next) => {
     next(err);
   }
 };
+
+export const pruebaBDD = async (req, res, next) => {
+  try{
+    const result = await EstudiantesService.pruebaBDD(req.query);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};

@@ -1,12 +1,45 @@
+import * as EstudiantesRepo from '../repository/estudiantes.repository.js';
 
-// TODO: Implementar logica a base de datos
+export const getAll = async () => {
+    return EstudiantesRepo.findAll();
+}
 
-export const getAll = async () => 'getAll ok';
+export const getById = async (id) => {
+    return EstudiantesRepo.getById(id);
+}
 
-export const getById = async (id) => `getById ok - id: ${id}`;
 
-export const create = async (datos) => 'create ok';
+export const create = async (datos) => {
 
-export const update = async (id, datos) => `update ok - id: ${id}`;
+    const estudiante = {
+        documento: datos.documento,
+        apellido: datos.apellido,
+        nombres: datos.nombres,
+        email: datos.email,
+        fecha_nacimiento: datos.fecha_nacimiento,
+        activo: 1,
+        id_usuario_modificacion: 1,
+    }
 
-export const remove = async (id) => `remove ok - id: ${id}`;
+    return EstudiantesRepo.create(estudiante);
+};
+
+export const update = async (id, datos) => {
+
+    const estudiante_nuevo = {
+        documento: datos.documento,
+        apellido: datos.apellido,
+        nombres: datos.nombres,
+        email: datos.email,
+        fecha_nacimiento: datos.fecha_nacimiento,
+        activo: 1,
+        id_usuario_modificacion: 1
+    }
+
+    return EstudiantesRepo.update(id, estudiante_nuevo);
+
+};
+
+export const remove = async (id) => {
+    return EstudiantesRepo.eliminar(id);
+};
