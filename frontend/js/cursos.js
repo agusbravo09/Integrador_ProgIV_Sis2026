@@ -107,7 +107,7 @@ function initCursos() {
             btn.addEventListener("click", () => {
 
                 const i = btn.getAttribute("data-index");
-
+                // Temporal hasta conectar con backend
                 alert(`Gestionando curso: ${cursos[i].nombre}`);
 
             });
