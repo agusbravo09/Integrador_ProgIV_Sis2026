@@ -47,6 +47,10 @@ async function cambiarVista(vistaDestino) {
         if (vistaDestino === 'dashboard' && typeof initDashboard === 'function') {
             initDashboard();
         }
+        if (vistaDestino === 'inscripciones' && typeof initInscripciones === 'function') {
+            initInscripciones();
+        }
+
         // Más adelante aquí agregarás: if (vistaDestino === 'estudiantes') initEstudiantes();
 
     } catch (error) {
