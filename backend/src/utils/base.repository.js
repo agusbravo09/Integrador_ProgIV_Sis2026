@@ -9,12 +9,17 @@ export const findById = async (tableName, idColumn, id) => {
     return await query(text, [id]);
 }
 
-export const create = async (tableName, data) => {
+export const create = async (tableName, data, creationColumn = null) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
 
-    const placeholders = keys.map((_, index) => `$${index + 1}`).join(', ');
-    const columns = keys.join(', ');
+    let placeholders = keys.map((_, index) => `$${index + 1}`).join(', ');
+    let columns = keys.join(', ');
+
+    if (creationColumn) {
+        columns += `, ${creationColumn}`;
+        placeholders += `, NOW()`;
+    }
 
     const text = `INSERT INTO ${tableName} (${columns}, fecha_hora_modificacion) VALUES (${placeholders}, NOW()) RETURNING *`;
 
