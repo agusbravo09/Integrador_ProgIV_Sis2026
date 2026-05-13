@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as ctrl from './controller/estudiantes.controller.js';
 import * as ctrlCursos from './controller/cursos.controller.js';
+import * as ctrlInscripciones from './controller/inscripciones.controller.js';
 
 const router = Router();
 
@@ -19,5 +20,12 @@ router.put('/cursos/:id', ctrlCursos.update);
 router.delete('/cursos/:id', ctrlCursos.remove);    
 
 //usuarios
+
+// inscripciones
+router.get('/inscripciones', ctrlInscripciones.getAll);
+router.get('/inscripciones/:id', ctrlInscripciones.getById);
+router.post('/inscripciones', ctrlInscripciones.create);
+router.put('/inscripciones/:id', ctrlInscripciones.update);
+router.delete('/inscripciones/:id', ctrlInscripciones.remove);
 
 export default router;

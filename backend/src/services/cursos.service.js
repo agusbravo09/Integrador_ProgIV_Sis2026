@@ -17,7 +17,6 @@ export const create = async (datos) => {
         cantidad_horas: datos.cantidad_horas,
         inscriptos_max: datos.inscriptos_max,
         id_cursos_estado: 1,
-        id_cursos_estado: 1,
         id_usuario_modificacion: 1,
     }
 
