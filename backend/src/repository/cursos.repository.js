@@ -1,49 +1,24 @@
-import e from 'express';
-import {query } from '../config/db.js';
+import * as BaseRepo from '../utils/base.repository.js';
+ 
+const TABLE_NAME = 'cursos';
+const ID_COLUMN = 'id_curso';
 
 export const findAll = async () => {
-    return await query('SELECT * FROM cursos');
+    return BaseRepo.findAll(TABLE_NAME);
 }
 
 export const getById = async (id) => {
-    return await query(`SELECT * FROM cursos WHERE id_curso = ${id}`);
+    return BaseRepo.findById(TABLE_NAME, ID_COLUMN, id);
 }
 
 export const create = async (curso) => {
-    const text = `INSERT INTO cursos (nombre, descripcion, fecha_inicio, cantidad_horas, inscriptos_max, id_curso_estado, id_usuario_modificacion, fecha_hora_modificacion)
-                         VALUES($1, $2, $3, $4, $5, $6, $7, NOW())
-                         RETURNING *`
-
-    const values = [
-        curso.nombre, curso.descripcion, curso.fecha_inicio,
-        curso.cantidad_horas, curso.inscriptos_max,
-        curso.id_curso_estado, curso.id_usuario_modificacion
-    ];
-
-   return await query(text, values)
+    return BaseRepo.create(TABLE_NAME, curso);
 }
 
 export const update = async (id, curso) => {
-    const text = `UPDATE cursos
-        SET nombre = $1,
-            descripcion = $2,
-            fecha_inicio = $3,
-            cantidad_horas = $4,
-            inscriptos_max = $5,
-            id_curso_estado = $6,
-            id_usuario_modificacion = $7,
-            fecha_hora_modificacion = NOW()
-        WHERE id_curso = ${id}
-        RETURNING *;`
-    const values = [
-        curso.nombre, curso.descripcion, curso.fecha_inicio,
-        curso.cantidad_horas, curso.inscriptos_max,
-        curso.id_curso_estado, curso.id_usuario_modificacion
-    ]
-    return await query(text, values);
+    return BaseRepo.update(TABLE_NAME, ID_COLUMN, id, curso);
 };
 
 export const eliminar = async (id) => {
-    const text = 'DELETE FROM cursos WHERE id_curso = ${id}';
-    return await query(text);
+    return BaseRepo.delete(TABLE_NAME, ID_COLUMN, id);
 }
