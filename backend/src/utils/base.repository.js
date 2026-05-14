@@ -9,7 +9,7 @@ export const findById = async (tableName, idColumn, id) => {
     return await query(text, [id]);
 }
 
-export const create = async (tableName, data, creationColumn = null) => {
+export const create = async (tableName, data, creationColumn = null, hasModificationDate = true) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
 
@@ -21,18 +21,29 @@ export const create = async (tableName, data, creationColumn = null) => {
         placeholders += `, NOW()`;
     }
 
-    const text = `INSERT INTO ${tableName} (${columns}, fecha_hora_modificacion) VALUES (${placeholders}, NOW()) RETURNING *`;
+    let text;
+    if (hasModificationDate) {
+        text = `INSERT INTO ${tableName} (${columns}, fecha_hora_modificacion) VALUES (${placeholders}, NOW()) RETURNING *`;
+    } else {
+        text = `INSERT INTO ${tableName} (${columns}) VALUES (${placeholders}) RETURNING *`;
+    }
 
     return await query(text, values);
 }
 
-export const update = async (tableName, idColumn, id, data) => {
+
+export const update = async (tableName, idColumn, id, data, hasModificationDate = true) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
 
     const setClause = keys.map((key, index) => `${key} = $${index + 1}`).join(', ');
 
-    const text = `UPDATE ${tableName} SET ${setClause}, fecha_hora_modificacion = NOW() WHERE ${idColumn} = $${keys.length + 1} RETURNING *`;
+    let text;
+    if (hasModificationDate) {
+        text = `UPDATE ${tableName} SET ${setClause}, fecha_hora_modificacion = NOW() WHERE ${idColumn} = $${keys.length + 1} RETURNING *`;
+    } else {
+        text = `UPDATE ${tableName} SET ${setClause} WHERE ${idColumn} = $${keys.length + 1} RETURNING *`;
+    }
 
     return await query(text, [...values, id]);
 }
