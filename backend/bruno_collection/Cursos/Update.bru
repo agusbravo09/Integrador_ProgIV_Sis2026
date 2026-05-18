@@ -1,0 +1,27 @@
+meta {
+  name: Update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/cursos/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1
+}
+
+body:json {
+  {
+    "nombre": "Curso de Programación Editado",
+    "descripcion": "Curso intensivo actualizado",
+    "fecha_inicio": "2026-09-01",
+    "cantidad_horas": 50,
+    "inscriptos_max": 15
+  //   "id_curso_estado": 3
+    
+  }
+}

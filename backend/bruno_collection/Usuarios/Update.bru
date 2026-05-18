@@ -1,0 +1,24 @@
+meta {
+  name: Update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/usuarios/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1
+}
+
+body:json {
+  {
+    "apellido": "Gomez Modificado",
+    "nombre": "Carlos Alberto",
+    "nombre_usuario": "cgomez2",
+    "contrasenia": "newpassword123"
+  }
+}
