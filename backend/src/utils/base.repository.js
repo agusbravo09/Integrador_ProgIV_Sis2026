@@ -4,8 +4,17 @@ export const findAll = async (tableName) => {
     return await query(`SELECT * FROM ${tableName}`);
 }
 
+export const findActives = async (tableName, activeCondition = 'activo = 1') => {
+    return await query(`SELECT * FROM ${tableName} WHERE ${activeCondition}`);
+}
+
 export const findById = async (tableName, idColumn, id) => {
     const text = `SELECT * FROM ${tableName} WHERE ${idColumn} = $1`;
+    return await query(text, [id]);
+}
+
+export const findActivesById = async (tableName, idColumn, id, activeCondition = 'activo = 1') => {
+    const text = `SELECT * FROM ${tableName} WHERE ${idColumn} = $1 AND ${activeCondition}`;
     return await query(text, [id]);
 }
 
@@ -49,6 +58,7 @@ export const update = async (tableName, idColumn, id, data, hasModificationDate 
 }
 
 export const remove = async (tableName, idColumn, id) => {
-    const text = `DELETE FROM ${tableName} WHERE ${idColumn} = $1`;
+    // soft delete, cambiar activo a 0
+    const text = `UPDATE ${tableName} SET activo = 0 WHERE ${idColumn} = $1 RETURNING *`;
     return await query(text, [id]);
 }

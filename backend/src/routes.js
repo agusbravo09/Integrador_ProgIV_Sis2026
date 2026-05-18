@@ -30,7 +30,6 @@ router.delete('/usuarios/:id', ctrlUsuarios.remove);
 router.get('/inscripciones', ctrlInscripciones.getAll);
 router.get('/inscripciones/:id', ctrlInscripciones.getById);
 router.post('/inscripciones', ctrlInscripciones.create);
-router.put('/inscripciones/:id', ctrlInscripciones.update);
 router.delete('/inscripciones/:id', ctrlInscripciones.remove);
 
 export default router;

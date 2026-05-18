@@ -1,0 +1,21 @@
+meta {
+  name: Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/cursos
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nombre": "Curso de Programación Avanzada",
+    "descripcion": "Curso intensivo de 6 meses",
+    "fecha_inicio": "2026-08-01",
+    "cantidad_horas": 120,
+    "inscriptos_max": 40
+  }
+}

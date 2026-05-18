@@ -1,14 +1,15 @@
 import * as BaseRepo from '../utils/base.repository.js';
+import { query } from '../config/db.js';
 
 const TABLE_NAME = 'usuarios';
 const ID_COLUMN = 'id_usuario';
 
 export const findAll = async () => {
-    return BaseRepo.findAll(TABLE_NAME);
+    return BaseRepo.findActives(TABLE_NAME);
 }
 
 export const getById = async (id) => {
-    return BaseRepo.findById(TABLE_NAME, ID_COLUMN, id);
+    return BaseRepo.findActivesById(TABLE_NAME, ID_COLUMN, id);
 }
 
 export const create = async (usuario) => {
