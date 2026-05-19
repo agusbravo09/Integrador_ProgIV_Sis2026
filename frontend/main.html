@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main - Gestión Académica</title>
 
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/tailwind-config.js"></script>
     <link rel="stylesheet" href="css/global.css">
@@ -14,35 +14,35 @@
 
 <body class="min-h-screen relative overflow-x-hidden bg-slate-50 text-slate-800">
 
-    
+
     <div class="fixed inset-0 z-0 pointer-events-none">
-        
+
         <div class="absolute inset-0 bg-institucional-50"></div>
         <div
             class="absolute inset-0 bg-[url('imgs/logoFCAD.svg')] bg-cover bg-center bg-no-repeat opacity-60 blur-3xl scale-125">
         </div>
-    </div> 
+    </div>
 
-    
+
     <aside id="sidebar"
-        class="fixed top-4 left-4 h-[calc(100vh-2rem)] w-64 flex flex-col justify-between bg-white/70 backdrop-blur-md border border-white/50 shadow-[4px_0_24px_rgba(0,0,0,0.05)] z-50 transition-all duration-300 rounded-3xl overflow-hidden">
+        class="fixed top-4 left-4 h-[calc(100vh-2rem)] w-64 flex flex-col justify-between bg-white/70 backdrop-blur-md border border-white/50 shadow-[4px_0_24px_rgba(0,0,0,0.05)] z-40 transition-all duration-300 rounded-3xl overflow-hidden">
 
-        
+
         <div>
-            
+
             <div id="sidebar-header"
                 class="h-24 flex items-center relative border-b border-white/50 transition-all duration-300 px-4">
 
-                
+
                 <div id="sidebar-logo-wrapper"
                     class="overflow-hidden transition-all duration-300 w-40 flex items-center opacity-100 flex-shrink-0">
-                    
+
                     <img src="imgs/Logo con texto dark.png" alt="Logo UNER"
                         class="max-h-12 w-auto drop-shadow-sm max-w-none">
                 </div>
 
-                
-                <button id="toggle-btn" onclick="toggleSidebar()"
+
+                <button id="toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar" aria-label="Toggle Sidebar"
                     class="absolute right-4 p-2 rounded-lg text-slate-500 hover:bg-white/60 hover:text-institucional-600 transition-all duration-300 flex-shrink-0 z-10">
                     <svg id="toggle-icon" class="w-6 h-6 transition-transform duration-300" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -52,10 +52,10 @@
                 </button>
             </div>
 
-            
+
             <nav class="flex flex-col gap-2 px-4 py-6">
 
-                
+
                 <a id="btn-dashboard" onclick="cambiarVista('dashboard')"
                     class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer bg-institucional-600 text-white shadow-md shadow-institucional-600/20 overflow-hidden whitespace-nowrap">
                     <div class="w-12 flex justify-center flex-shrink-0">
@@ -68,20 +68,21 @@
                     <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Inicio</span>
                 </a>
 
-                
+
                 <a id="btn-estudiantes" onclick="cambiarVista('estudiantes')"
                     class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
-                <div class="w-12 flex justify-center flex-shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                        </path>
-                    </svg>
-                </div>
-                <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Estudiantes</span>
+                    <div class="w-12 flex justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <span
+                        class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Estudiantes</span>
                 </a>
 
-                
+
                 <a id="btn-cursos" onclick="cambiarVista('cursos')"
                     class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
                     <div class="w-12 flex justify-center flex-shrink-0">
@@ -94,7 +95,7 @@
                     <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Cursos</span>
                 </a>
 
-                
+
                 <a id="btn-inscripciones" onclick="cambiarVista('inscripciones')"
                     class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
                     <div class="w-12 flex justify-center flex-shrink-0">
@@ -110,10 +111,10 @@
             </nav>
         </div>
 
-        
+
         <div class="py-6 border-t border-white/50 flex flex-col items-center w-full px-4">
 
-            
+
             <div id="profile-box"
                 class="flex items-center py-3 rounded-xl bg-slate-50/50 mb-2 border border-white/60 transition-all duration-300 w-full overflow-hidden whitespace-nowrap">
                 <div class="w-12 flex justify-center flex-shrink-0">
@@ -130,7 +131,7 @@
                 </div>
             </div>
 
-            
+
             <button id="logout-btn"
                 class="flex items-center py-2 rounded-xl text-red-500 hover:bg-red-50 transition-all font-medium text-sm w-full overflow-hidden whitespace-nowrap">
                 <div class="w-12 flex justify-center flex-shrink-0">
@@ -146,14 +147,13 @@
         </div>
     </aside>
 
-    
-    
-    <main id="contenido-dinamico"
-        class="relative z-10 ml-72 p-8 min-h-screen w-[calc(100%-18rem)] transition-all duration-300">
+
+
+    <main id="contenido-dinamico" class="relative ml-72 p-8 min-h-screen w-[calc(100%-18rem)] transition-all duration-300">
 
     </main>
 
-    
+
     <script src="js/main.js" defer></script>
     <script src="js/dashboard.js" defer></script>
     <script src="js/estudiantes.js" defer></script>
