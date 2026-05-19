@@ -1,5 +1,5 @@
 function initInscripciones() {
-    //console.log("INSCRIPCIONES JS CARGADO");
+    
 
     function toggleModal(id) {
 
@@ -10,7 +10,7 @@ function initInscripciones() {
         modal.classList.toggle("hidden");
         modal.classList.toggle("flex");
 
-        // Limpiar errores al abrir/cerrar
+        
         const errorBox = document.getElementById("errorBox");
 
         if (errorBox) {
@@ -20,7 +20,7 @@ function initInscripciones() {
     }
 
 
-    // VALIDAR Y GUARDAR
+    
 
     function validarYGuardarInscripcion() {
 
@@ -28,11 +28,11 @@ function initInscripciones() {
         const curso = document.getElementById("id_curso");
         const errorBox = document.getElementById("errorBox");
 
-        // Limpiar errores previos
+        
         errorBox.classList.add("hidden");
         errorBox.textContent = "";
 
-        // Validación estudiante
+        
         if (!estudiante.value) {
 
             mostrarError("Debe seleccionar un estudiante.");
@@ -40,7 +40,7 @@ function initInscripciones() {
             return;
         }
 
-        // Validación curso
+        
         if (!curso.value) {
 
             mostrarError("Debe seleccionar un curso.");
@@ -48,7 +48,7 @@ function initInscripciones() {
             return;
         }
 
-        // Validar si está lleno
+        
         const cursoSeleccionado = curso.options[curso.selectedIndex];
         const estadoCurso = cursoSeleccionado.dataset.estado;
 
@@ -59,17 +59,17 @@ function initInscripciones() {
             return;
         }
 
-        // Simulación de guardado
+        
         alert("Inscripción registrada correctamente.");
 
-        // Limpiar formulario
+        
         document.getElementById("inscripcionForm").reset();
 
-        // Cerrar modal
+        
         toggleModal("inscripcionModal");
     }
 
-    // MOSTRAR ERRORES
+    
 
 
     function mostrarError(mensaje) {
@@ -82,7 +82,7 @@ function initInscripciones() {
     }
 
 
-    // GENERAR DIPLOMA
+    
 
     function imprimirDiplomaIndividual(estudiante, curso) {
 
@@ -90,7 +90,7 @@ function initInscripciones() {
     }
 
 
-    // ANULAR INSCRIPCIÓN
+    
 
     document.querySelectorAll('[title="Anular Inscripción"]').forEach(btn => {
 
@@ -108,7 +108,7 @@ function initInscripciones() {
 
     });
 
-    // Hacer funciones globales
+    
     window.toggleModal = toggleModal;
     window.validarYGuardarInscripcion = validarYGuardarInscripcion;
     window.imprimirDiplomaIndividual = imprimirDiplomaIndividual;

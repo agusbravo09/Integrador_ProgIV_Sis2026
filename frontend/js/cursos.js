@@ -1,4 +1,4 @@
-// frontend/js/cursos.js
+
 
 const cursos = [
     {
@@ -21,11 +21,11 @@ const cursos = [
     }
 ];
 
-// Envolvemos todo en una función que main.js va a llamar
+
 function initCursos() {
     const contenedor = document.getElementById("cursosContainer");
     
-    // Si por alguna razón el contenedor no existe, abortamos para no dar error
+    
     if (!contenedor) return;
 
     contenedor.innerHTML = "";
@@ -33,7 +33,7 @@ function initCursos() {
     cursos.forEach((curso, index) => {
         const card = document.createElement("div");
 
-        // Clases de la tarjeta (Adaptadas para que combinen con la UI clara)
+        
         card.className = `
             bg-white border border-slate-200
             rounded-2xl shadow-sm
@@ -101,20 +101,20 @@ function initCursos() {
             contenedor.appendChild(card);
         });
 
-        // BOTÓN GESTIONAR
+        
         document.querySelectorAll("button[data-index]").forEach(btn => {
 
             btn.addEventListener("click", () => {
 
                 const i = btn.getAttribute("data-index");
-                // Temporal hasta conectar con backend
+                
                 alert(`Gestionando curso: ${cursos[i].nombre}`);
 
             });
 
         });
 
-        // BOTÓN ELIMINAR
+        
         document.querySelectorAll("button[data-delete]").forEach(btn => {
 
             btn.addEventListener("click", () => {
@@ -137,7 +137,7 @@ function initCursos() {
 
     }
 
-    // Render inicial
+    
     function renderCursos() {
         initCursos();
     }

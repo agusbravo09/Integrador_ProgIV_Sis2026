@@ -1,19 +1,14 @@
-// frontend/js/dashboard.js
 
-/**
- * Función principal de inicialización. 
- * main.js la llamará en cuanto el HTML del dashboard se inyecte.
- */
+
+
 function initDashboard() {
     console.log("initDashboard ejecutado correctamente");
     cargarDatosDashboard();
 }
 
-/**
- * Función que simula la petición a la API Rest para traer los totales y cursos activos.
- */
+
 function cargarDatosDashboard() {
-    // --- DATOS SIMULADOS (Mock Data) ---
+    
     const dashboardData = {
         totalEstudiantes: 142,
         totalCursos: 15,
@@ -24,25 +19,23 @@ function cargarDatosDashboard() {
         ]
     };
 
-    // Actualizar Totales en el HTML (Aseguramos que existan antes de modificar)
+    
     const elEstudiantes = document.getElementById('total-estudiantes');
     const elCursos = document.getElementById('total-cursos');
     
     if (elEstudiantes) elEstudiantes.textContent = dashboardData.totalEstudiantes;
     if (elCursos) elCursos.textContent = dashboardData.totalCursos;
 
-    // Renderizar Cursos Activos
+    
     renderizarCursosActivos(dashboardData.cursosActivos);
 }
 
-/**
- * Genera las tarjetas HTML para los links rápidos de los cursos activos.
- */
+
 function renderizarCursosActivos(cursos) {
     const container = document.getElementById('cursos-activos-container');
-    if (!container) return; // Abortar si no encuentra el contenedor
+    if (!container) return; 
     
-    container.innerHTML = ''; // Limpiar contenedor
+    container.innerHTML = ''; 
 
     if (cursos.length === 0) {
         container.innerHTML = `<p class="text-slate-500">No hay cursos activos en este momento.</p>`;
@@ -50,7 +43,7 @@ function renderizarCursosActivos(cursos) {
     }
 
     cursos.forEach(curso => {
-        // Calcular si está lleno el cupo
+        
         const cupoIleno = curso.inscriptos >= curso.cupoMax;
         const badgeColor = cupoIleno ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700';
         const badgeText = cupoIleno ? 'Cupo Lleno' : 'Disponible';
@@ -80,7 +73,7 @@ function renderizarCursosActivos(cursos) {
             </div>
         `;
         
-        // Insertar la tarjeta en el contenedor
+        
         container.insertAdjacentHTML('beforeend', cardHTML);
     });
 }

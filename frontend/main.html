@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main - Gestión Académica</title>
 
-    <!-- Tailwind CSS -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/tailwind-config.js"></script>
     <link rel="stylesheet" href="css/global.css">
@@ -14,34 +14,34 @@
 
 <body class="min-h-screen relative overflow-x-hidden bg-slate-50 text-slate-800">
 
-    <!-- Contenedor Fondo con imagen -->
+    
     <div class="fixed inset-0 z-0 pointer-events-none">
-        <!-- Color base -->
+        
         <div class="absolute inset-0 bg-institucional-50"></div>
         <div
             class="absolute inset-0 bg-[url('imgs/logoFCAD.svg')] bg-cover bg-center bg-no-repeat opacity-60 blur-3xl scale-125">
         </div>
-    </div> <!-- Cerramos el contendor. -->
+    </div> 
 
-    <!-- Sidebar Colapsable -->
+    
     <aside id="sidebar"
         class="fixed top-4 left-4 h-[calc(100vh-2rem)] w-64 flex flex-col justify-between bg-white/70 backdrop-blur-md border border-white/50 shadow-[4px_0_24px_rgba(0,0,0,0.05)] z-50 transition-all duration-300 rounded-3xl overflow-hidden">
 
-        <!-- Parte Superior: Logo y Menú -->
+        
         <div>
-            <!-- Cabecera de Sidebar -->
+            
             <div id="sidebar-header"
                 class="h-24 flex items-center relative border-b border-white/50 transition-all duration-300 px-4">
 
-                <!-- Wrapper del logo -->
+                
                 <div id="sidebar-logo-wrapper"
                     class="overflow-hidden transition-all duration-300 w-40 flex items-center opacity-100 flex-shrink-0">
-                    <!-- Ruta corregida (sin ../) -->
+                    
                     <img src="imgs/Logo con texto dark.png" alt="Logo UNER"
                         class="max-h-12 w-auto drop-shadow-sm max-w-none">
                 </div>
 
-                <!-- Botón para colapsar/expandir -->
+                
                 <button id="toggle-btn" onclick="toggleSidebar()"
                     class="absolute right-4 p-2 rounded-lg text-slate-500 hover:bg-white/60 hover:text-institucional-600 transition-all duration-300 flex-shrink-0 z-10">
                     <svg id="toggle-icon" class="w-6 h-6 transition-transform duration-300" fill="none"
@@ -52,10 +52,10 @@
                 </button>
             </div>
 
-            <!-- Menú de Navegación -->
+            
             <nav class="flex flex-col gap-2 px-4 py-6">
 
-                <!-- Inicio (Dashboard) -->
+                
                 <a id="btn-dashboard" onclick="cambiarVista('dashboard')"
                     class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer bg-institucional-600 text-white shadow-md shadow-institucional-600/20 overflow-hidden whitespace-nowrap">
                     <div class="w-12 flex justify-center flex-shrink-0">
@@ -68,7 +68,7 @@
                     <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Inicio</span>
                 </a>
 
-                <!-- Estudiantes -->
+                
                 <a id="btn-estudiantes" onclick="cambiarVista('estudiantes')"
                     class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
                 <div class="w-12 flex justify-center flex-shrink-0">
@@ -81,7 +81,7 @@
                 <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Estudiantes</span>
                 </a>
 
-                <!-- Cursos -->
+                
                 <a id="btn-cursos" onclick="cambiarVista('cursos')"
                     class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
                     <div class="w-12 flex justify-center flex-shrink-0">
@@ -94,7 +94,7 @@
                     <span class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">Cursos</span>
                 </a>
 
-                <!-- Inscripciones -->
+                
                 <a id="btn-inscripciones" onclick="cambiarVista('inscripciones')"
                     class="menu-btn flex items-center py-3 rounded-xl font-medium transition-all cursor-pointer text-slate-600 hover:text-institucional-600 hover:bg-white/50 overflow-hidden whitespace-nowrap">
                     <div class="w-12 flex justify-center flex-shrink-0">
@@ -110,10 +110,10 @@
             </nav>
         </div>
 
-        <!-- Parte Inferior: Perfil y Salir -->
+        
         <div class="py-6 border-t border-white/50 flex flex-col items-center w-full px-4">
 
-            <!-- Caja de Perfil -->
+            
             <div id="profile-box"
                 class="flex items-center py-3 rounded-xl bg-slate-50/50 mb-2 border border-white/60 transition-all duration-300 w-full overflow-hidden whitespace-nowrap">
                 <div class="w-12 flex justify-center flex-shrink-0">
@@ -130,7 +130,7 @@
                 </div>
             </div>
 
-            <!-- Botón de Salir -->
+            
             <button id="logout-btn"
                 class="flex items-center py-2 rounded-xl text-red-500 hover:bg-red-50 transition-all font-medium text-sm w-full overflow-hidden whitespace-nowrap">
                 <div class="w-12 flex justify-center flex-shrink-0">
@@ -146,14 +146,14 @@
         </div>
     </aside>
 
-    <!-- Contenedor Principal Dinámico -->
-    <!-- Aquí es donde js/main.js inyectará las tablas y formularios -->
+    
+    
     <main id="contenido-dinamico"
         class="relative z-10 ml-72 p-8 min-h-screen w-[calc(100%-18rem)] transition-all duration-300">
 
     </main>
 
-    <!-- Scripts -->
+    
     <script src="js/main.js" defer></script>
     <script src="js/dashboard.js" defer></script>
     <script src="js/estudiantes.js" defer></script>

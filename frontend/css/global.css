@@ -1,44 +1,44 @@
-/* 1. Importamos la fuente Chiron GoRound TC desde Google Fonts */
+
 @import url('https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap');
 
-/* 2. Aplicamos la fuente a todo el body */
+
 body {
     font-family: 'Chiron GoRound TC', sans-serif;
 }
 
-/* Oculta el ojo nativo en navegadores basados en Edge/Chrome */
+
 input::-ms-reveal,
 input::-ms-clear {
     display: none;
 }
 
-/* Oculta el icono de contraseña en navegadores antiguos (si lo hubiera) */
+
 input::-webkit-contacts-auto-fill-button,
 input::-webkit-credentials-auto-fill-button {
     visibility: hidden;
     display: none !important;
 }
-/* Scroll suave */
+
 html {
     scroll-behavior: smooth;
 }
 
-/* Evita selección molesta en botones */
+
 button {
     user-select: none;
 }
 
-/* Cards (para cursos) */
+
 .card-hover:hover {
     transform: translateY(-5px);
 }
 
-/* Transiciones suaves */
+
 * {
     transition: all 0.2s ease-in-out;
 }
 
-/* Botón deshabilitado */
+
 button:disabled {
     opacity: 0.6;
     cursor: not-allowed;

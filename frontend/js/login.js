@@ -1,16 +1,16 @@
-// frontend/js/login.js
+
 
 document.getElementById('loginForm').addEventListener('submit', function (e) {
-    e.preventDefault(); // Evitamos que la página se recargue
+    e.preventDefault(); 
 
     const btn = document.getElementById('loginBtn');
     const msgBox = document.getElementById('messageBox');
     const usuario = document.getElementById('nombre_usuario').value;
     const contrasenia = document.getElementById('password').value;
 
-    // Limpiar mensajes previos
+    
     msgBox.innerHTML = '';
-    // NUEVO: Validación rápida de campos vacíos
+    
     if (usuario.trim() === '' || contrasenia.trim() === '') {
         msgBox.innerHTML = `
             <div class="p-3 mb-6 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg flex items-center">
@@ -18,9 +18,9 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
                 Por favor, completa ambos campos.
             </div>
         `;
-        return; // Detenemos la ejecución aquí, no iniciamos el spinner
+        return; 
     }
-    // 1. Estado de carga visual (Spinner)
+    
     const originalBtnText = 'Ingresar';
     btn.disabled = true;
     btn.classList.add('opacity-75', 'cursor-not-allowed');
@@ -32,11 +32,11 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
         Validando credenciales...
     `;
 
-    // 2. Simulamos la llamada al Backend (Node.js) con un retraso
+    
     setTimeout(() => {
-        // SIMULACIÓN: Si el usuario escribe 'admin' accede, sino da error.
+        
         if (usuario === 'admin' && contrasenia !== '') {
-            // Éxito
+            
             msgBox.innerHTML = `
                 <div class="p-3 mb-6 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -45,20 +45,20 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
             `;
             btn.innerHTML = 'Redirigiendo...';
 
-            // Simulamos la redirección hacia el dashboard
+            
             setTimeout(() => {
                 window.location.href = 'main.html';
             }, 1000);
 
         } else {
-            // Error de credenciales
+            
             msgBox.innerHTML = `
                 <div class="p-3 mb-6 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
                     Usuario o contraseña incorrectos. (Prueba con 'admin')
                 </div>
             `;
-            // Restaurar botón
+            
             btn.disabled = false;
             btn.classList.remove('opacity-75', 'cursor-not-allowed');
             btn.innerHTML = originalBtnText;
@@ -66,7 +66,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
     }, 1500);
 });
 function togglePassword() {
-    // Obtenemos el elemento input, no solo su valor
+    
     const passwordInput = document.getElementById('password');
     const eye = document.getElementById("eyeIcon");
 
