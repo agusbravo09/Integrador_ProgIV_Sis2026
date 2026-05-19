@@ -113,7 +113,7 @@ function initCursos() {
 
                 <div class="flex justify-center gap-3">
 
-                    <button class="text-blue-600 hover:text-blue-800">
+                    <button onclick="cambiarVista('curso_especifico')" class="text-blue-600 hover:text-blue-800">
                         👁
                     </button>
 
