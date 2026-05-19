@@ -9,8 +9,16 @@
         </div>
         
         
-        <button class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        <button 
+            onclick="toggleCursoModal()"
+            class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-colors">
+
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                </path>
+            </svg>
+
             Nuevo Curso
         </button>
     </header>
@@ -61,6 +69,110 @@
             </tbody>
 
         </table>
+
+    </div>
+
+</div>
+    <!-- MODAL NUEVO CURSO -->
+<div id="cursoModal"
+    class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-6">
+
+    <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden">
+
+        <!-- Header -->
+        <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">
+                    Nuevo Curso
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    Complete los datos del curso
+                </p>
+            </div>
+
+            <button onclick="toggleCursoModal()"
+                class="text-slate-400 hover:text-slate-700 text-2xl">
+                ×
+            </button>
+
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 max-h-[70vh] overflow-y-auto">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Código
+                    </label>
+
+                    <input type="text"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Nombre del Curso
+                    </label>
+
+                    <input type="text"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Carrera
+                    </label>
+
+                    <select
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+
+                        <option>Tecnicatura Web</option>
+                        <option>Licenciatura en Sistemas</option>
+
+                    </select>
+                </div>
+
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Comisión
+                    </label>
+
+                    <input type="text"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Cupos
+                    </label>
+
+                    <input type="number"
+                        class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="px-6 py-4 border-t border-slate-200 flex justify-end gap-3">
+
+            <button onclick="toggleCursoModal()"
+                class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition">
+                Cancelar
+            </button>
+
+            <button
+                class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition">
+                Crear Curso
+            </button>
+
+        </div>
 
     </div>
 

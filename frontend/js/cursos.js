@@ -4,7 +4,7 @@ function initCursos() {
         {
             codigo: "PROG-101",
             nombre: "Programación I",
-            carrera: "Ingeniería en Sistemas",
+            carrera: "Tecnicatura Web",
             docente: "Dr. García",
             comision: "Com. A - Mañana",
             ocupados: 35,
@@ -14,7 +14,7 @@ function initCursos() {
         {
             codigo: "BD-301",
             nombre: "Base de Datos",
-            carrera: "Licenciatura en Informática",
+            carrera: "Licenciatura en Sistemas",
             docente: "Ing. López",
             comision: "Com. B - Tarde",
             ocupados: 28,
@@ -24,7 +24,7 @@ function initCursos() {
         {
             codigo: "SO-302",
             nombre: "Sistemas Operativos",
-            carrera: "Licenciatura en Informática",
+            carrera: "Licenciatura en Sistemas",
             docente: "Ing. Torres",
             comision: "Com. C - Noche",
             ocupados: 15,
@@ -133,5 +133,17 @@ function initCursos() {
         tabla.appendChild(fila);
 
     });
+
+    function toggleCursoModal() {
+
+    const modal = document.getElementById("cursoModal");
+
+    if (!modal) return;
+
+    modal.classList.toggle("hidden");
+    modal.classList.toggle("flex");
+    }
+
+    window.toggleCursoModal = toggleCursoModal;
 
 }
