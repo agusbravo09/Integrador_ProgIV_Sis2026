@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestión Académica FCAD</title>
+
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    
+    <script src="../js/tailwind-config.js"></script>
+
+    
+    <link rel="stylesheet" href="../css/global.css">
+</head>
+
+<body class="min-h-screen md:p-4 relative overflow-hidden bg-slate-50/50">
+
+    
+    
+    <main class="ml-72 mr-4 mt-4 p-8 min-h-[calc(100vh-2rem)] relative z-10">
+        
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold text-slate-800 tracking-tight">Panel de Control</h1>
+            <p class="text-slate-500 font-medium mt-1">Resumen general del sistema de gestión académica.</p>
+        </header>
+
+        
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            
+            
+            <div class="bg-white/70 backdrop-blur-md border border-white/60 p-6 rounded-3xl shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Estudiantes Registrados</p>
+                    <h3 id="total-estudiantes" class="text-4xl font-bold text-institucional-600">--</h3>
+                </div>
+                <div class="w-14 h-14 bg-institucional-50 rounded-2xl flex items-center justify-center text-institucional-500">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            
+            <div class="bg-white/70 backdrop-blur-md border border-white/60 p-6 rounded-3xl shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Cursos Totales</p>
+                    <h3 id="total-cursos" class="text-4xl font-bold text-institucional-600">--</h3>
+                </div>
+                <div class="w-14 h-14 bg-institucional-50 rounded-2xl flex items-center justify-center text-institucional-500">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+            </div>
+
+        </section>
+
+        
+        <section>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-slate-800">Cursos Activos</h2>
+                <a href="cursos.html" class="text-sm font-bold text-institucional-600 hover:text-institucional-800 transition-colors">Ver todos &rarr;</a>
+            </div>
+            
+            
+            <div id="cursos-activos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+            </div>
+        </section>
+
+    </main>
+
+    
+    <script src="../js/dashboard.js" defer></script>
+
+</body>
+
+</html>
