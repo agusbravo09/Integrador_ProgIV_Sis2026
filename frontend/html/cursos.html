@@ -16,8 +16,54 @@
     </header>
 
     
-    <div id="cursosContainer" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 pb-8">
-        
-    </div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+
     
+    <div class="px-8 py-6 border-b border-slate-200 flex justify-between items-center">
+        
+        <div>
+            <h2 class="text-xl font-bold text-slate-800">
+                Lista de Cursos
+            </h2>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Gestión y administración de cursos
+            </p>
+        </div>
+
+        <span class="text-sm text-slate-500">
+            Mostrando 5 cursos
+        </span>
+
+    </div>
+
+    
+    <div class="overflow-x-auto">
+
+        <table class="w-full text-left border-collapse">
+
+            <thead>
+                <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+
+                    <th class="px-6 py-4 font-medium">Código</th>
+                    <th class="px-6 py-4 font-medium">Nombre</th>
+                    <th class="px-6 py-4 font-medium">Carrera</th>
+                    <th class="px-6 py-4 font-medium">Docente</th>
+                    <th class="px-6 py-4 font-medium">Comisión</th>
+                    <th class="px-6 py-4 font-medium">Ocupación</th>
+                    <th class="px-6 py-4 font-medium text-center">Estado</th>
+                    <th class="px-6 py-4 font-medium text-right">Acciones</th>
+
+                </tr>
+            </thead>
+
+            <tbody id="cursosContainer" class="divide-y divide-slate-200 text-sm">
+                
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 </div>
