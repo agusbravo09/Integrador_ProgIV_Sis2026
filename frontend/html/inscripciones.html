@@ -111,106 +111,106 @@
     </div>
 
     <div
-        style="width: 800px; margin: 40px auto; background: white; border: 2px solid #ccc; border-radius: 10px; padding: 20px;">
+        class="max-w-3xl mx-auto mt-10 bg-white border-2 border-slate-300 rounded-xl p-5">
 
-        <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px;">
-            <h2 style="font-size: 20px; font-weight: bold; margin: 0;">Nueva Inscripción (Modo Prueba)</h2>
-            <p style="font-size: 14px; color: gray; margin-top: 5px;">Si ves esto completo hasta los botones de abajo,
+        <div class="border-b border-slate-200 pb-4 mb-5">
+            <h2 class="text-xl font-bold m-0">Nueva Inscripción (Modo Prueba)</h2>
+            <p class="text-sm text-slate-500 mt-1">Si ves esto completo hasta los botones de abajo,
                 el problema era el CSS.</p>
         </div>
 
         <form id="inscripcionForm">
 
-            <div style="margin-bottom: 25px;">
-                <h3 style="font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">
+            <div class="mb-6">
+                <h3 class="font-bold border-b border-slate-200 pb-1 mb-4">
                     Datos del Alumno</h3>
-                <div style="display: block; margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px;">Alumno *</label>
-                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block mb-4">
+                    <label class="block mb-1">Alumno *</label>
+                    <select title="Seleccionar alumno" class="w-full p-2 border border-slate-300 rounded-md">
                         <option value="">Seleccione un alumno</option>
                     </select>
                 </div>
-                <div style="display: block;">
-                    <label style="display: block; margin-bottom: 5px;">Legajo *</label>
-                    <input type="text" placeholder="Ingrese legajo"
-                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block">
+                    <label class="block mb-1">Legajo *</label>
+                    <input type="text" placeholder="Ingrese legajo" title="Legajo"
+                        class="w-full p-2 border border-slate-300 rounded-md">
                 </div>
             </div>
 
-            <div style="margin-bottom: 25px;">
-                <h3 style="font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">
+            <div class="mb-6">
+                <h3 class="font-bold border-b border-slate-200 pb-1 mb-4">
                     Datos Académicos</h3>
-                <div style="display: block; margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px;">Carrera *</label>
-                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block mb-4">
+                    <label class="block mb-1">Carrera *</label>
+                    <select title="Seleccionar carrera" class="w-full p-2 border border-slate-300 rounded-md">
                         <option value="">Seleccione una carrera</option>
                     </select>
                 </div>
-                <div style="display: block; margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px;">Curso *</label>
-                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block mb-4">
+                    <label class="block mb-1">Curso *</label>
+                    <select title="Seleccionar curso" class="w-full p-2 border border-slate-300 rounded-md">
                         <option value="">Seleccione un curso</option>
                     </select>
                 </div>
-                <div style="display: block; margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px;">Comisión *</label>
-                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block mb-4">
+                    <label class="block mb-1">Comisión *</label>
+                    <select title="Seleccionar comisión" class="w-full p-2 border border-slate-300 rounded-md">
                         <option value="">Seleccione una comisión</option>
                     </select>
                 </div>
-                <div style="display: block;">
-                    <label style="display: block; margin-bottom: 5px;">Cuatrimestre *</label>
-                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block">
+                    <label class="block mb-1">Cuatrimestre *</label>
+                    <select title="Seleccionar cuatrimestre" class="w-full p-2 border border-slate-300 rounded-md">
                         <option value="">Seleccione cuatrimestre</option>
                     </select>
                 </div>
             </div>
 
-            <div style="margin-bottom: 25px;">
-                <h3 style="font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">
+            <div class="mb-6">
+                <h3 class="font-bold border-b border-slate-200 pb-1 mb-4">
                     Datos de Inscripción</h3>
-                <div style="display: block; margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px;">Año académico *</label>
-                    <input type="text" placeholder="2026"
-                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block mb-4">
+                    <label class="block mb-1">Año académico *</label>
+                    <input type="text" placeholder="2026" title="Año académico"
+                        class="w-full p-2 border border-slate-300 rounded-md">
                 </div>
-                <div style="display: block; margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px;">Fecha de inscripción *</label>
-                    <input type="date" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block mb-4">
+                    <label class="block mb-1">Fecha de inscripción *</label>
+                    <input type="date" title="Fecha de inscripción" class="w-full p-2 border border-slate-300 rounded-md">
                 </div>
-                <div style="display: block;">
-                    <label style="display: block; margin-bottom: 5px;">Estado de inscripción *</label>
-                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <div class="block">
+                    <label class="block mb-1">Estado de inscripción *</label>
+                    <select title="Estado de inscripción" class="w-full p-2 border border-slate-300 rounded-md">
                         <option value="Inscripto">Inscripto</option>
                     </select>
                 </div>
             </div>
 
-            <div style="margin-bottom: 25px;">
-                <h3 style="font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">
+            <div class="mb-6">
+                <h3 class="font-bold border-b border-slate-200 pb-1 mb-4">
                     Opciones Adicionales</h3>
                 <div>
-                    <input type="checkbox" id="materias_promocionales">
+                    <input type="checkbox" id="materias_promocionales" title="Materias promocionales">
                     <label for="materias_promocionales">Materias promocionales</label>
                 </div>
             </div>
 
-            <div style="margin-bottom: 25px;">
-                <label style="display: block; margin-bottom: 5px;">Observaciones</label>
-                <textarea rows="3" placeholder="Ingrese observaciones..."
-                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+            <div class="mb-6">
+                <label class="block mb-1">Observaciones</label>
+                <textarea rows="3" placeholder="Ingrese observaciones..." title="Observaciones"
+                    class="w-full p-2 border border-slate-300 rounded-md"></textarea>
             </div>
 
         </form>
 
-        <div style="border-top: 1px solid #eee; padding-top: 20px; display: block;">
-            <button
-                style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">Guardar
+        <div class="border-t border-slate-200 pt-5 block space-x-2">
+            <button type="button"
+                class="px-5 py-2.5 bg-blue-600 text-white rounded-md cursor-pointer hover:bg-blue-700 transition-colors">Guardar
                 inscripción</button>
-            <button
-                style="padding: 10px 20px; background: white; color: black; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; margin-right: 10px;">Cancelar</button>
-            <button
-                style="padding: 10px 20px; background: transparent; color: #666; border: none; cursor: pointer;">Limpiar
+            <button type="button"
+                class="px-5 py-2.5 bg-white text-slate-800 border border-slate-300 rounded-md cursor-pointer hover:bg-slate-50 transition-colors">Cancelar</button>
+            <button type="button"
+                class="px-5 py-2.5 bg-transparent text-slate-600 cursor-pointer hover:text-slate-800 transition-colors">Limpiar
                 formulario</button>
         </div>
 
