@@ -153,16 +153,30 @@
                         <label class="block text-sm font-medium text-slate-700 mb-2" for="cantidadHorasCurso">
                             Cantidad de Horas
                         </label>
-                        <input type="number" id="cantidadHorasCurso" placeholder="Ej: 60"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                        <input 
+                                type="number"
+                                id="cantidadHorasCurso"
+                                placeholder="Ej: 60"
+                                min="1"
+                                step="1"
+                                inputmode="numeric"
+                                onkeydown="return event.key !== '-' && event.key !== 'e' && event.key !== '+'"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2" for="inscriptosMaximosCurso">
                             Inscriptos Máximos
                         </label>
-                        <input type="number" id="inscriptosMaximosCurso" placeholder="Ej: 40"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                        <input 
+                                type="number"
+                                id="inscriptosMaximosCurso"
+                                placeholder="Ej: 40"
+                                min="1"
+                                step="1"
+                                inputmode="numeric"
+                                onkeydown="return event.key !== '-' && event.key !== 'e' && event.key !== '+'"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
                     </div>
 
                     <input type="hidden" id="idUsuarioModificacionCurso" value="1">
