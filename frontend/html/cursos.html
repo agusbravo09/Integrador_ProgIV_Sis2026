@@ -1,16 +1,17 @@
 <div class="animate-fade-in flex flex-col h-full">
 
 
+    <!-- Header principal: en móvil se apila verticalmente, en desktop queda en fila -->
     <header
-        class="bg-white shadow-sm px-8 py-5 flex justify-between items-center rounded-2xl mb-8 border border-slate-200">
+        class="bg-white shadow-sm px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-start sm:items-center rounded-2xl mb-4 sm:mb-8 border border-slate-200">
         <div>
-            <h1 class="text-2xl font-bold text-slate-800">Cursos Disponibles</h1>
-            <p class="text-sm text-slate-500 mt-1">Explora e inscríbete en nuestras propuestas formativas</p>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-800">Cursos Disponibles</h1>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Explora e inscríbete en nuestras propuestas formativas</p>
         </div>
 
 
         <button onclick="toggleCursoModal()"
-            class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-colors">
+            class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-medium flex items-center shadow-sm transition-colors w-full sm:w-auto justify-center">
 
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
@@ -25,19 +26,20 @@
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
 
 
-        <div class="px-8 py-6 border-b border-slate-200 flex justify-between items-center">
+        <!-- Encabezado de la tabla: se apila en móvil -->
+        <div class="px-4 sm:px-8 py-4 sm:py-6 border-b border-slate-200 flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between items-start sm:items-center">
 
             <div>
-                <h2 class="text-xl font-bold text-slate-800">
+                <h2 class="text-lg sm:text-xl font-bold text-slate-800">
                     Lista de Cursos
                 </h2>
 
-                <p class="text-sm text-slate-500 mt-1">
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
                     Gestión y administración de cursos
                 </p>
             </div>
 
-            <span class="text-sm text-slate-500">
+            <span class="text-xs sm:text-sm text-slate-500">
                 Mostrando 5 cursos
             </span>
 
@@ -72,12 +74,13 @@
 
     </div>
 
-    <div id="cursoModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-6">
+    <!-- Modal: en móvil ocupa toda la pantalla, en desktop se centra con max-width -->
+    <div id="cursoModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-2 sm:p-6">
 
-        <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden">
+        <div class="bg-white w-full max-w-4xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-none flex flex-col">
 
 
-            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+            <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
 
                 <div>
                     <h2 class="text-xl font-bold text-slate-800">
@@ -96,7 +99,7 @@
             </div>
 
 
-            <div class="p-6 max-h-[70vh] overflow-y-auto">
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1">
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -208,15 +211,15 @@
 
             </div>
 
-            <div class="px-6 py-4 border-t border-slate-200 flex justify-end gap-3">
+            <div class="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
 
                 <button onclick="toggleCursoModal()"
-                    class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition">
+                    class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm">
                     Cancelar
                 </button>
 
                 <button
-                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition">
+                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm">
                     Crear Curso
                 </button>
 
