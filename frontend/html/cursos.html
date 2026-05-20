@@ -27,7 +27,8 @@
 
 
         <!-- Encabezado de la tabla: se apila en móvil -->
-        <div class="px-4 sm:px-8 py-4 sm:py-6 border-b border-slate-200 flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between items-start sm:items-center">
+        <div
+            class="px-4 sm:px-8 py-4 sm:py-6 border-b border-slate-200 flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between items-start sm:items-center">
 
             <div>
                 <h2 class="text-lg sm:text-xl font-bold text-slate-800">
@@ -53,12 +54,10 @@
                 <thead>
                     <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
 
-                        <th class="px-6 py-4 font-medium">Código</th>
                         <th class="px-6 py-4 font-medium">Nombre</th>
-                        <th class="px-6 py-4 font-medium">Carrera</th>
-                        <th class="px-6 py-4 font-medium">Docente</th>
-                        <th class="px-6 py-4 font-medium">Comisión</th>
-                        <th class="px-6 py-4 font-medium">Ocupación</th>
+                        <th class="px-6 py-4 font-medium">Fecha de Inicio</th>
+                        <th class="px-6 py-4 font-medium">Horas</th>
+                        <th class="px-6 py-4 font-medium">Inscriptos Máx</th>
                         <th class="px-6 py-4 font-medium text-center">Estado</th>
                         <th class="px-6 py-4 font-medium text-right">Acciones</th>
 
@@ -72,15 +71,28 @@
 
         </div>
 
+        <!-- Pagination Controls -->
+        <div class="px-4 sm:px-8 py-4 border-t border-slate-200 flex items-center justify-between">
+            <div class="text-sm text-slate-500" id="paginacionInfo">
+                Mostrando 0 cursos
+            </div>
+            <div class="flex gap-2">
+                <button id="btnPrevPage" onclick="cambiarPaginaCursos(-1)" class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Anterior</button>
+                <button id="btnNextPage" onclick="cambiarPaginaCursos(1)" class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Siguiente</button>
+            </div>
+        </div>
+
     </div>
 
     <!-- Modal: en móvil ocupa toda la pantalla, en desktop se centra con max-width -->
     <div id="cursoModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-2 sm:p-6">
 
-        <div class="bg-white w-full max-w-4xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-none flex flex-col">
+        <div
+            class="bg-white w-full max-w-4xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-none flex flex-col">
 
 
-            <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
+            <div
+                class="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
 
                 <div>
                     <h2 class="text-xl font-bold text-slate-800">
@@ -104,120 +116,93 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="codigoCurso">
-                            Código
-                        </label>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="nombreCurso">
+                                Nombre del Curso
+                            </label>
+                            <input type="text" id="nombreCurso"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                        </div>
 
-                        <input type="text" id="codigoCurso"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                    </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="estadoCurso">
+                                Estado del Curso
+                            </label>
+                            <select id="estadoCurso"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                                <option value="1">Activo</option>
+                                <option value="2">Pausado</option>
+                                <option value="3">Finalizado</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="nombreCurso">
-                            Nombre del Curso
-                        </label>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="descripcionCurso">
+                                Descripción
+                            </label>
 
-                        <input type="text" id="nombreCurso"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                    </div>
+                            <textarea id="descripcionCurso" rows="3"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none resize-none"></textarea>
+                        </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="carreraCurso">
-                            Carrera
-                        </label>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="fechaInicioCurso">
+                                Fecha de Inicio
+                            </label>
 
-                        <select id="carreraCurso"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                            <input type="date" id="fechaInicioCurso"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                        </div>
 
-                            <option>Tecnicatura Web</option>
-                            <option>Licenciatura en Sistemas</option>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="cantidadHorasCurso">
+                                Cantidad de Horas
+                            </label>
 
-                        </select>
-                    </div>
+                            <input type="number" id="cantidadHorasCurso" placeholder="Ej: 60"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                        </div>
 
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="inscriptosMaximosCurso">
+                                Inscriptos Máximos
+                            </label>
 
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="comisionCurso">
-                            Comisión
-                        </label>
+                            <input type="number" id="inscriptosMaximosCurso" placeholder="Ej: 40"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                        </div>
 
-                        <input type="text" id="comisionCurso"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                    </div>
+                        <input type="hidden" id="idUsuarioModificacionCurso" value="1">
+                        <div class="md:col-span-2 text-sm text-slate-500 border-t border-slate-200 pt-4">
 
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="cuposCurso">
-                            Cupos
-                        </label>
+                            <p>
+                                La fecha de modificación y el usuario responsable se actualizan automáticamente al
+                                guardar
+                                cambios.
+                            </p>
 
-                        <input type="number" id="cuposCurso"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="descripcionCurso">
-                            Descripción
-                        </label>
-
-                        <textarea id="descripcionCurso" rows="3"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none resize-none"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="fechaInicioCurso">
-                            Fecha de Inicio
-                        </label>
-
-                        <input type="date" id="fechaInicioCurso"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="cantidadHorasCurso">
-                            Cantidad de Horas
-                        </label>
-
-                        <input type="number" id="cantidadHorasCurso" placeholder="Ej: 60"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2" for="inscriptosMaximosCurso">
-                            Inscriptos Máximos
-                        </label>
-
-                        <input type="number" id="inscriptosMaximosCurso" placeholder="Ej: 40"
-                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                    </div>
-
-                    <div class="md:col-span-2 text-sm text-slate-500 border-t border-slate-200 pt-4">
-
-                        <p>
-                            La fecha de modificación y el usuario responsable se actualizan automáticamente al guardar
-                            cambios.
-                        </p>
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+                <div
+                    class="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
 
-            <div class="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
+                    <button onclick="toggleCursoModal()"
+                        class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm">
+                        Cancelar
+                    </button>
 
-                <button onclick="toggleCursoModal()"
-                    class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm">
-                    Cancelar
-                </button>
+                    <button
+                        class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm">
+                        Crear Curso
+                    </button>
 
-                <button
-                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm">
-                    Crear Curso
-                </button>
+                </div>
 
             </div>
 
         </div>
-
     </div>
-</div>

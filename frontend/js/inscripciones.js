@@ -9,6 +9,7 @@ function initInscripciones() {
 
         modal.classList.toggle("hidden");
         modal.classList.toggle("flex");
+        document.body.classList.toggle("overflow-hidden");
 
         
         const errorBox = document.getElementById("errorBox");
