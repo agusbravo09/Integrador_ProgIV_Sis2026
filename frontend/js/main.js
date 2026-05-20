@@ -1,12 +1,32 @@
-
-
+// Variable global para almacenar la vista actualmente activa y evitar recargas duplicadas
+window.vistaActual = '';
 
 document.addEventListener("DOMContentLoaded", () => {
-    cambiarVista('dashboard');
+    // Escuchamos el evento 'hashchange' para manejar cuando el usuario va hacia atrás o adelante
+    window.addEventListener("hashchange", manejarCambioRuta);
+    
+    // Ejecutamos la función una vez al iniciar la aplicación para cargar la vista correcta basada en la URL actual
+    manejarCambioRuta();
 });
 
+// Esta función lee el hash de la URL y decide qué vista cargar
+function manejarCambioRuta() {
+    // Obtenemos el hash actual sin el símbolo '#' (ej: '#cursos' -> 'cursos')
+    const hash = window.location.hash.slice(1);
+    
+    // Si no hay hash en la URL, por defecto vamos a 'dashboard'
+    const vistaDestino = hash || 'dashboard';
+    
+    // Cargamos la vista correspondiente indicando que viene de un cambio de hash (deHistorial = true)
+    cambiarVista(vistaDestino, true);
+}
 
-async function cambiarVista(vistaDestino) {
+async function cambiarVista(vistaDestino, deHistorial = false) {
+    // Si ya estamos en la vista solicitada, no hacemos nada para evitar recargas innecesarias
+    if (vistaDestino === window.vistaActual) {
+        return;
+    }
+
     const contenedor = document.getElementById('contenido-dinamico');
 
     
@@ -37,6 +57,13 @@ async function cambiarVista(vistaDestino) {
         
         actualizarMenu(vistaDestino);
 
+        // Si el cambio de vista NO se originó por el historial (ej: clic directo), actualizamos el hash en la URL
+        if (!deHistorial) {
+            window.location.hash = vistaDestino;
+        }
+
+        // Guardamos la vista actual globalmente
+        window.vistaActual = vistaDestino;
         
         if (vistaDestino === 'cursos' && typeof initCursos === 'function') {
             initCursos();
