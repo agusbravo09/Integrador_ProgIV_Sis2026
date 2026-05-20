@@ -62,25 +62,50 @@ async function cambiarVista(vistaDestino) {
 
 
 function actualizarMenu(vistaActiva) {
-    
+
     const vistas = ['dashboard', 'estudiantes', 'cursos', 'inscripciones'];
 
-    
+    // Clases para la sidebar (desktop)
     const claseActivo = ['bg-institucional-600', 'text-white', 'shadow-md', 'shadow-institucional-600/20'];
-
-    
     const claseInactivo = ['text-slate-600', 'hover:text-institucional-600', 'hover:bg-white/50'];
 
-    vistas.forEach(vista => {
-        const boton = document.getElementById(`btn-${vista}`);
-        if (!boton) return; 
+    // Clases para la bottom nav (móvil)
+    const bnavActivo = ['text-institucional-600'];
+    const bnavInactivo = ['text-slate-400'];
 
-        if (vista === vistaActiva) {
-            boton.classList.remove(...claseInactivo);
-            boton.classList.add(...claseActivo);
-        } else {
-            boton.classList.remove(...claseActivo);
-            boton.classList.add(...claseInactivo);
+    vistas.forEach(vista => {
+
+        // Actualizar botón de la sidebar
+        const boton = document.getElementById(`btn-${vista}`);
+        if (boton) {
+            if (vista === vistaActiva) {
+                boton.classList.remove(...claseInactivo);
+                boton.classList.add(...claseActivo);
+            } else {
+                boton.classList.remove(...claseActivo);
+                boton.classList.add(...claseInactivo);
+            }
+        }
+
+        // Actualizar botón de la bottom nav
+        const bnavBtn = document.getElementById(`bnav-${vista}`);
+        if (bnavBtn) {
+            const bnavLabel = bnavBtn.querySelector('span');
+            if (vista === vistaActiva) {
+                bnavBtn.classList.remove(...bnavInactivo);
+                bnavBtn.classList.add(...bnavActivo);
+                if (bnavLabel) {
+                    bnavLabel.classList.remove('font-medium');
+                    bnavLabel.classList.add('font-semibold');
+                }
+            } else {
+                bnavBtn.classList.remove(...bnavActivo);
+                bnavBtn.classList.add(...bnavInactivo);
+                if (bnavLabel) {
+                    bnavLabel.classList.remove('font-semibold');
+                    bnavLabel.classList.add('font-medium');
+                }
+            }
         }
     });
 }
@@ -106,8 +131,8 @@ function toggleSidebar() {
 
         
         if (mainContent) {
-            mainContent.classList.remove('ml-72', 'w-[calc(100%-18rem)]');
-            mainContent.classList.add('ml-24', 'w-[calc(100%-6rem)]');
+            mainContent.classList.remove('sm:ml-72', 'sm:w-[calc(100%-18rem)]');
+            mainContent.classList.add('sm:ml-24', 'sm:w-[calc(100%-6rem)]');
         }
 
         
@@ -138,8 +163,8 @@ function toggleSidebar() {
 
         
         if (mainContent) {
-            mainContent.classList.remove('ml-24', 'w-[calc(100%-6rem)]');
-            mainContent.classList.add('ml-72', 'w-[calc(100%-18rem)]');
+            mainContent.classList.remove('sm:ml-24', 'sm:w-[calc(100%-6rem)]');
+            mainContent.classList.add('sm:ml-72', 'sm:w-[calc(100%-18rem)]');
         }
 
         

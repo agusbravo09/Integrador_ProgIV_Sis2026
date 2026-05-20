@@ -56,27 +56,27 @@ function initCursos() {
         fila.className = "hover:bg-slate-50 transition-colors";
 
         fila.innerHTML = `
-            <td class="px-6 py-4 font-semibold text-slate-700">
+            <td data-label="Código" class="px-6 py-4 font-semibold text-slate-700">
                 ${curso.codigo}
             </td>
 
-            <td class="px-6 py-4 font-medium text-slate-800">
+            <td data-label="Nombre" class="px-6 py-4 font-medium text-slate-800">
                 ${curso.nombre}
             </td>
 
-            <td class="px-6 py-4 text-slate-600">
+            <td data-label="Carrera" class="px-6 py-4 text-slate-600">
                 ${curso.carrera}
             </td>
 
-            <td class="px-6 py-4 text-slate-600">
+            <td data-label="Docente" class="px-6 py-4 text-slate-600">
                 ${curso.docente}
             </td>
 
-            <td class="px-6 py-4 text-slate-600">
+            <td data-label="Comisión" class="px-6 py-4 text-slate-600">
                 ${curso.comision}
             </td>
 
-            <td class="px-6 py-4">
+            <td data-label="Ocupación" class="px-6 py-4">
 
                 <div class="flex flex-col gap-2">
 
@@ -98,7 +98,7 @@ function initCursos() {
 
             </td>
 
-            <td class="px-6 py-4">
+            <td data-label="Estado" class="px-6 py-4">
 
                 <span class="px-3 py-1 rounded-full text-xs font-medium
                     bg-emerald-100 text-emerald-700">
@@ -109,7 +109,7 @@ function initCursos() {
 
             </td>
 
-            <td class="px-6 py-4">
+            <td data-label="Acciones" class="px-6 py-4">
 
                 <div class="flex justify-center gap-3">
 
