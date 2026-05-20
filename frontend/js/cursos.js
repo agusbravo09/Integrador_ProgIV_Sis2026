@@ -39,7 +39,7 @@ function renderCursos() {
 
     tabla.innerHTML = "";
 
-    cursosPaginados.forEach((curso) => {
+    cursosPaginados.forEach((curso, index) => {
         let colorEstado;
         if (curso.estado === "Lleno") colorEstado = "bg-red-100 text-red-700";
         else if (curso.estado === "Pausado") colorEstado = "bg-yellow-100 text-yellow-800";
@@ -47,6 +47,7 @@ function renderCursos() {
         else colorEstado = "bg-emerald-100 text-emerald-700";
 
         const fila = document.createElement("tr");
+        const realIndex = startIndex + index;
         fila.className = "hover:bg-slate-50 transition-colors";
 
         // Formatear la fecha para que se vea linda
@@ -73,7 +74,7 @@ function renderCursos() {
                 <div class="flex justify-end gap-3">
                     <button onclick="cambiarVista('curso_especifico')" class="text-blue-600 hover:text-blue-800" title="Ver detalles">👁</button>
                     <button class="text-amber-600 hover:text-amber-800" title="Editar">✏</button>
-                    <button class="text-red-600 hover:text-red-800" title="Eliminar">🗑</button>
+                    <button onclick="eliminarCurso(${realIndex})" class="text-red-600 hover:text-red-800" title="Eliminar"> 🗑 </button>
                 </div>
             </td>
         `;
@@ -179,6 +180,18 @@ function crearCurso() {
     renderCursos();
 }
 
+function eliminarCurso(index) {
+
+    const confirmar = confirm('¿Está seguro de que desea eliminar este curso?');
+
+    if (!confirmar) return;
+
+    window.cursosData[index].estado = "Eliminado";
+
+    renderCursos();
+}
+
 window.toggleCursoModal = toggleCursoModal;
 window.cambiarPaginaCursos = cambiarPaginaCursos;
 window.crearCurso = crearCurso;
+window.eliminarCurso = eliminarCurso;
