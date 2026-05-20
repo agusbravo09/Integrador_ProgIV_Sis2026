@@ -1,12 +1,11 @@
-<div class="animate-fade-in flex flex-col h-full">
-
+<div>
 
     <header
         class="bg-white shadow-sm px-8 py-4 flex justify-between items-center rounded-2xl mb-8 border border-slate-200">
         <h1 class="text-2xl font-bold text-slate-800">Inscripciones</h1>
 
-        <button onclick="toggleModal('inscripcionModal')"
-            class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-colors">
+        <button
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-colors">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                 </path>
@@ -15,35 +14,23 @@
         </button>
     </header>
 
-
-    <div class="flex-1 pb-8">
-
+    <div class="pb-8">
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
 
-
-            <div
-                class="p-4 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row gap-4 justify-between items-center">
-                <div class="flex flex-1 gap-4 w-full md:w-auto">
+            <div class="p-4 border-b border-slate-200 bg-slate-50 flex gap-4 justify-between items-center">
+                <div class="flex gap-4 w-full">
                     <select title="Filtrar por curso"
-                        class="rounded-lg border border-slate-300 px-4 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500 bg-white">
+                        class="rounded-lg border border-slate-300 px-4 py-2 text-sm bg-white">
                         <option value="">Filtrar por Curso...</option>
                         <option value="1">Programación Java Avanzada</option>
                         <option value="2">Bases de Datos con MySQL</option>
                     </select>
                     <div class="relative flex-1 max-w-xs">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </div>
                         <input type="text" placeholder="Buscar alumno..."
-                            class="pl-10 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm">
                     </div>
                 </div>
             </div>
-
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
@@ -58,9 +45,9 @@
                             <th class="px-6 py-3 font-medium text-right">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200 text-sm">
-
-                        <tr class="hover:bg-slate-50 transition-colors">
+                    <tbody id="tabla-inscripciones-body" class="divide-y divide-slate-200 text-sm">
+                        <!-- Fila 1 -->
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion">
                             <td class="px-6 py-4 text-slate-500 font-mono">#1042</td>
                             <td class="px-6 py-4 text-slate-600">10/05/2026 14:30</td>
                             <td class="px-6 py-4">
@@ -69,213 +56,163 @@
                             </td>
                             <td class="px-6 py-4 text-slate-800 font-medium">Programación Java Avanzada</td>
                             <td class="px-6 py-4 text-center">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span>
                             </td>
                             <td class="px-6 py-4 text-right space-x-2">
-                                <button
-                                    onclick="imprimirDiplomaIndividual('Perez, Juan Ignacio', 'Programación Java Avanzada')"
-                                    class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded"
-                                    title="Generar Diploma">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
-                                        <path
-                                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z">
-                                        </path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 14v7"></path>
-                                    </svg>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded"
-                                    title="Anular Inscripción">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                </button>
+                                <button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button>
+                                <button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button>
                             </td>
                         </tr>
+                        <!-- Fila 2 -->
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion">
+                            <td class="px-6 py-4 text-slate-500 font-mono">#1043</td>
+                            <td class="px-6 py-4 text-slate-600">10/05/2026 15:15</td>
+                            <td class="px-6 py-4">
+                                <div class="font-medium text-slate-800">Gomez, Maria Laura</div>
+                                <div class="text-xs text-slate-500">36.987.654</div>
+                            </td>
+                            <td class="px-6 py-4 text-slate-800 font-medium">Bases de Datos con MySQL</td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Pendiente</span>
+                            </td>
+                            <td class="px-6 py-4 text-right space-x-2">
+                                <button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button>
+                                <button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button>
+                            </td>
+                        </tr>
+                        <!-- Filas 3 al 15 (datos generados para prueba de paginación) -->
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1044</td><td class="px-6 py-4 text-slate-600">11/05/2026 09:00</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Rodriguez, Carlos</div><div class="text-xs text-slate-500">34.555.666</div></td><td class="px-6 py-4 text-slate-800 font-medium">Programación Java Avanzada</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1045</td><td class="px-6 py-4 text-slate-600">11/05/2026 10:30</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Fernandez, Ana</div><div class="text-xs text-slate-500">37.111.222</div></td><td class="px-6 py-4 text-slate-800 font-medium">Bases de Datos con MySQL</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1046</td><td class="px-6 py-4 text-slate-600">11/05/2026 11:45</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Lopez, Martin</div><div class="text-xs text-slate-500">38.222.333</div></td><td class="px-6 py-4 text-slate-800 font-medium">Programación Java Avanzada</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1047</td><td class="px-6 py-4 text-slate-600">12/05/2026 08:20</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Martinez, Sofia</div><div class="text-xs text-slate-500">39.333.444</div></td><td class="px-6 py-4 text-slate-800 font-medium">Bases de Datos con MySQL</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1048</td><td class="px-6 py-4 text-slate-600">12/05/2026 14:10</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Diaz, Lucas</div><div class="text-xs text-slate-500">40.444.555</div></td><td class="px-6 py-4 text-slate-800 font-medium">Programación Java Avanzada</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1049</td><td class="px-6 py-4 text-slate-600">13/05/2026 09:30</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Ruiz, Florencia</div><div class="text-xs text-slate-500">41.555.666</div></td><td class="px-6 py-4 text-slate-800 font-medium">Bases de Datos con MySQL</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1050</td><td class="px-6 py-4 text-slate-600">13/05/2026 11:00</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Alvarez, Diego</div><div class="text-xs text-slate-500">42.666.777</div></td><td class="px-6 py-4 text-slate-800 font-medium">Programación Java Avanzada</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1051</td><td class="px-6 py-4 text-slate-600">14/05/2026 15:20</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Romero, Julieta</div><div class="text-xs text-slate-500">43.777.888</div></td><td class="px-6 py-4 text-slate-800 font-medium">Bases de Datos con MySQL</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Pendiente</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1052</td><td class="px-6 py-4 text-slate-600">15/05/2026 10:15</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Sosa, Nicolas</div><div class="text-xs text-slate-500">44.888.999</div></td><td class="px-6 py-4 text-slate-800 font-medium">Programación Java Avanzada</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1053</td><td class="px-6 py-4 text-slate-600">15/05/2026 12:45</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Torres, Valeria</div><div class="text-xs text-slate-500">45.999.000</div></td><td class="px-6 py-4 text-slate-800 font-medium">Bases de Datos con MySQL</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1054</td><td class="px-6 py-4 text-slate-600">16/05/2026 09:10</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Gimenez, Pablo</div><div class="text-xs text-slate-500">46.000.111</div></td><td class="px-6 py-4 text-slate-800 font-medium">Programación Java Avanzada</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1055</td><td class="px-6 py-4 text-slate-600">16/05/2026 14:00</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Blanco, Camila</div><div class="text-xs text-slate-500">47.111.222</div></td><td class="px-6 py-4 text-slate-800 font-medium">Bases de Datos con MySQL</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors fila-inscripcion"><td class="px-6 py-4 text-slate-500 font-mono">#1056</td><td class="px-6 py-4 text-slate-600">17/05/2026 10:30</td><td class="px-6 py-4"><div class="font-medium text-slate-800">Castro, Joaquin</div><div class="text-xs text-slate-500">48.222.333</div></td><td class="px-6 py-4 text-slate-800 font-medium">Programación Java Avanzada</td><td class="px-6 py-4 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span></td><td class="px-6 py-4 text-right space-x-2"><button class="text-amber-600 hover:text-amber-800 bg-amber-50 p-1.5 rounded" title="Generar Diploma">PDF</button><button class="text-red-600 hover:text-red-900 bg-red-50 p-1.5 rounded" title="Anular Inscripción">X</button></td></tr>
                     </tbody>
                 </table>
             </div>
 
-
             <div class="px-6 py-4 border-t border-slate-200 bg-white flex items-center justify-between">
-                <div class="text-sm text-slate-500">
-                    Mostrando <span class="font-medium text-slate-700">1</span> a <span
-                        class="font-medium text-slate-700">1</span> de <span class="font-medium text-slate-700">1</span>
-                    inscripciones
+                <div class="text-sm text-slate-500" id="info-paginacion">
+                    Mostrando <span class="font-medium text-slate-700">1</span> a <span class="font-medium text-slate-700">10</span> de <span class="font-medium text-slate-700">15</span> inscripciones
+                </div>
+                <div class="flex gap-2">
+                    <button id="btn-prev-page" class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                    <button id="btn-next-page" class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="inscripcionModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-2 sm:p-6">
-        <div
-            class="bg-white w-full max-w-4xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col">
+    <div
+        style="width: 800px; margin: 40px auto; background: white; border: 2px solid #ccc; border-radius: 10px; padding: 20px;">
 
-            <div
-                class="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
-                <div>
-                    <h2 class="text-xl font-bold text-slate-800">Nueva Inscripción</h2>
-                    <p class="text-sm text-slate-500">Complete los datos del alumno para realizar la inscripción</p>
-                </div>
-                <button onclick="toggleModal('inscripcionModal')"
-                    class="text-slate-400 hover:text-slate-700 text-2xl">×</button>
-            </div>
-
-            <div class="p-4 sm:p-6 overflow-y-auto flex-1">
-                <div id="errorBox"
-                    class="hidden mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-lg border border-red-200"></div>
-                <form id="inscripcionForm" class="space-y-6">
-
-                    <div>
-                        <h3 class="text-sm font-semibold text-slate-800 border-b border-slate-200 pb-2 mb-4">Datos del
-                            Alumno</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="id_estudiante">
-                                    Alumno <span class="text-red-500">*</span>
-                                </label>
-                                <select id="id_estudiante" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none bg-white">
-                                    <option value="">Seleccione un alumno</option>
-                                    <option value="1">Perez, Juan Ignacio</option>
-                                    <option value="2">Gomez, Maria Laura</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="legajo">
-                                    Legajo <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" id="legajo" placeholder="Ingrese legajo" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-semibold text-slate-800 border-b border-slate-200 pb-2 mb-4">Datos
-                            Académicos</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="carrera">
-                                    Carrera <span class="text-red-500">*</span>
-                                </label>
-                                <select id="carrera" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none bg-white">
-                                    <option value="">Seleccione una carrera</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="id_curso">
-                                    Curso <span class="text-red-500">*</span>
-                                </label>
-                                <select id="id_curso" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none bg-white">
-                                    <option value="">Seleccione un curso</option>
-                                    <option value="1">Programación Java Avanzada</option>
-                                    <option value="2">Bases de Datos con MySQL</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="comision">
-                                    Comisión <span class="text-red-500">*</span>
-                                </label>
-                                <select id="comision" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none bg-white">
-                                    <option value="">Seleccione una comisión</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="cuatrimestre">
-                                    Cuatrimestre <span class="text-red-500">*</span>
-                                </label>
-                                <select id="cuatrimestre" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none bg-white">
-                                    <option value="">Seleccione cuatrimestre</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-semibold text-slate-800 border-b border-slate-200 pb-2 mb-4">Datos de
-                            Inscripción</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="anio_academico">
-                                    Año académico <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" id="anio_academico" placeholder="2026" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="fecha_inscripcion">
-                                    Fecha de inscripción <span class="text-red-500">*</span>
-                                </label>
-                                <input type="date" id="fecha_inscripcion" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2" for="estado_inscripcion">
-                                    Estado de inscripción <span class="text-red-500">*</span>
-                                </label>
-                                <select id="estado_inscripcion" required
-                                    class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none bg-white">
-                                    <option value="">Seleccione estado</option>
-                                    <option value="Inscripto">Inscripto</option>
-                                    <option value="Pendiente">Pendiente</option>
-                                    <option value="Rechazado">Rechazado</option>
-                                    <option value="Baja realizada">Baja realizada</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-semibold text-slate-800 border-b border-slate-200 pb-2 mb-4">Opciones
-                            Adicionales</h3>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="materias_promocionales"
-                                class="w-4 h-4 text-institucional-600 border-slate-300 rounded focus:ring-institucional-500">
-                            <label for="materias_promocionales" class="ml-2 block text-sm text-slate-700">Materias
-                                promocionales</label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-semibold text-slate-800 border-b border-slate-200 pb-2 mb-4">
-                            Observaciones</h3>
-                        <div>
-                            <textarea id="observaciones" rows="3" placeholder="Ingrese observaciones adicionales..."
-                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none resize-none"></textarea>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-
-            <div
-                class="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-start gap-2 sm:gap-4 flex-shrink-0 items-center">
-                <button type="button" onclick="validarYGuardarInscripcion()"
-                    class="w-full sm:w-auto px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition text-sm font-medium flex items-center justify-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    Guardar inscripción
-                </button>
-                <button type="button" onclick="toggleModal('inscripcionModal')"
-                    class="w-full sm:w-auto px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm">
-                    Cancelar
-                </button>
-                <button type="button" onclick="document.getElementById('inscripcionForm').reset()"
-                    class="w-full sm:w-auto px-4 py-2 text-slate-600 hover:text-slate-800 transition text-sm">
-                    Limpiar formulario
-                </button>
-            </div>
-
+        <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px;">
+            <h2 style="font-size: 20px; font-weight: bold; margin: 0;">Nueva Inscripción (Modo Prueba)</h2>
+            <p style="font-size: 14px; color: gray; margin-top: 5px;">Si ves esto completo hasta los botones de abajo,
+                el problema era el CSS.</p>
         </div>
+
+        <form id="inscripcionForm">
+
+            <div style="margin-bottom: 25px;">
+                <h3 style="font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">
+                    Datos del Alumno</h3>
+                <div style="display: block; margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Alumno *</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="">Seleccione un alumno</option>
+                    </select>
+                </div>
+                <div style="display: block;">
+                    <label style="display: block; margin-bottom: 5px;">Legajo *</label>
+                    <input type="text" placeholder="Ingrese legajo"
+                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3 style="font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">
+                    Datos Académicos</h3>
+                <div style="display: block; margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Carrera *</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="">Seleccione una carrera</option>
+                    </select>
+                </div>
+                <div style="display: block; margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Curso *</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="">Seleccione un curso</option>
+                    </select>
+                </div>
+                <div style="display: block; margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Comisión *</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="">Seleccione una comisión</option>
+                    </select>
+                </div>
+                <div style="display: block;">
+                    <label style="display: block; margin-bottom: 5px;">Cuatrimestre *</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="">Seleccione cuatrimestre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3 style="font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">
+                    Datos de Inscripción</h3>
+                <div style="display: block; margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Año académico *</label>
+                    <input type="text" placeholder="2026"
+                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                <div style="display: block; margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Fecha de inscripción *</label>
+                    <input type="date" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                <div style="display: block;">
+                    <label style="display: block; margin-bottom: 5px;">Estado de inscripción *</label>
+                    <select style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="Inscripto">Inscripto</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h3 style="font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 15px;">
+                    Opciones Adicionales</h3>
+                <div>
+                    <input type="checkbox" id="materias_promocionales">
+                    <label for="materias_promocionales">Materias promocionales</label>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; margin-bottom: 5px;">Observaciones</label>
+                <textarea rows="3" placeholder="Ingrese observaciones..."
+                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+            </div>
+
+        </form>
+
+        <div style="border-top: 1px solid #eee; padding-top: 20px; display: block;">
+            <button
+                style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">Guardar
+                inscripción</button>
+            <button
+                style="padding: 10px 20px; background: white; color: black; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; margin-right: 10px;">Cancelar</button>
+            <button
+                style="padding: 10px 20px; background: transparent; color: #666; border: none; cursor: pointer;">Limpiar
+                formulario</button>
+        </div>
+
     </div>
 </div>
