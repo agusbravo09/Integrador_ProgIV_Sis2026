@@ -73,7 +73,7 @@ function renderCursos() {
             <td data-label="Acciones" class="px-6 py-4 text-right">
                 <div class="flex justify-end gap-3">
                     <button onclick="cambiarVista('curso_especifico')" class="text-blue-600 hover:text-blue-800" title="Ver detalles">👁</button>
-                    <button class="text-amber-600 hover:text-amber-800" title="Editar">✏</button>
+                    <button onclick="editarCurso(${realIndex})" class="text-amber-600 hover:text-amber-800" title="Editar"> ✏ </button>
                     <button onclick="eliminarCurso(${realIndex})" class="text-red-600 hover:text-red-800" title="Eliminar"> 🗑 </button>
                 </div>
             </td>
@@ -117,6 +117,7 @@ if (!window.cursosResizeListenerAdded) {
 
 function initCursos() {
     window.currentPageCursos = 1; // Reiniciar a la primera página al cargar la vista
+    window.editandoCursoIndex = null;
     renderCursos();
 }
 
@@ -153,6 +154,30 @@ function crearCurso() {
         return;
     }
 
+    // Si estamos editando
+    if (window.editandoCursoIndex !== null) {
+
+        window.cursosData[window.editandoCursoIndex] = {
+            ...window.cursosData[window.editandoCursoIndex],
+            nombre: nombre,
+            descripcion: descripcion,
+            fecha_inicio: fechaInicio,
+            cantidad_horas: cantidadHoras,
+            inscriptos_max: inscriptosMax,
+            estado: estadoTexto
+        };
+
+        window.editandoCursoIndex = null;
+
+        // Restaurar botón
+        const botonCrear = document.querySelector('.bg-institucional-600');
+        botonCrear.textContent = "Crear Curso";
+
+        toggleCursoModal();
+        renderCursos();
+
+        return;
+    }
     const nuevoCurso = {
         nombre: nombre,
         descripcion: descripcion,
@@ -191,7 +216,38 @@ function eliminarCurso(index) {
     renderCursos();
 }
 
+function editarCurso(index) {
+
+    const curso = window.cursosData[index];
+
+    // Guardamos el índice del curso editado
+    window.editandoCursoIndex = index;
+
+    // Cargar datos en el modal
+    document.getElementById('nombreCurso').value = curso.nombre;
+    document.getElementById('descripcionCurso').value = curso.descripcion;
+    document.getElementById('fechaInicioCurso').value = curso.fecha_inicio;
+    document.getElementById('cantidadHorasCurso').value = curso.cantidad_horas;
+    document.getElementById('inscriptosMaximosCurso').value = curso.inscriptos_max;
+
+    // Seleccionar estado
+    const estadoSelect = document.getElementById('estadoCurso');
+
+    if (curso.estado === "Activo") estadoSelect.value = "1";
+    else if (curso.estado === "Pausado") estadoSelect.value = "2";
+    else if (curso.estado === "Finalizado") estadoSelect.value = "3";
+
+    // Cambiar texto del botón
+    const botonCrear = document.querySelector('.bg-institucional-600');
+
+    botonCrear.textContent = "Cursos";
+
+    // Abrir modal
+    toggleCursoModal();
+}
+
 window.toggleCursoModal = toggleCursoModal;
 window.cambiarPaginaCursos = cambiarPaginaCursos;
 window.crearCurso = crearCurso;
 window.eliminarCurso = eliminarCurso;
+window.editarCurso = editarCurso;
