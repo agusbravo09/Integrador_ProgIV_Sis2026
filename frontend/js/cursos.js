@@ -84,6 +84,11 @@ function renderCursos() {
     const btnPrev = document.getElementById("btnPrevPage");
     const btnNext = document.getElementById("btnNextPage");
     const info = document.getElementById("paginacionInfo");
+    const totalTexto = document.getElementById("totalCursosTexto");
+
+    if (totalTexto) {
+        totalTexto.textContent = `Mostrando ${totalItems} cursos`;
+    }
 
     if (btnPrev && btnNext && info) {
         btnPrev.disabled = window.currentPageCursos === 1;

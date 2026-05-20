@@ -40,10 +40,6 @@
                 </p>
             </div>
 
-            <span class="text-xs sm:text-sm text-slate-500">
-                Mostrando 5 cursos
-            </span>
-
         </div>
 
 
@@ -77,8 +73,10 @@
                 Mostrando 0 cursos
             </div>
             <div class="flex gap-2">
-                <button id="btnPrevPage" onclick="cambiarPaginaCursos(-1)" class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Anterior</button>
-                <button id="btnNextPage" onclick="cambiarPaginaCursos(1)" class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Siguiente</button>
+                <button id="btnPrevPage" onclick="cambiarPaginaCursos(-1)"
+                    class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Anterior</button>
+                <button id="btnNextPage" onclick="cambiarPaginaCursos(1)"
+                    class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Siguiente</button>
             </div>
         </div>
 
@@ -116,93 +114,88 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2" for="nombreCurso">
-                                Nombre del Curso
-                            </label>
-                            <input type="text" id="nombreCurso"
-                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                        </div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2" for="nombreCurso">
+                            Nombre del Curso
+                        </label>
+                        <input type="text" id="nombreCurso"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2" for="estadoCurso">
-                                Estado del Curso
-                            </label>
-                            <select id="estadoCurso"
-                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                                <option value="1">Activo</option>
-                                <option value="2">Pausado</option>
-                                <option value="3">Finalizado</option>
-                            </select>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2" for="estadoCurso">
+                            Estado del Curso
+                        </label>
+                        <select id="estadoCurso"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                            <option value="1">Activo</option>
+                            <option value="2">Pausado</option>
+                            <option value="3">Finalizado</option>
+                        </select>
+                    </div>
 
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-slate-700 mb-2" for="descripcionCurso">
-                                Descripción
-                            </label>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-slate-700 mb-2" for="descripcionCurso">
+                            Descripción
+                        </label>
+                        <textarea id="descripcionCurso" rows="3"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none resize-none"></textarea>
+                    </div>
 
-                            <textarea id="descripcionCurso" rows="3"
-                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none resize-none"></textarea>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2" for="fechaInicioCurso">
+                            Fecha de Inicio
+                        </label>
+                        <input type="date" id="fechaInicioCurso"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2" for="fechaInicioCurso">
-                                Fecha de Inicio
-                            </label>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2" for="cantidadHorasCurso">
+                            Cantidad de Horas
+                        </label>
+                        <input type="number" id="cantidadHorasCurso" placeholder="Ej: 60"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                    </div>
 
-                            <input type="date" id="fechaInicioCurso"
-                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2" for="inscriptosMaximosCurso">
+                            Inscriptos Máximos
+                        </label>
+                        <input type="number" id="inscriptosMaximosCurso" placeholder="Ej: 40"
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2" for="cantidadHorasCurso">
-                                Cantidad de Horas
-                            </label>
+                    <input type="hidden" id="idUsuarioModificacionCurso" value="1">
+                    <div class="md:col-span-2 text-sm text-slate-500 border-t border-slate-200 pt-4">
 
-                            <input type="number" id="cantidadHorasCurso" placeholder="Ej: 60"
-                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2" for="inscriptosMaximosCurso">
-                                Inscriptos Máximos
-                            </label>
-
-                            <input type="number" id="inscriptosMaximosCurso" placeholder="Ej: 40"
-                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
-                        </div>
-
-                        <input type="hidden" id="idUsuarioModificacionCurso" value="1">
-                        <div class="md:col-span-2 text-sm text-slate-500 border-t border-slate-200 pt-4">
-
-                            <p>
-                                La fecha de modificación y el usuario responsable se actualizan automáticamente al
-                                guardar
-                                cambios.
-                            </p>
-
-                        </div>
+                        <p>
+                            La fecha de modificación y el usuario responsable se actualizan automáticamente al
+                            guardar
+                            cambios.
+                        </p>
 
                     </div>
 
                 </div>
 
-                <div
-                    class="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
+            </div>
 
-                    <button onclick="toggleCursoModal()"
-                        class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm">
-                        Cancelar
-                    </button>
+            <div
+                class="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
 
-                    <button
-                        class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm">
-                        Crear Curso
-                    </button>
+                <button onclick="toggleCursoModal()"
+                    class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm">
+                    Cancelar
+                </button>
 
-                </div>
+                <button
+                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm">
+                    Crear Curso
+                </button>
 
             </div>
 
         </div>
+
     </div>
+</div>
