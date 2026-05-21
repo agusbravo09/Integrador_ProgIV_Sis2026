@@ -1,19 +1,6 @@
-// Datos mockeados globalmente para la vista
-window.cursosData = window.cursosData || [
-    { nombre: "Programación I", descripcion: "Introducción a la programación algorítmica.", fecha_inicio: "2026-03-01", cantidad_horas: 120, inscriptos_max: 40, ocupados: 35, estado: "Activo" },
-    { nombre: "Base de Datos", descripcion: "Bases de datos relacionales y SQL.", fecha_inicio: "2026-03-01", cantidad_horas: 90, inscriptos_max: 30, ocupados: 28, estado: "Activo" },
-    { nombre: "Sistemas Operativos", descripcion: "Teoría y práctica de S.O.", fecha_inicio: "2026-03-15", cantidad_horas: 80, inscriptos_max: 30, ocupados: 15, estado: "Activo" },
-    { nombre: "Matemática Discreta", descripcion: "Lógica matemática y grafos.", fecha_inicio: "2026-03-10", cantidad_horas: 100, inscriptos_max: 40, ocupados: 40, estado: "Lleno" },
-    { nombre: "Redes y Comunicaciones", descripcion: "Protocolos y topologías de red.", fecha_inicio: "2026-04-01", cantidad_horas: 80, inscriptos_max: 25, ocupados: 20, estado: "Activo" },
-    { nombre: "Desarrollo Web Frontend", descripcion: "HTML, CSS y JS moderno.", fecha_inicio: "2026-04-10", cantidad_horas: 60, inscriptos_max: 35, ocupados: 30, estado: "Activo" },
-    { nombre: "Desarrollo Web Backend", descripcion: "APIs y servicios web.", fecha_inicio: "2026-04-15", cantidad_horas: 60, inscriptos_max: 30, ocupados: 25, estado: "Activo" },
-    { nombre: "Ingeniería de Software", descripcion: "Patrones y metodologías ágiles.", fecha_inicio: "2026-05-01", cantidad_horas: 110, inscriptos_max: 40, ocupados: 10, estado: "Activo" },
-    { nombre: "Programación II", descripcion: "Programación Orientada a Objetos.", fecha_inicio: "2026-08-01", cantidad_horas: 120, inscriptos_max: 40, ocupados: 0, estado: "Pausado" },
-    { nombre: "Bases de Datos Avanzadas", descripcion: "NoSQL y optimización.", fecha_inicio: "2026-08-15", cantidad_horas: 80, inscriptos_max: 20, ocupados: 0, estado: "Pausado" },
-    { nombre: "Seguridad Informática", descripcion: "Criptografía y redes seguras.", fecha_inicio: "2026-09-01", cantidad_horas: 60, inscriptos_max: 25, ocupados: 0, estado: "Activo" },
-    { nombre: "Algoritmos y Estructuras", descripcion: "Estructuras de datos complejas.", fecha_inicio: "2026-08-10", cantidad_horas: 120, inscriptos_max: 45, ocupados: 0, estado: "Pausado" }
-];
-
+import * as CursoApi from './api/api-cursos.js';
+window.CursoApi = CursoApi; // porque usa window??
+window.cursosData = window.cursosData || [];
 window.currentPageCursos = 1;
 
 function renderCursos() {
@@ -48,6 +35,7 @@ function renderCursos() {
 
         const fila = document.createElement("tr");
         const realIndex = startIndex + index;
+        const identifier = curso.id_curso != null ? curso.id_curso : realIndex;
         fila.className = "hover:bg-slate-50 transition-colors";
 
         // Formatear la fecha para que se vea linda
@@ -72,7 +60,7 @@ function renderCursos() {
             </td>
             <td data-label="Acciones" class="px-6 py-4 text-right">
                 <div class="flex justify-end gap-3">
-                    <button onclick="verCursoEspecifico(${realIndex})" class="text-blue-600 hover:text-blue-800" title="Ver detalles">👁</button>
+                    <button onclick="verCursoEspecifico(${identifier})" class="text-blue-600 hover:text-blue-800" title="Ver detalles">👁</button>
                     <button onclick="editarCurso(${realIndex})" class="text-amber-600 hover:text-amber-800" title="Editar"> ✏ </button>
                     <button onclick="eliminarCurso(${realIndex})" class="text-red-600 hover:text-red-800" title="Eliminar"> 🗑 </button>
                 </div>
@@ -115,9 +103,39 @@ if (!window.cursosResizeListenerAdded) {
     window.cursosResizeListenerAdded = true;
 }
 
-function initCursos() {
+async function initCursos() {
     window.currentPageCursos = 1; // Reiniciar a la primera página al cargar la vista
     window.editandoCursoIndex = null;
+
+    try {
+        const apiCursos = await CursoApi.getCursos();
+        if (Array.isArray(apiCursos) && apiCursos.length > 0) {
+            const mapEstado = (id) => {
+                switch (Number(id)) {
+                    case 1: return 'Borrador';
+                    case 2: return 'Inscripción abierta';
+                    case 3: return 'Inscripción cerrada';
+                    case 4: return 'Eliminado';
+                    default: return 'Activo';
+                }
+            };
+
+            window.cursosData = apiCursos.map(c => ({
+                nombre: c.nombre,
+                descripcion: c.descripcion,
+                fecha_inicio: c.fecha_inicio,
+                cantidad_horas: c.cantidad_horas,
+                inscriptos_max: c.inscriptos_max,
+                ocupados: c.ocupados || 0,
+                //estado: mapEstado(c.id_curso_estado),
+                estado: 'Activo',
+                id_curso: c.id_curso
+            }));
+        }
+    } catch (err) {
+        console.error('Error cargando cursos desde API:', err);
+    }
+
     renderCursos();
 }
 
@@ -129,21 +147,19 @@ function toggleCursoModal() {
     document.body.classList.toggle("overflow-hidden");
 }
 
-function crearCurso() {
+async function crearCurso() {
     const nombre = document.getElementById('nombreCurso').value.trim();
-    const estadoSelect = document.getElementById('estadoCurso');
-    const estadoTexto = estadoSelect.options[estadoSelect.selectedIndex].text;
     const descripcion = document.getElementById('descripcionCurso').value.trim();
     const fechaInicio = document.getElementById('fechaInicioCurso').value;
     const cantidadHoras = parseInt(document.getElementById('cantidadHorasCurso').value);
     const inscriptosMax = parseInt(document.getElementById('inscriptosMaximosCurso').value);
-    
+
     // Validaciones básicas
     if (!nombre) {
         alert('Por favor, ingrese el Nombre del Curso.');
         return;
     }
-    
+
     if (isNaN(cantidadHoras) || cantidadHoras <= 0) {
         alert('Por favor, ingrese una cantidad de horas válida.');
         return;
@@ -156,42 +172,77 @@ function crearCurso() {
 
     // Si estamos editando
     if (window.editandoCursoIndex !== null) {
-
-        window.cursosData[window.editandoCursoIndex] = {
-            ...window.cursosData[window.editandoCursoIndex],
-            nombre: nombre,
-            descripcion: descripcion,
+        const cursoExistente = window.cursosData[window.editandoCursoIndex];
+        const cursoEditado = {
+            nombre,
+            descripcion,
             fecha_inicio: fechaInicio,
             cantidad_horas: cantidadHoras,
-            inscriptos_max: inscriptosMax,
-            estado: estadoTexto
+            inscriptos_max: inscriptosMax
         };
+
+        if (cursoExistente?.id_curso != null) {
+            try {
+                const actualizado = await CursoApi.updateCursoApi(cursoExistente.id_curso, cursoEditado);
+                if (actualizado) {
+                    window.cursosData[window.editandoCursoIndex] = {
+                        ...cursoExistente,
+                        ...actualizado,
+                        fecha_inicio: actualizado.fecha_inicio || fechaInicio,
+                        cantidad_horas: actualizado.cantidad_horas || cantidadHoras,
+                        inscriptos_max: actualizado.inscriptos_max || inscriptosMax
+                    };
+                }
+            } catch (error) {
+                console.error('Error actualizando curso:', error);
+                alert('No se pudo actualizar el curso. Revisa la consola para más detalles.');
+                return;
+            }
+        } else {
+            window.cursosData[window.editandoCursoIndex] = {
+                ...cursoExistente,
+                ...cursoEditado
+            };
+        }
 
         window.editandoCursoIndex = null;
 
-        // Restaurar botón
         const botonCrear = document.querySelector('.bg-institucional-600');
-        botonCrear.textContent = "Crear Curso";
+        if (botonCrear) botonCrear.textContent = "Crear Curso";
 
         toggleCursoModal();
         renderCursos();
-
         return;
     }
+
     const nuevoCurso = {
-        nombre: nombre,
-        descripcion: descripcion,
+        nombre,
+        descripcion,
         fecha_inicio: fechaInicio,
         cantidad_horas: cantidadHoras,
-        inscriptos_max: inscriptosMax,
-        ocupados: 0,
-        estado: estadoTexto
+        inscriptos_max: inscriptosMax
     };
 
-    // Agregar al inicio del array para verlo primero
-    window.cursosData.unshift(nuevoCurso);
+    try {
+        const creado = await CursoApi.createCursoApi(nuevoCurso);
+        if (creado) {
+            window.cursosData.unshift({
+                nombre: creado.nombre || nombre,
+                descripcion: creado.descripcion || descripcion,
+                fecha_inicio: creado.fecha_inicio || fechaInicio,
+                cantidad_horas: creado.cantidad_horas || cantidadHoras,
+                inscriptos_max: creado.inscriptos_max || inscriptosMax,
+                ocupados: creado.ocupados || 0,
+                estado: 'Activo',
+                id_curso: creado.id_curso || creado.id
+            });
+        }
+    } catch (error) {
+        console.error('Error creando curso:', error);
+        alert('No se pudo crear el curso. Revisa la consola para más detalles.');
+        return;
+    }
 
-    // Limpiar formulario
     document.getElementById('nombreCurso').value = '';
     document.getElementById('estadoCurso').value = '1';
     document.getElementById('descripcionCurso').value = '';
@@ -199,19 +250,30 @@ function crearCurso() {
     document.getElementById('cantidadHorasCurso').value = '';
     document.getElementById('inscriptosMaximosCurso').value = '';
 
-    // Cerrar modal y re-renderizar
     toggleCursoModal();
-    window.currentPageCursos = 1; // Volver a la página 1 para ver el nuevo curso
+    window.currentPageCursos = 1;
     renderCursos();
 }
 
-function eliminarCurso(index) {
+async function eliminarCurso(index) {
+    const curso = window.cursosData?.[index];
+    if (!curso) return;
 
     const confirmar = confirm('¿Está seguro de que desea eliminar este curso?');
-
     if (!confirmar) return;
 
-    window.cursosData[index].estado = "Eliminado";
+    if (curso.id_curso != null) {
+        try {
+            await CursoApi.deleteCursoApi(curso.id_curso);
+            curso.estado = 'Eliminado';
+        } catch (error) {
+            console.error('Error eliminando curso:', error);
+            alert('No se pudo eliminar el curso. Revisa la consola para más detalles.');
+            return;
+        }
+    } else {
+        curso.estado = 'Eliminado';
+    }
 
     renderCursos();
 }
@@ -231,11 +293,11 @@ function editarCurso(index) {
     document.getElementById('inscriptosMaximosCurso').value = curso.inscriptos_max;
 
     // Seleccionar estado
-    const estadoSelect = document.getElementById('estadoCurso');
+    //const estadoSelect = document.getElementById('estadoCurso');
 
-    if (curso.estado === "Activo") estadoSelect.value = "1";
-    else if (curso.estado === "Pausado") estadoSelect.value = "2";
-    else if (curso.estado === "Finalizado") estadoSelect.value = "3";
+   // if (curso.estado === "Activo") estadoSelect.value = "1";
+   // else if (curso.estado === "Pausado") estadoSelect.value = "2";
+   // else if (curso.estado === "Finalizado") estadoSelect.value = "3";
 
     // Cambiar texto del botón
     const botonCrear = document.querySelector('.bg-institucional-600');
@@ -251,3 +313,4 @@ window.cambiarPaginaCursos = cambiarPaginaCursos;
 window.crearCurso = crearCurso;
 window.eliminarCurso = eliminarCurso;
 window.editarCurso = editarCurso;
+window.initCursos = initCursos;

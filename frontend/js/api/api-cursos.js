@@ -80,3 +80,4 @@ async function deleteCursoApi(id) {
     }
 }
 
+export { getCursos, getCursoById, createCursoApi, updateCursoApi, deleteCursoApi, API_BASE_URL };
