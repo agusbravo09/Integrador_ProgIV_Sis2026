@@ -1,10 +1,14 @@
-<div class="animate-fade-in flex flex-col gap-6 h-full pb-8">
+<div id="vista-curso-especifico" class="animate-fade-in flex flex-col gap-6 h-full pb-8"
+    data-tabla-alumnos="tabla-alumnos-inscriptos"
+    data-titulo-materia="curso-especifico-titulo">
 
     <header
         class="px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-start sm:items-center rounded-2xl mb-4 sm:mb-8">
         <div>
-            <h1 class="text-xl sm:text-2xl font-bold text-slate-800">Materia</h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1"></p>
+            <h1 id="curso-especifico-titulo" class="text-xl sm:text-2xl font-bold text-slate-800">—</h1>
+            <p id="curso-especifico-subtitulo" class="text-xs sm:text-sm text-slate-500 mt-1">Seleccione un curso</p>
+            <!-- Valor usado por JS para filtrar alumnos por materia (debe coincidir con el título) -->
+            <span id="curso-especifico-materia-activa" class="sr-only" aria-hidden="true"></span>
         </div>
 
         <div class="flex items-center gap-3">
@@ -146,9 +150,11 @@
             <div>
                 <h2 class="text-lg sm:text-xl font-bold text-slate-800">
                     Alumnos Inscriptos
+                    <span id="alumnos-inscriptos-materia" class="text-institucional-600 font-semibold"></span>
                 </h2>
 
-                <p id="total-alumnos-inscriptos" class="text-xs sm:text-sm text-slate-500 mt-1">
+                <p id="total-alumnos-inscriptos" class="text-xs sm:text-sm text-slate-500 mt-1"
+                    data-materia-filtro="">
                     Total: 0 alumnos
                 </p>
             </div>
@@ -177,7 +183,10 @@
                     </tr>
                 </thead>
 
-                <tbody id="tabla-alumnos-inscriptos" class="divide-y divide-slate-200 text-sm">
+                <tbody id="tabla-alumnos-inscriptos" class="divide-y divide-slate-200 text-sm"
+                    data-cargado-por="js"
+                    data-filtro-campo="materia">
+                    <!-- Las filas las genera curso_especifico.js según la materia del título -->
                 </tbody>
 
             </table>
@@ -196,4 +205,23 @@
         </div>
 
     </div>
+
+    <!-- Plantilla de fila: clonar desde JS al renderizar alumnos por materia -->
+    <template id="tpl-fila-alumno-inscripto">
+        <tr class="hover:bg-slate-50 transition-colors fila-alumno-inscripto">
+            <td class="px-6 py-4" data-campo="estudiante">
+                <div class="font-medium text-slate-800" data-campo="nombre"></div>
+                <div class="text-xs text-slate-500" data-campo="inscripcion-id"></div>
+            </td>
+            <td class="px-6 py-4 text-slate-600 font-mono text-sm" data-campo="dni"></td>
+            <td class="px-6 py-4 text-slate-600" data-campo="fecha"></td>
+            <td class="px-6 py-4 text-center" data-campo="estado"></td>
+            <td class="px-6 py-4 text-right" data-campo="acciones">
+                <button type="button"
+                    class="text-amber-600 hover:text-amber-800 bg-amber-50 px-2 py-1 rounded text-xs font-medium btn-diploma-alumno">
+                    Diploma
+                </button>
+            </td>
+        </tr>
+    </template>
 </div>

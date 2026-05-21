@@ -1,4 +1,4 @@
-// Mapeo temporal entre nombre del curso (cursos.js) y nombre en inscripciones.js
+// --- Configuración: al conectar API, modificar solo estas funciones de datos ---
 const CURSO_INSCRIPCIONES_ALIASES = {
     "Programación I": "Programación Java Avanzada",
     "Programación II": "Programación Java Avanzada",
@@ -7,15 +7,69 @@ const CURSO_INSCRIPCIONES_ALIASES = {
     "Desarrollo Web Frontend": "Desarrollo Web Frontend"
 };
 
-function nombreCursoParaInscripciones(nombreCurso) {
-    return CURSO_INSCRIPCIONES_ALIASES[nombreCurso] || nombreCurso;
+const MATERIA_POR_NOMBRE_CURSO_INSCRIPCION = {
+    "Programación Java Avanzada": "Programación I",
+    "Bases de Datos con MySQL": "Base de Datos",
+    "Desarrollo Web Frontend": "Desarrollo Web Frontend"
+};
+
+function nombreCursoParaInscripciones(nombreMateria) {
+    return CURSO_INSCRIPCIONES_ALIASES[nombreMateria] || nombreMateria;
+}
+
+function asegurarCampoMateriaEnInscripciones() {
+    if (!window.inscripcionesData) return;
+    window.inscripcionesData.forEach((ins) => {
+        if (!ins.materia) {
+            ins.materia = MATERIA_POR_NOMBRE_CURSO_INSCRIPCION[ins.curso] || ins.curso;
+        }
+    });
+}
+
+/** Materia activa: la que muestra #curso-especifico-titulo (sincronizada con cursoSeleccionado). */
+function getMateriaActual() {
+    const elTitulo = document.getElementById("curso-especifico-titulo");
+    const desdeDom = elTitulo?.textContent?.trim();
+    if (desdeDom && desdeDom !== "—") return desdeDom;
+
+    return window.cursoSeleccionado?.nombre || "";
+}
+
+function setMateriaActivaEnDom(nombreMateria) {
+    const titulo = document.getElementById("curso-especifico-titulo");
+    const materiaOculta = document.getElementById("curso-especifico-materia-activa");
+    const refTabla = document.getElementById("alumnos-inscriptos-materia");
+    const totalLabel = document.getElementById("total-alumnos-inscriptos");
+    const tbody = document.getElementById("tabla-alumnos-inscriptos");
+
+    if (titulo) titulo.textContent = nombreMateria;
+    if (materiaOculta) materiaOculta.textContent = nombreMateria;
+    if (refTabla) refTabla.textContent = nombreMateria ? `— ${nombreMateria}` : "";
+    if (totalLabel) totalLabel.dataset.materiaFiltro = nombreMateria;
+    if (tbody) tbody.dataset.materiaFiltro = nombreMateria;
+}
+
+/**
+ * Alumnos inscriptos en la materia del título.
+ * Reemplazar el cuerpo por fetch/API cuando corresponda.
+ */
+function getAlumnosPorMateria(nombreMateria) {
+    if (!window.inscripcionesData || !nombreMateria) return [];
+
+    asegurarCampoMateriaEnInscripciones();
+
+    const nombreCursoLegacy = nombreCursoParaInscripciones(nombreMateria);
+
+    return window.inscripcionesData.filter(
+        (ins) =>
+            ins.materia === nombreMateria ||
+            ins.curso === nombreMateria ||
+            ins.curso === nombreCursoLegacy
+    );
 }
 
 function getInscripcionesPorCurso(nombreCurso) {
-    if (!window.inscripcionesData || !nombreCurso) return [];
-
-    const nombreFiltro = nombreCursoParaInscripciones(nombreCurso);
-    return window.inscripcionesData.filter((ins) => ins.curso === nombreFiltro);
+    return getAlumnosPorMateria(nombreCurso);
 }
 
 window.currentPageAlumnosCurso = 1;
@@ -28,12 +82,41 @@ function badgeEstadoAlumno(estado) {
     return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Confirmada</span>';
 }
 
+function crearFilaAlumnoDesdePlantilla(ins) {
+    const tpl = document.getElementById("tpl-fila-alumno-inscripto");
+    if (!tpl?.content) return null;
+
+    const fila = tpl.content.cloneNode(true).querySelector("tr");
+    if (!fila) return null;
+
+    const nombreEl = fila.querySelector('[data-campo="nombre"]');
+    const idEl = fila.querySelector('[data-campo="inscripcion-id"]');
+    const dniEl = fila.querySelector('[data-campo="dni"]');
+    const fechaEl = fila.querySelector('[data-campo="fecha"]');
+    const estadoEl = fila.querySelector('[data-campo="estado"]');
+    const btnDiploma = fila.querySelector(".btn-diploma-alumno");
+
+    if (nombreEl) nombreEl.textContent = ins.estudiante;
+    if (idEl) idEl.textContent = `Inscripción #${ins.id}`;
+    if (dniEl) dniEl.textContent = ins.dni;
+    if (fechaEl) fechaEl.textContent = ins.fechaHora;
+    if (estadoEl) estadoEl.innerHTML = badgeEstadoAlumno(ins.estado);
+    if (btnDiploma) {
+        btnDiploma.addEventListener("click", () => {
+            if (typeof imprimirDiplomaIndividual === "function") {
+                imprimirDiplomaIndividual(ins.estudiante, ins.curso);
+            }
+        });
+    }
+
+    return fila;
+}
+
 function actualizarEncabezadoCurso(curso) {
-    const titulo = document.getElementById("curso-especifico-titulo");
     const subtitulo = document.getElementById("curso-especifico-subtitulo");
     const nombreDetalle = document.getElementById("curso-detalle-nombre");
 
-    if (titulo) titulo.textContent = curso.nombre;
+    setMateriaActivaEnDom(curso.nombre);
     if (subtitulo) subtitulo.textContent = `Código: ${curso.codigo || "S/C"} - ${curso.carrera || "Sin carrera"}`;
     if (nombreDetalle) nombreDetalle.textContent = curso.nombre;
 }
@@ -63,13 +146,13 @@ function renderAlumnosInscriptos() {
     const tbody = document.getElementById("tabla-alumnos-inscriptos");
     if (!tbody) return;
 
-    const curso = window.cursoSeleccionado;
-    if (!curso) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No hay curso seleccionado.</td></tr>`;
+    const materia = getMateriaActual();
+    if (!materia) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No hay materia seleccionada.</td></tr>`;
         return;
     }
 
-    const alumnos = getInscripcionesPorCurso(curso.nombre);
+    const alumnos = getAlumnosPorMateria(materia);
     const total = alumnos.length;
     const totalPages = Math.max(1, Math.ceil(total / ROWS_PER_PAGE_ALUMNOS));
 
@@ -83,35 +166,44 @@ function renderAlumnosInscriptos() {
 
     const totalLabel = document.getElementById("total-alumnos-inscriptos");
     if (totalLabel) {
-        totalLabel.textContent = `Total: ${total} alumno${total !== 1 ? "s" : ""}`;
+        totalLabel.textContent = `Total: ${total} alumno${total !== 1 ? "s" : ""} en ${materia}`;
+        totalLabel.dataset.materiaFiltro = materia;
     }
 
-    actualizarEstadisticasCurso(curso, total);
+    if (window.cursoSeleccionado) {
+        actualizarEstadisticasCurso(window.cursoSeleccionado, total);
+    }
+
+    tbody.innerHTML = "";
 
     if (total === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No hay alumnos inscriptos en este curso.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No hay alumnos inscriptos en <strong>${materia}</strong>.</td></tr>`;
     } else {
-        tbody.innerHTML = "";
         pagina.forEach((ins) => {
-            const fila = document.createElement("tr");
-            fila.className = "hover:bg-slate-50 transition-colors";
-            fila.innerHTML = `
-                <td class="px-6 py-4">
-                    <div class="font-medium text-slate-800">${ins.estudiante}</div>
-                    <div class="text-xs text-slate-500">Inscripción #${ins.id}</div>
-                </td>
-                <td class="px-6 py-4 text-slate-600 font-mono text-sm">${ins.dni}</td>
-                <td class="px-6 py-4 text-slate-600">${ins.fechaHora}</td>
-                <td class="px-6 py-4 text-center">${badgeEstadoAlumno(ins.estado)}</td>
-                <td class="px-6 py-4 text-right">
-                    <button type="button"
-                        class="text-amber-600 hover:text-amber-800 bg-amber-50 px-2 py-1 rounded text-xs font-medium"
-                        onclick="imprimirDiplomaIndividual('${ins.estudiante.replace(/'/g, "\\'")}', '${ins.curso.replace(/'/g, "\\'")}')">
-                        Diploma
-                    </button>
-                </td>
-            `;
-            tbody.appendChild(fila);
+            const fila = crearFilaAlumnoDesdePlantilla(ins);
+            if (fila) {
+                tbody.appendChild(fila);
+            } else {
+                const fallback = document.createElement("tr");
+                fallback.className = "hover:bg-slate-50 transition-colors";
+                fallback.innerHTML = `
+                    <td class="px-6 py-4">
+                        <div class="font-medium text-slate-800">${ins.estudiante}</div>
+                        <div class="text-xs text-slate-500">Inscripción #${ins.id}</div>
+                    </td>
+                    <td class="px-6 py-4 text-slate-600 font-mono text-sm">${ins.dni}</td>
+                    <td class="px-6 py-4 text-slate-600">${ins.fechaHora}</td>
+                    <td class="px-6 py-4 text-center">${badgeEstadoAlumno(ins.estado)}</td>
+                    <td class="px-6 py-4 text-right">
+                        <button type="button"
+                            class="text-amber-600 hover:text-amber-800 bg-amber-50 px-2 py-1 rounded text-xs font-medium"
+                            onclick="imprimirDiplomaIndividual('${ins.estudiante.replace(/'/g, "\\'")}', '${ins.curso.replace(/'/g, "\\'")}')">
+                            Diploma
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(fallback);
+            }
         });
     }
 
@@ -128,10 +220,10 @@ function renderAlumnosInscriptos() {
 }
 
 function cambiarPaginaAlumnos(direction) {
-    const curso = window.cursoSeleccionado;
-    if (!curso) return;
+    const materia = getMateriaActual();
+    if (!materia) return;
 
-    const total = getInscripcionesPorCurso(curso.nombre).length;
+    const total = getAlumnosPorMateria(materia).length;
     const totalPages = Math.max(1, Math.ceil(total / ROWS_PER_PAGE_ALUMNOS));
     const nueva = window.currentPageAlumnosCurso + direction;
 
@@ -149,6 +241,8 @@ function verCursoEspecifico(index) {
 }
 
 function initCursoEspecifico() {
+    asegurarCampoMateriaEnInscripciones();
+
     if (!window.cursoSeleccionado && window.cursosData?.length) {
         window.cursoSeleccionado = window.cursosData[0];
     }
@@ -179,5 +273,8 @@ function initCursoEspecifico() {
 
 window.verCursoEspecifico = verCursoEspecifico;
 window.initCursoEspecifico = initCursoEspecifico;
+window.getMateriaActual = getMateriaActual;
+window.getAlumnosPorMateria = getAlumnosPorMateria;
 window.getInscripcionesPorCurso = getInscripcionesPorCurso;
 window.cambiarPaginaAlumnos = cambiarPaginaAlumnos;
+window.renderAlumnosInscriptos = renderAlumnosInscriptos;
