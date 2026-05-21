@@ -1,145 +1,253 @@
-
-
-const cursos = [
-    {
-        nombre: "Programación 1",
-        descripcion: "Introducción a la programación y algoritmos básicos.",
-        horas: 60,
-        cupos: 30
-    },
-    {
-        nombre: "Base de Datos",
-        descripcion: "Modelado relacional y sentencias SQL.",
-        horas: 40,
-        cupos: 25
-    },
-    {
-        nombre: "Desarrollo Web",
-        descripcion: "Maquetado avanzado con HTML, CSS y JavaScript.",
-        horas: 50,
-        cupos: 35
-    }
+// Datos mockeados globalmente para la vista
+window.cursosData = window.cursosData || [
+    { nombre: "Programación I", descripcion: "Introducción a la programación algorítmica.", fecha_inicio: "2026-03-01", cantidad_horas: 120, inscriptos_max: 40, ocupados: 35, estado: "Activo" },
+    { nombre: "Base de Datos", descripcion: "Bases de datos relacionales y SQL.", fecha_inicio: "2026-03-01", cantidad_horas: 90, inscriptos_max: 30, ocupados: 28, estado: "Activo" },
+    { nombre: "Sistemas Operativos", descripcion: "Teoría y práctica de S.O.", fecha_inicio: "2026-03-15", cantidad_horas: 80, inscriptos_max: 30, ocupados: 15, estado: "Activo" },
+    { nombre: "Matemática Discreta", descripcion: "Lógica matemática y grafos.", fecha_inicio: "2026-03-10", cantidad_horas: 100, inscriptos_max: 40, ocupados: 40, estado: "Lleno" },
+    { nombre: "Redes y Comunicaciones", descripcion: "Protocolos y topologías de red.", fecha_inicio: "2026-04-01", cantidad_horas: 80, inscriptos_max: 25, ocupados: 20, estado: "Activo" },
+    { nombre: "Desarrollo Web Frontend", descripcion: "HTML, CSS y JS moderno.", fecha_inicio: "2026-04-10", cantidad_horas: 60, inscriptos_max: 35, ocupados: 30, estado: "Activo" },
+    { nombre: "Desarrollo Web Backend", descripcion: "APIs y servicios web.", fecha_inicio: "2026-04-15", cantidad_horas: 60, inscriptos_max: 30, ocupados: 25, estado: "Activo" },
+    { nombre: "Ingeniería de Software", descripcion: "Patrones y metodologías ágiles.", fecha_inicio: "2026-05-01", cantidad_horas: 110, inscriptos_max: 40, ocupados: 10, estado: "Activo" },
+    { nombre: "Programación II", descripcion: "Programación Orientada a Objetos.", fecha_inicio: "2026-08-01", cantidad_horas: 120, inscriptos_max: 40, ocupados: 0, estado: "Pausado" },
+    { nombre: "Bases de Datos Avanzadas", descripcion: "NoSQL y optimización.", fecha_inicio: "2026-08-15", cantidad_horas: 80, inscriptos_max: 20, ocupados: 0, estado: "Pausado" },
+    { nombre: "Seguridad Informática", descripcion: "Criptografía y redes seguras.", fecha_inicio: "2026-09-01", cantidad_horas: 60, inscriptos_max: 25, ocupados: 0, estado: "Activo" },
+    { nombre: "Algoritmos y Estructuras", descripcion: "Estructuras de datos complejas.", fecha_inicio: "2026-08-10", cantidad_horas: 120, inscriptos_max: 45, ocupados: 0, estado: "Pausado" }
 ];
 
+window.currentPageCursos = 1;
+
+function renderCursos() {
+    const tabla = document.getElementById("tablaCursos");
+    if (!tabla) return;
+
+    // Calcular items por página basado en el tamaño de la ventana
+    const isMobile = window.innerWidth < 640;
+    const itemsPerPage = isMobile ? 3 : 10;
+    
+    const totalItems = window.cursosData.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    // Asegurarse de que la página actual sea válida al cambiar de tamaño
+    if (window.currentPageCursos > totalPages) {
+        window.currentPageCursos = totalPages || 1;
+    }
+
+    const startIndex = (window.currentPageCursos - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+    
+    const cursosPaginados = window.cursosData.slice(startIndex, endIndex);
+
+    tabla.innerHTML = "";
+
+    cursosPaginados.forEach((curso, index) => {
+        let colorEstado;
+        if (curso.estado === "Lleno") colorEstado = "bg-red-100 text-red-700";
+        else if (curso.estado === "Pausado") colorEstado = "bg-yellow-100 text-yellow-800";
+        else if (curso.estado === "Finalizado") colorEstado = "bg-slate-100 text-slate-700";
+        else colorEstado = "bg-emerald-100 text-emerald-700";
+
+        const fila = document.createElement("tr");
+        const realIndex = startIndex + index;
+        fila.className = "hover:bg-slate-50 transition-colors";
+
+        // Formatear la fecha para que se vea linda
+        let fechaMostrada = "N/A";
+        if (curso.fecha_inicio) {
+            const dateObj = new Date(curso.fecha_inicio);
+            if (!isNaN(dateObj)) {
+                fechaMostrada = dateObj.toLocaleDateString();
+            }
+        }
+
+        fila.innerHTML = `
+            <td data-label="Nombre" class="px-6 py-4 font-medium text-slate-800">
+                ${curso.nombre}
+                <div class="text-xs text-slate-500 font-normal hidden md:block mt-1 truncate max-w-[200px]" title="${curso.descripcion || ''}">${curso.descripcion || ''}</div>
+            </td>
+            <td data-label="Fecha Inicio" class="px-6 py-4 text-slate-600">${fechaMostrada}</td>
+            <td data-label="Horas" class="px-6 py-4 text-slate-600">${curso.cantidad_horas} h</td>
+            <td data-label="Inscriptos Máx" class="px-6 py-4 text-slate-600">${curso.inscriptos_max}</td>
+            <td data-label="Estado" class="px-6 py-4 text-center">
+                <span class="px-3 py-1 rounded-full text-xs font-medium ${colorEstado}">${curso.estado}</span>
+            </td>
+            <td data-label="Acciones" class="px-6 py-4 text-right">
+                <div class="flex justify-end gap-3">
+                    <button onclick="verCursoEspecifico(${realIndex})" class="text-blue-600 hover:text-blue-800" title="Ver detalles">👁</button>
+                    <button onclick="editarCurso(${realIndex})" class="text-amber-600 hover:text-amber-800" title="Editar"> ✏ </button>
+                    <button onclick="eliminarCurso(${realIndex})" class="text-red-600 hover:text-red-800" title="Eliminar"> 🗑 </button>
+                </div>
+            </td>
+        `;
+        tabla.appendChild(fila);
+    });
+
+    // Actualizar controles de paginación
+    const btnPrev = document.getElementById("btnPrevPage");
+    const btnNext = document.getElementById("btnNextPage");
+    const info = document.getElementById("paginacionInfo");
+    const totalTexto = document.getElementById("totalCursosTexto");
+
+    if (totalTexto) {
+        totalTexto.textContent = `Mostrando ${totalItems} cursos`;
+    }
+
+    if (btnPrev && btnNext && info) {
+        btnPrev.disabled = window.currentPageCursos === 1;
+        btnNext.disabled = window.currentPageCursos >= totalPages;
+        
+        info.innerHTML = `Mostrando <span class="font-medium text-slate-700">${totalItems === 0 ? 0 : startIndex + 1}</span> a <span class="font-medium text-slate-700">${endIndex}</span> de <span class="font-medium text-slate-700">${totalItems}</span> cursos`;
+    }
+}
+
+function cambiarPaginaCursos(direction) {
+    window.currentPageCursos += direction;
+    renderCursos();
+}
+
+// Configurar listener de resize (solo una vez)
+if (!window.cursosResizeListenerAdded) {
+    window.addEventListener('resize', () => {
+        // Solo re-renderizar si la tabla está en el DOM
+        if (document.getElementById("tablaCursos")) {
+            renderCursos();
+        }
+    });
+    window.cursosResizeListenerAdded = true;
+}
 
 function initCursos() {
-    const contenedor = document.getElementById("cursosContainer");
+    window.currentPageCursos = 1; // Reiniciar a la primera página al cargar la vista
+    window.editandoCursoIndex = null;
+    renderCursos();
+}
+
+function toggleCursoModal() {
+    const modal = document.getElementById("cursoModal");
+    if (!modal) return;
+    modal.classList.toggle("hidden");
+    modal.classList.toggle("flex");
+    document.body.classList.toggle("overflow-hidden");
+}
+
+function crearCurso() {
+    const nombre = document.getElementById('nombreCurso').value.trim();
+    const estadoSelect = document.getElementById('estadoCurso');
+    const estadoTexto = estadoSelect.options[estadoSelect.selectedIndex].text;
+    const descripcion = document.getElementById('descripcionCurso').value.trim();
+    const fechaInicio = document.getElementById('fechaInicioCurso').value;
+    const cantidadHoras = parseInt(document.getElementById('cantidadHorasCurso').value);
+    const inscriptosMax = parseInt(document.getElementById('inscriptosMaximosCurso').value);
     
+    // Validaciones básicas
+    if (!nombre) {
+        alert('Por favor, ingrese el Nombre del Curso.');
+        return;
+    }
     
-    if (!contenedor) return;
-
-    contenedor.innerHTML = "";
-
-    cursos.forEach((curso, index) => {
-        const card = document.createElement("div");
-
-        
-        card.className = `
-            bg-white border border-slate-200
-            rounded-2xl shadow-sm
-            p-6 flex flex-col gap-4
-            hover:shadow-lg hover:-translate-y-1 hover:border-institucional-300
-            transition-all duration-300
-        `;
-
-            card.innerHTML = `
-                <div class="flex flex-col gap-2 flex-grow">
-
-                    <!-- Icono -->
-                    <div class="w-12 h-12 bg-institucional-50 text-institucional-600 rounded-xl flex items-center justify-center mb-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
-                            </path>
-                        </svg>
-                    </div>
-
-                    <!-- Nombre -->
-                    <h2 class="text-xl font-bold text-slate-800 leading-tight">
-                        ${curso.nombre}
-                    </h2>
-
-                    <!-- Descripción -->
-                    <p class="text-sm text-slate-500">
-                        ${curso.descripcion}
-                    </p>
-
-                    <!-- Info -->
-                    <div class="flex justify-between items-center text-sm font-medium text-slate-500 mt-auto pt-4 border-t border-slate-100">
-
-                        <span class="flex items-center gap-1">
-                            ⏱ ${curso.horas} hs
-                        </span>
-
-                        <span class="flex items-center gap-1">
-                            👥 ${curso.cupos} cupos
-                        </span>
-
-                    </div>
-                </div>
-
-                <!-- Botones -->
-                <div class="flex gap-2 mt-2">
-
-                    <button 
-                        class="flex-1 bg-institucional-600 text-white py-2.5 rounded-xl font-medium
-                        hover:bg-institucional-700 transition-all duration-200 shadow-sm active:scale-95"
-                        data-index="${index}">
-                        Gestionar
-                    </button>
-
-                    <button 
-                        class="flex-1 bg-red-500 text-white py-2.5 rounded-xl font-medium
-                        hover:bg-red-600 transition-all duration-200 shadow-sm active:scale-95"
-                        data-delete="${index}">
-                        Eliminar
-                    </button>
-
-                </div>
-            `;
-
-            contenedor.appendChild(card);
-        });
-
-        
-        document.querySelectorAll("button[data-index]").forEach(btn => {
-
-            btn.addEventListener("click", () => {
-
-                const i = btn.getAttribute("data-index");
-                
-                alert(`Gestionando curso: ${cursos[i].nombre}`);
-
-            });
-
-        });
-
-        
-        document.querySelectorAll("button[data-delete]").forEach(btn => {
-
-            btn.addEventListener("click", () => {
-
-                const i = btn.getAttribute("data-delete");
-
-                const confirmar = confirm(`¿Eliminar ${cursos[i].nombre}?`);
-
-                if (confirmar) {
-
-                    cursos.splice(i, 1);
-
-                    renderCursos();
-
-                }
-
-            });
-
-        });
-
+    if (isNaN(cantidadHoras) || cantidadHoras <= 0) {
+        alert('Por favor, ingrese una cantidad de horas válida.');
+        return;
     }
 
-    
-    function renderCursos() {
-        initCursos();
+    if (isNaN(inscriptosMax) || inscriptosMax <= 0) {
+        alert('Por favor, ingrese un número máximo de inscriptos válido.');
+        return;
     }
 
-renderCursos();
+    // Si estamos editando
+    if (window.editandoCursoIndex !== null) {
+
+        window.cursosData[window.editandoCursoIndex] = {
+            ...window.cursosData[window.editandoCursoIndex],
+            nombre: nombre,
+            descripcion: descripcion,
+            fecha_inicio: fechaInicio,
+            cantidad_horas: cantidadHoras,
+            inscriptos_max: inscriptosMax,
+            estado: estadoTexto
+        };
+
+        window.editandoCursoIndex = null;
+
+        // Restaurar botón
+        const botonCrear = document.querySelector('.bg-institucional-600');
+        botonCrear.textContent = "Crear Curso";
+
+        toggleCursoModal();
+        renderCursos();
+
+        return;
+    }
+    const nuevoCurso = {
+        nombre: nombre,
+        descripcion: descripcion,
+        fecha_inicio: fechaInicio,
+        cantidad_horas: cantidadHoras,
+        inscriptos_max: inscriptosMax,
+        ocupados: 0,
+        estado: estadoTexto
+    };
+
+    // Agregar al inicio del array para verlo primero
+    window.cursosData.unshift(nuevoCurso);
+
+    // Limpiar formulario
+    document.getElementById('nombreCurso').value = '';
+    document.getElementById('estadoCurso').value = '1';
+    document.getElementById('descripcionCurso').value = '';
+    document.getElementById('fechaInicioCurso').value = '';
+    document.getElementById('cantidadHorasCurso').value = '';
+    document.getElementById('inscriptosMaximosCurso').value = '';
+
+    // Cerrar modal y re-renderizar
+    toggleCursoModal();
+    window.currentPageCursos = 1; // Volver a la página 1 para ver el nuevo curso
+    renderCursos();
+}
+
+function eliminarCurso(index) {
+
+    const confirmar = confirm('¿Está seguro de que desea eliminar este curso?');
+
+    if (!confirmar) return;
+
+    window.cursosData[index].estado = "Eliminado";
+
+    renderCursos();
+}
+
+function editarCurso(index) {
+
+    const curso = window.cursosData[index];
+
+    // Guardamos el índice del curso editado
+    window.editandoCursoIndex = index;
+
+    // Cargar datos en el modal
+    document.getElementById('nombreCurso').value = curso.nombre;
+    document.getElementById('descripcionCurso').value = curso.descripcion;
+    document.getElementById('fechaInicioCurso').value = curso.fecha_inicio;
+    document.getElementById('cantidadHorasCurso').value = curso.cantidad_horas;
+    document.getElementById('inscriptosMaximosCurso').value = curso.inscriptos_max;
+
+    // Seleccionar estado
+    const estadoSelect = document.getElementById('estadoCurso');
+
+    if (curso.estado === "Activo") estadoSelect.value = "1";
+    else if (curso.estado === "Pausado") estadoSelect.value = "2";
+    else if (curso.estado === "Finalizado") estadoSelect.value = "3";
+
+    // Cambiar texto del botón
+    const botonCrear = document.querySelector('.bg-institucional-600');
+
+    botonCrear.textContent = "Cursos";
+
+    // Abrir modal
+    toggleCursoModal();
+}
+
+window.toggleCursoModal = toggleCursoModal;
+window.cambiarPaginaCursos = cambiarPaginaCursos;
+window.crearCurso = crearCurso;
+window.eliminarCurso = eliminarCurso;
+window.editarCurso = editarCurso;

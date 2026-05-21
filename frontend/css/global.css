@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap');
 
 
@@ -25,6 +24,7 @@ html {
 
 
 button {
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -42,4 +42,62 @@ button {
 button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+
+/* ============================================
+   Tabla responsive: en pantallas chicas (<640px)
+   cada fila se convierte en una "tarjeta" (card).
+   Usa el atributo data-label en cada <td> para
+   mostrar el nombre de la columna como etiqueta.
+   ============================================ */
+@media (max-width: 639px) {
+
+    /* Ocultamos el encabezado de la tabla */
+    .responsive-table thead {
+        display: none;
+    }
+
+    /* La tabla y el tbody pasan a ser bloques normales */
+    .responsive-table,
+    .responsive-table tbody {
+        display: block;
+        width: 100%;
+    }
+
+    /* Cada fila (<tr>) se convierte en una tarjeta */
+    .responsive-table tbody tr {
+        display: block;
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid #e2e8f0;
+        /* slate-200 */
+    }
+
+    /* Cada celda (<td>) se muestra como una fila horizontal */
+    .responsive-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.4rem 0;
+        border: none;
+        text-align: right;
+    }
+
+    /* Mostramos la etiqueta de la columna con ::before */
+    .responsive-table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #475569;
+        /* slate-600 */
+        text-align: left;
+        margin-right: 1rem;
+        flex-shrink: 0;
+        font-size: 0.8rem;
+    }
+}
+
+/* Padding inferior seguro para dispositivos con notch */
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
 }
