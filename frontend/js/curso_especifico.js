@@ -269,6 +269,67 @@ function initCursoEspecifico() {
 
         window.cursoEspecificoListenersAdded = true;
     }
+
+    initModalEditarCurso();
+}
+
+function initModalEditarCurso() {
+    const btnEditar = document.getElementById("btn-editar-curso");
+    const modalEditar = document.getElementById("modal-editar-curso");
+    const btnCerrar = document.getElementById("btn-cerrar-modal-editar");
+    const btnCancelar = document.getElementById("btn-cancelar-editar");
+    const formEditar = document.getElementById("form-editar-curso");
+
+    if (!btnEditar || !modalEditar || btnEditar.dataset.modalInit) return;
+    
+    btnEditar.dataset.modalInit = "true";
+
+    function abrirModal() {
+        if (window.cursoSeleccionado) {
+            document.getElementById("edit-fecha-inicio").value = window.cursoSeleccionado.fecha_inicio || "";
+            document.getElementById("edit-horas").value = window.cursoSeleccionado.horas || "";
+            document.getElementById("edit-inscriptos-max").value = window.cursoSeleccionado.inscriptos_max || "";
+            document.getElementById("edit-estado").value = window.cursoSeleccionado.estado || "activo";
+        }
+        modalEditar.classList.remove("hidden");
+        modalEditar.classList.add("flex");
+    }
+
+    function cerrarModal() {
+        modalEditar.classList.add("hidden");
+        modalEditar.classList.remove("flex");
+    }
+
+    btnEditar.addEventListener("click", abrirModal);
+    if (btnCerrar) btnCerrar.addEventListener("click", cerrarModal);
+    if (btnCancelar) btnCancelar.addEventListener("click", cerrarModal);
+
+    modalEditar.addEventListener("click", (e) => {
+        if (e.target === modalEditar) cerrarModal();
+    });
+
+    if (formEditar) {
+        formEditar.addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            if (window.cursoSeleccionado) {
+                window.cursoSeleccionado.fecha_inicio = document.getElementById("edit-fecha-inicio").value;
+                window.cursoSeleccionado.horas = parseInt(document.getElementById("edit-horas").value) || 0;
+                window.cursoSeleccionado.inscriptos_max = parseInt(document.getElementById("edit-inscriptos-max").value) || 0;
+                window.cursoSeleccionado.estado = document.getElementById("edit-estado").value;
+                
+                actualizarEstadisticasCurso(window.cursoSeleccionado, getAlumnosPorMateria(getMateriaActual()).length);
+            }
+            
+            cerrarModal();
+            
+            if (typeof mostrarNotificacion === "function") {
+                mostrarNotificacion("Curso actualizado correctamente", "success");
+            } else {
+                alert("Cambios guardados con éxito.");
+            }
+        });
+    }
 }
 
 window.verCursoEspecifico = verCursoEspecifico;
