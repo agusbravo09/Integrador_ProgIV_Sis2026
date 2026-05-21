@@ -16,7 +16,10 @@ window.inscripcionesData = window.inscripcionesData || [
     { id: 1056, fechaHora: "17/05/2026 10:30", estudiante: "Castro, Joaquin", dni: "48.222.333", curso: "Programación Java Avanzada", estado: "Confirmada" },
     { id: 1057, fechaHora: "18/05/2026 08:45", estudiante: "Molina, Agustina", dni: "49.333.444", curso: "Desarrollo Web Frontend", estado: "Confirmada" },
     { id: 1058, fechaHora: "19/05/2026 11:20", estudiante: "Herrera, Tomas", dni: "50.444.555", curso: "Bases de Datos con MySQL", estado: "Pendiente" },
-    { id: 1059, fechaHora: "20/05/2026 09:00", estudiante: "Vega, Luciana", dni: "51.555.666", curso: "Programación Java Avanzada", estado: "Confirmada" }
+    { id: 1059, fechaHora: "20/05/2026 09:00", estudiante: "Vega, Luciana", dni: "51.555.666", curso: "Programación Java Avanzada", estado: "Confirmada" },
+    { id: 1060, fechaHora: "01/06/2026 10:00", estudiante: "Acosta, Brenda", dni: "52.111.222", curso: "Matemática Discreta", materia: "Matemática Discreta", estado: "Confirmada" },
+    { id: 1061, fechaHora: "01/06/2026 11:30", estudiante: "Ponce, Federico", dni: "53.222.333", curso: "Matemática Discreta", materia: "Matemática Discreta", estado: "Confirmada" },
+    { id: 1062, fechaHora: "02/06/2026 09:15", estudiante: "Ibarra, Camila", dni: "54.333.444", curso: "Matemática Discreta", materia: "Matemática Discreta", estado: "Confirmada" }
 ];
 
 window.currentPageInscripciones = 1;
@@ -86,6 +89,18 @@ function renderInscripciones() {
 }
 
 function imprimirDiplomaIndividual(estudiante, curso) {
+    const ins =
+        window.inscripcionesData?.find(
+            (i) =>
+                i.estudiante === estudiante &&
+                (i.curso === curso || i.materia === curso)
+        ) || { estudiante, curso, dni: "—", id: "—", fechaHora: "—", estado: "Confirmada" };
+
+    if (typeof window.emitirDiplomaAlumno === "function") {
+        window.emitirDiplomaAlumno(ins);
+        return;
+    }
+
     alert(`Generando diploma para:\n\n${estudiante}\nCurso: ${curso}`);
 }
 

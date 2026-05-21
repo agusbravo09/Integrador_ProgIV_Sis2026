@@ -3,7 +3,7 @@ window.cursosData = window.cursosData || [
     { nombre: "Programación I", descripcion: "Introducción a la programación algorítmica.", fecha_inicio: "2026-03-01", cantidad_horas: 120, inscriptos_max: 40, ocupados: 35, estado: "Activo" },
     { nombre: "Base de Datos", descripcion: "Bases de datos relacionales y SQL.", fecha_inicio: "2026-03-01", cantidad_horas: 90, inscriptos_max: 30, ocupados: 28, estado: "Activo" },
     { nombre: "Sistemas Operativos", descripcion: "Teoría y práctica de S.O.", fecha_inicio: "2026-03-15", cantidad_horas: 80, inscriptos_max: 30, ocupados: 15, estado: "Activo" },
-    { nombre: "Matemática Discreta", descripcion: "Lógica matemática y grafos.", fecha_inicio: "2026-03-10", cantidad_horas: 100, inscriptos_max: 40, ocupados: 40, estado: "Lleno" },
+    { nombre: "Matemática Discreta", descripcion: "Lógica matemática y grafos.", fecha_inicio: "2026-03-10", cantidad_horas: 100, inscriptos_max: 40, ocupados: 40, estado: "Finalizado" },
     { nombre: "Redes y Comunicaciones", descripcion: "Protocolos y topologías de red.", fecha_inicio: "2026-04-01", cantidad_horas: 80, inscriptos_max: 25, ocupados: 20, estado: "Activo" },
     { nombre: "Desarrollo Web Frontend", descripcion: "HTML, CSS y JS moderno.", fecha_inicio: "2026-04-10", cantidad_horas: 60, inscriptos_max: 35, ocupados: 30, estado: "Activo" },
     { nombre: "Desarrollo Web Backend", descripcion: "APIs y servicios web.", fecha_inicio: "2026-04-15", cantidad_horas: 60, inscriptos_max: 30, ocupados: 25, estado: "Activo" },
