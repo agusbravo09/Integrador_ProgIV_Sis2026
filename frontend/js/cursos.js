@@ -72,7 +72,7 @@ function renderCursos() {
             </td>
             <td data-label="Acciones" class="px-6 py-4 text-right">
                 <div class="flex justify-end gap-3">
-                    <button onclick="cambiarVista('curso_especifico')" class="text-blue-600 hover:text-blue-800" title="Ver detalles">👁</button>
+                    <button onclick="verCursoEspecifico(${realIndex})" class="text-blue-600 hover:text-blue-800" title="Ver detalles">👁</button>
                     <button onclick="editarCurso(${realIndex})" class="text-amber-600 hover:text-amber-800" title="Editar"> ✏ </button>
                     <button onclick="eliminarCurso(${realIndex})" class="text-red-600 hover:text-red-800" title="Eliminar"> 🗑 </button>
                 </div>
