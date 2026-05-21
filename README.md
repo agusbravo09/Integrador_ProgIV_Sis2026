@@ -60,27 +60,11 @@ La API cuenta con 4 entidades principales, todas respetan las normas BREAD (Brow
 ### Requisitos
 *   Node.js instalado localmente.
 *   Docker y Docker Compose (para levantar la base de datos PostgreSQL).
+*   Python instalado (para levantar el servidor local del frontend).
 
-### Pasos
-1.  **Levantar Base de Datos:**
-    En la raíz del proyecto ejecutar:
-    ```bash
-    docker-compose up -d
-    ```
-    *(La base de datos se inicializa automáticamente con el script `init.sql` aportando estructura y datos semilla).*
-2.  **Instalar Dependencias:**
-    Entrar al directorio backend:
-    ```bash
-    cd backend
-    npm install
-    ```
-3.  **Configurar Variables de Entorno:**
-    Renombrar o crear un archivo `.env` en la carpeta `backend` con las credenciales correspondientes a tu Docker de PostgreSQL.
-4.  **Iniciar el Servidor:**
-    ```bash
-    npm run dev
-    ```
-    La API estará corriendo en `http://localhost:3000`.
+### Pasos de Instalación y Ejecución
 
-### Pruebas de Endpoints (Bruno)
-El proyecto incluye una carpeta `bruno_collection` la cual puedes importar en tu cliente REST [Bruno](https://www.usebruno.com/). Contiene las requests preconfiguradas con ejemplos en formato JSON para todas las entidades listas para hacer consultas a tu servidor local.
+**1. Levantar Base de Datos:**
+En la raíz del proyecto ejecutar:
+```bash
+docker-compose up -d
