@@ -1,35 +1,51 @@
-
-
 <div class="animate-fade-in flex flex-col h-full">
 
-    
-    <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center rounded-2xl mb-8 border border-slate-200">
-        <h1 class="text-2xl font-bold text-slate-800">Gestión de Estudiantes</h1>
-        
-        <button onclick="toggleModal('estudianteModal', 'Nuevo Estudiante')" class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+
+    <!-- Header principal: en móvil se apila verticalmente, en desktop queda en fila -->
+    <header
+        class="bg-white shadow-sm px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-start sm:items-center rounded-2xl mb-4 sm:mb-8 border border-slate-200">
+        <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-800">Gestión de Estudiantes</h1>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Administración del padrón de estudiantes</p>
+        </div>
+
+        <button onclick="toggleModal('estudianteModal', 'Nuevo Estudiante')"
+            class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-medium flex items-center shadow-sm transition-colors w-full sm:w-auto justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                </path>
+            </svg>
             Nuevo Estudiante
         </button>
     </header>
 
-    
+
     <div class="flex-1 pb-8">
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-            
-            
-            <div class="p-4 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row gap-4 justify-between items-center">
-                <div class="flex flex-1 gap-4 w-full md:w-auto">
-                    <div class="relative flex-1 max-w-md">
+
+
+            <!-- Filtros: se apilan en móvil -->
+            <div
+                class="p-4 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between items-stretch sm:items-center">
+                <div class="flex flex-col sm:flex-row flex-1 gap-3 sm:gap-4">
+                    <div class="relative flex-1 sm:max-w-md">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+                            <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                    clip-rule="evenodd" />
+                            </svg>
                         </div>
-                        <input type="text" placeholder="Buscar por Apellido o Nombre..." class="pl-10 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                        <input type="text" placeholder="Buscar por Apellido o Nombre..."
+                            class="pl-10 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
                     </div>
-                    <input type="text" placeholder="Documento" class="w-32 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                    <input type="text" placeholder="Documento"
+                        class="w-full sm:w-32 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
                 </div>
                 <div class="flex items-center space-x-2">
                     <span class="text-sm text-slate-500">Mostrar:</span>
-                    <select title="Cantidad de registros por página" class="rounded-lg border border-slate-300 px-2 py-1 text-sm focus:ring-institucional-500 focus:border-institucional-500 bg-white">
+                    <select title="Cantidad de registros por página"
+                        class="rounded-lg border border-slate-300 px-2 py-1 text-sm focus:ring-institucional-500 focus:border-institucional-500 bg-white">
                         <option>10</option>
                         <option>25</option>
                         <option>50</option>
@@ -37,11 +53,13 @@
                 </div>
             </div>
 
-            
+
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <!-- Tabla responsive -->
+                <table class="responsive-table w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                        <tr
+                            class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
                             <th class="px-6 py-3 font-medium">Documento</th>
                             <th class="px-6 py-3 font-medium">Estudiante</th>
                             <th class="px-6 py-3 font-medium">Email</th>
@@ -50,27 +68,38 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 text-sm">
-                        
+
                         <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-6 py-4 text-slate-600">35.123.456</td>
-                            <td class="px-6 py-4">
+                            <td data-label="Documento" class="px-6 py-4 text-slate-600">35.123.456</td>
+                            <td data-label="Estudiante" class="px-6 py-4">
                                 <div class="font-medium text-slate-800">Perez, Juan Ignacio</div>
                                 <div class="text-xs text-slate-500">Nac: 15/04/1990</div>
                             </td>
-                            <td class="px-6 py-4 text-slate-600">jperez@alumno.uner.edu.ar</td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                            <td data-label="Email" class="px-6 py-4 text-slate-600">jperez@alumno.uner.edu.ar</td>
+                            <td data-label="Estado" class="px-6 py-4 text-center">
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                                     Activo
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-right space-x-2">
-                                
-                                <button onclick="toggleModal('estudianteModal', 'Editar Estudiante')" class="text-institucional-600 hover:text-institucional-900" title="Editar">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            <td data-label="Acciones" class="px-6 py-4 text-right space-x-2">
+
+                                <button onclick="toggleModal('estudianteModal', 'Editar Estudiante')"
+                                    class="text-institucional-600 hover:text-institucional-900" title="Editar">
+                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                        </path>
+                                    </svg>
                                 </button>
-                                
-                                <button onclick="confirmarEliminar()" class="text-red-600 hover:text-red-900" title="Dar de baja">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+
+                                <button onclick="confirmarEliminar()" class="text-red-600 hover:text-red-900"
+                                    title="Dar de baja">
+                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                        </path>
+                                    </svg>
                                 </button>
                             </td>
                         </tr>
@@ -78,63 +107,89 @@
                 </table>
             </div>
 
-            
-            <div class="px-6 py-4 border-t border-slate-200 bg-white flex items-center justify-between">
+
+            <!-- Paginación -->
+            <div class="px-4 sm:px-6 py-4 border-t border-slate-200 bg-white flex items-center justify-between">
                 <div class="text-sm text-slate-500">
-                    Mostrando <span class="font-medium text-slate-700">1</span> a <span class="font-medium text-slate-700">2</span> de <span class="font-medium text-slate-700">120</span> estudiantes
+                    Mostrando <span class="font-medium text-slate-700">1</span> a
+                    <span class="font-medium text-slate-700">1</span> de
+                    <span class="font-medium text-slate-700">120</span> estudiantes
+                </div>
+                <div class="flex gap-2">
+                    <button class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Anterior</button>
+                    <button class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Siguiente</button>
                 </div>
             </div>
         </div>
     </div>
 
-    
-    <div id="estudianteModal" class="fixed inset-0 bg-slate-900/50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden">
-            
-            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+
+    <!-- Modal: en móvil ocupa toda la pantalla, en desktop se centra con max-width -->
+    <div id="estudianteModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-2 sm:p-6">
+        <div class="bg-white w-full max-w-2xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-none flex flex-col">
+
+            <!-- Header del modal -->
+            <div class="bg-slate-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
                 <h3 id="modalTitle" class="text-lg font-bold text-slate-800">Nuevo Estudiante</h3>
-                <button onclick="toggleModal('estudianteModal')" class="text-slate-400 hover:text-slate-600" aria-label="Cerrar modal">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <button onclick="toggleModal('estudianteModal')" class="text-slate-400 hover:text-slate-600"
+                    aria-label="Cerrar modal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
                 </button>
             </div>
-            
-            <div class="p-6">
+
+            <!-- Cuerpo del modal con scroll en mobile -->
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1">
                 <form id="estudianteForm" class="space-y-4">
                     <input type="hidden" id="id_estudiante">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label for="documento" class="block text-sm font-medium text-slate-700 mb-1">Documento *</label>
-                            <input type="text" id="documento" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                            <label for="documento" class="block text-sm font-medium text-slate-700 mb-1">Documento
+                                *</label>
+                            <input type="text" id="documento" required
+                                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
                         </div>
                         <div>
-                            <label for="fecha_nacimiento" class="block text-sm font-medium text-slate-700 mb-1">Fecha de Nacimiento</label>
-                            <input type="date" id="fecha_nacimiento" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                            <label for="fecha_nacimiento" class="block text-sm font-medium text-slate-700 mb-1">Fecha de
+                                Nacimiento</label>
+                            <input type="date" id="fecha_nacimiento"
+                                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label for="apellido" class="block text-sm font-medium text-slate-700 mb-1">Apellidos *</label>
-                            <input type="text" id="apellido" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                            <label for="apellido" class="block text-sm font-medium text-slate-700 mb-1">Apellidos
+                                *</label>
+                            <input type="text" id="apellido" required
+                                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
                         </div>
                         <div>
                             <label for="nombres" class="block text-sm font-medium text-slate-700 mb-1">Nombres *</label>
-                            <input type="text" id="nombres" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                            <input type="text" id="nombres" required
+                                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
                         </div>
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Correo Electrónico</label>
-                        <input type="email" id="email" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                        <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Correo
+                            Electrónico</label>
+                        <input type="email" id="email"
+                            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
                     </div>
                     <div class="flex items-center mt-4">
-                        <input type="checkbox" id="activo" checked class="h-4 w-4 text-institucional-600 focus:ring-institucional-500 border-slate-300 rounded">
+                        <input type="checkbox" id="activo" checked
+                            class="h-4 w-4 text-institucional-600 focus:ring-institucional-500 border-slate-300 rounded">
                         <label for="activo" class="ml-2 block text-sm text-slate-700">Estudiante Activo</label>
                     </div>
                 </form>
             </div>
-            
-            <div class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end space-x-3">
-                <button type="button" onclick="toggleModal('estudianteModal')" class="bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Cancelar</button>
-                <button type="button" onclick="guardarEstudiante()" class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">Guardar Datos</button>
+
+            <!-- Footer del modal: en mobile los botones se apilan -->
+            <div class="bg-slate-50 px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
+                <button type="button" onclick="toggleModal('estudianteModal')"
+                    class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition text-sm">Cancelar</button>
+                <button type="button" onclick="guardarEstudiante()"
+                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm shadow-sm">Guardar Datos</button>
             </div>
         </div>
     </div>
