@@ -5,11 +5,11 @@ const TABLE_NAME = 'estudiantes';
 const ID_COLUMN = 'id_estudiante';
 
 export const findAll = async () => {
-    return BaseRepo.findActives(TABLE_NAME);
+    return BaseRepo.findAll(TABLE_NAME);
 }
 
 export const getById = async (id) => {
-    return BaseRepo.findActivesById(TABLE_NAME, ID_COLUMN, id);
+    return BaseRepo.findById(TABLE_NAME, ID_COLUMN, id);
 }
 
 export const create = async (estudiante) => {
