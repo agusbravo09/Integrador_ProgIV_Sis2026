@@ -10,7 +10,7 @@ function renderEstudiantes() {
 
     const isMobile = window.innerWidth < 1054; // Mismo breakpoint que la CSS
     const itemsPerPage = isMobile ? 5 : 10;
-    
+
     const totalItems = window.estudiantesData.length;
     const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
 
@@ -20,13 +20,13 @@ function renderEstudiantes() {
 
     const startIndex = (window.currentPageEstudiantes - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-    
+
     const estudiantesPaginados = window.estudiantesData.slice(startIndex, endIndex);
 
     tabla.innerHTML = "";
 
     estudiantesPaginados.forEach((est, index) => {
-        let colorEstado = est.activo ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-800";
+        let colorEstado = est.activo ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800";
         let textoEstado = est.activo ? "Activo" : "Inactivo";
 
         const fila = document.createElement("tr");
@@ -74,7 +74,7 @@ function renderEstudiantes() {
     if (btnPrev && btnNext && info) {
         btnPrev.disabled = window.currentPageEstudiantes === 1;
         btnNext.disabled = window.currentPageEstudiantes >= totalPages;
-        
+
         if (totalItems === 0) {
             info.innerHTML = `Mostrando 0 estudiantes`;
         } else {
@@ -109,7 +109,10 @@ async function initEstudiantes() {
     try {
         const datos = await EstudianteApi.getEstudiantes();
         if (Array.isArray(datos)) {
-            window.estudiantesData = datos;
+            // Ordenamos alfabéticamente por apellido (ignorando mayúsculas/minúsculas)
+            window.estudiantesData = datos.sort((a, b) =>
+                (a.apellido || '').localeCompare(b.apellido || '', undefined, { sensitivity: 'base' })
+            );
         } else {
             window.estudiantesData = [];
         }
@@ -124,10 +127,10 @@ async function initEstudiantes() {
 // Ojo: toggleModal parece existir globalmente para otras vistas, pero lo defino con otro nombre para aislar si es necesario,
 // o uso el global si en main.js ya existe uno (en tu html llamas a `toggleModal`).
 // Vamos a usar uno específico para evitar conflicto si se pisan.
-window.toggleModalEstudiante = function(idModal, titulo = null) {
+window.toggleModalEstudiante = function (idModal, titulo = null) {
     const modal = document.getElementById(idModal);
     if (!modal) return;
-    
+
     if (titulo) {
         const modalTitle = document.getElementById("modalTitle");
         if (modalTitle) modalTitle.textContent = titulo;
@@ -187,6 +190,11 @@ async function guardarEstudiante() {
             }
         }
 
+        // Re-ordenamos alfabéticamente por si se modificó o agregó un apellido
+        window.estudiantesData.sort((a, b) =>
+            (a.apellido || '').localeCompare(b.apellido || '', undefined, { sensitivity: 'base' })
+        );
+
         window.toggleModalEstudiante('estudianteModal');
         renderEstudiantes();
     } catch (e) {
@@ -200,7 +208,7 @@ function editarEstudiante(id) {
     if (!est) return;
 
     window.editandoEstudianteId = id;
-    
+
     document.getElementById("documento").value = est.documento || '';
     if (est.fecha_nacimiento) {
         document.getElementById("fecha_nacimiento").value = est.fecha_nacimiento.split('T')[0];
@@ -220,7 +228,14 @@ async function confirmarEliminar(id) {
 
     try {
         await EstudianteApi.deleteEstudianteApi(id);
-        window.estudiantesData = window.estudiantesData.filter(e => e.id_estudiante !== id);
+        
+        // En lugar de borrarlo del array (filter), lo marcamos como inactivo localmente 
+        // para que se pinte de rojo y siga en la tabla.
+        const idx = window.estudiantesData.findIndex(e => e.id_estudiante === id);
+        if (idx !== -1) {
+            window.estudiantesData[idx].activo = 0;
+        }
+        
         renderEstudiantes();
     } catch (e) {
         alert("Error al eliminar estudiante.");
