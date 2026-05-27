@@ -142,6 +142,13 @@ window.toggleModalEstudiante = function (idModal, titulo = null) {
             document.getElementById("estudianteForm").reset();
             window.editandoEstudianteId = null;
         }
+        
+        // Limpiar mensajes de error
+        const errorFecha = document.getElementById("error_fecha");
+        if (errorFecha) {
+            errorFecha.classList.add("hidden");
+            errorFecha.textContent = "";
+        }
     }
 
     modal.classList.toggle("hidden");
@@ -159,6 +166,26 @@ async function guardarEstudiante() {
 
     if (!documento || !apellido || !nombres) {
         alert("Por favor complete los campos obligatorios (*)");
+        return;
+    }
+
+    // Validación de fecha de nacimiento
+    const errorFecha = document.getElementById("error_fecha");
+    if (errorFecha) errorFecha.classList.add("hidden");
+
+    if (!fecha_nacimiento) {
+        if (errorFecha) {
+            errorFecha.textContent = "Ingrese una fecha válida";
+            errorFecha.classList.remove("hidden");
+        }
+        return;
+    }
+    const dateObj = new Date(fecha_nacimiento);
+    if (isNaN(dateObj.getTime()) || dateObj.getFullYear() < 1900 || dateObj.getFullYear() > new Date().getFullYear()) {
+        if (errorFecha) {
+            errorFecha.textContent = "Ingrese una fecha válida";
+            errorFecha.classList.remove("hidden");
+        }
         return;
     }
 
