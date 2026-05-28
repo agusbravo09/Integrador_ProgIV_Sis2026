@@ -11,8 +11,20 @@ function renderCursos() {
     const isMobile = window.innerWidth < 640;
     const itemsPerPage = isMobile ? 3 : 10;
     
-    const totalItems = window.cursosData.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    // Filtro de búsqueda
+    const terminoBusqueda = document.getElementById("buscadorCursos") ? document.getElementById("buscadorCursos").value.toLowerCase().trim() : "";
+    
+    let datosAFiltrar = window.cursosData;
+    if (terminoBusqueda) {
+        datosAFiltrar = datosAFiltrar.filter(curso => {
+            const nom = (curso.nombre || "").toLowerCase();
+            const desc = (curso.descripcion || "").toLowerCase();
+            return nom.includes(terminoBusqueda) || desc.includes(terminoBusqueda);
+        });
+    }
+
+    const totalItems = datosAFiltrar.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
 
     // Asegurarse de que la página actual sea válida al cambiar de tamaño
     if (window.currentPageCursos > totalPages) {
@@ -22,7 +34,7 @@ function renderCursos() {
     const startIndex = (window.currentPageCursos - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
     
-    const cursosPaginados = window.cursosData.slice(startIndex, endIndex);
+    const cursosPaginados = datosAFiltrar.slice(startIndex, endIndex);
 
     tabla.innerHTML = "";
 
@@ -89,6 +101,11 @@ function renderCursos() {
 
 function cambiarPaginaCursos(direction) {
     window.currentPageCursos += direction;
+    renderCursos();
+}
+
+function filtrarCursos() {
+    window.currentPageCursos = 1;
     renderCursos();
 }
 
@@ -310,6 +327,7 @@ function editarCurso(index) {
 
 window.toggleCursoModal = toggleCursoModal;
 window.cambiarPaginaCursos = cambiarPaginaCursos;
+window.filtrarCursos = filtrarCursos;
 window.crearCurso = crearCurso;
 window.eliminarCurso = eliminarCurso;
 window.editarCurso = editarCurso;
