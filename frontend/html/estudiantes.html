@@ -36,11 +36,9 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </div>
-                        <input type="text" placeholder="Buscar por Apellido o Nombre..."
-                            class="pl-10 w-full rounded-lg border border-slate-300 px-4 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
+                        <input type="text" id="buscadorEstudiantes" oninput="window.filtrarEstudiantes()" placeholder="Buscar por documento, apellido o nombre..."
+                            class="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg focus:ring-institucional-500 focus:border-institucional-500 text-sm">
                     </div>
-                    <input type="text" placeholder="Documento"
-                        class="w-full sm:w-32 rounded-lg border border-slate-300 px-4 py-2 text-sm focus:ring-institucional-500 focus:border-institucional-500">
                 </div>
                 <div class="flex items-center space-x-2">
                     <span class="text-sm text-slate-500">Mostrar:</span>

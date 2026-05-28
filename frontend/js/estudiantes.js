@@ -11,7 +11,20 @@ function renderEstudiantes() {
     const isMobile = window.innerWidth < 1054; // Mismo breakpoint que la CSS
     const itemsPerPage = isMobile ? 5 : 10;
 
-    const totalItems = window.estudiantesData.length;
+    // Filtro de búsqueda
+    const terminoBusqueda = document.getElementById("buscadorEstudiantes") ? document.getElementById("buscadorEstudiantes").value.toLowerCase().trim() : "";
+    
+    let datosAFiltrar = window.estudiantesData;
+    if (terminoBusqueda) {
+        datosAFiltrar = datosAFiltrar.filter(est => {
+            const doc = (est.documento || "").toLowerCase();
+            const nom = (est.nombres || "").toLowerCase();
+            const ape = (est.apellido || "").toLowerCase();
+            return doc.includes(terminoBusqueda) || nom.includes(terminoBusqueda) || ape.includes(terminoBusqueda);
+        });
+    }
+
+    const totalItems = datosAFiltrar.length;
     const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
 
     if (window.currentPageEstudiantes > totalPages) {
@@ -21,7 +34,7 @@ function renderEstudiantes() {
     const startIndex = (window.currentPageEstudiantes - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
-    const estudiantesPaginados = window.estudiantesData.slice(startIndex, endIndex);
+    const estudiantesPaginados = datosAFiltrar.slice(startIndex, endIndex);
 
     tabla.innerHTML = "";
 
@@ -85,6 +98,11 @@ function renderEstudiantes() {
 
 function cambiarPaginaEstudiantes(direction) {
     window.currentPageEstudiantes += direction;
+    renderEstudiantes();
+}
+
+function filtrarEstudiantes() {
+    window.currentPageEstudiantes = 1;
     renderEstudiantes();
 }
 
@@ -285,6 +303,7 @@ async function confirmarEliminar(id) {
 window.initEstudiantes = initEstudiantes;
 window.renderEstudiantes = renderEstudiantes;
 window.cambiarPaginaEstudiantes = cambiarPaginaEstudiantes;
+window.filtrarEstudiantes = filtrarEstudiantes;
 window.guardarEstudiante = guardarEstudiante;
 window.editarEstudiante = editarEstudiante;
 window.confirmarEliminar = confirmarEliminar;
