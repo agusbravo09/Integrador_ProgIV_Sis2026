@@ -149,6 +149,11 @@ window.toggleModalEstudiante = function (idModal, titulo = null) {
             errorFecha.classList.add("hidden");
             errorFecha.textContent = "";
         }
+        const errorGeneral = document.getElementById("error_general");
+        if (errorGeneral) {
+            errorGeneral.classList.add("hidden");
+            errorGeneral.textContent = "";
+        }
     }
 
     modal.classList.toggle("hidden");
@@ -164,8 +169,14 @@ async function guardarEstudiante() {
     const email = document.getElementById("email").value.trim();
     const activo = document.getElementById("activo").checked ? 1 : 0;
 
-    if (!documento || !apellido || !nombres) {
-        alert("Por favor complete los campos obligatorios (*)");
+    const errorGeneral = document.getElementById("error_general");
+    if (errorGeneral) errorGeneral.classList.add("hidden");
+
+    if (!documento || !apellido || !nombres || !email) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "Por favor complete los campos obligatorios (*)";
+            errorGeneral.classList.remove("hidden");
+        }
         return;
     }
 
