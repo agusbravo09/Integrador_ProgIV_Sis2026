@@ -198,6 +198,16 @@ async function guardarEstudiante() {
         return;
     }
 
+    // Validación de formato de email
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (!emailRegex.test(email)) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "Ingrese un correo electrónico válido";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
+
     // Validación de fecha de nacimiento
     const errorFecha = document.getElementById("error_fecha");
     if (errorFecha) errorFecha.classList.add("hidden");
