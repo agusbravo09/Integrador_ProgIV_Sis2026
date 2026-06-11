@@ -47,7 +47,9 @@ function renderEstudiantes() {
 
     const terminoBusqueda = document.getElementById("buscadorEstudiantes") ? document.getElementById("buscadorEstudiantes").value.toLowerCase().trim() : "";
 
-    let datosAFiltrar = window.estudiantesData;
+    // Excluir estudiantes con estado 0 (inactivos)
+    let datosAFiltrar = window.estudiantesData.filter(est => est.activo !== 0);
+
     if (terminoBusqueda) {
         datosAFiltrar = datosAFiltrar.filter(est => {
             const doc = (est.documento || "").toLowerCase();
@@ -178,6 +180,7 @@ window.toggleModalEstudiante = function (idModal, titulo = null) {
     }
 
     if (modal.classList.contains('hidden')) {
+        // Al abrir el modal
         if (titulo === 'Nuevo Estudiante') {
             document.getElementById("estudianteForm").reset();
             window.editandoEstudianteId = null;
@@ -192,6 +195,14 @@ window.toggleModalEstudiante = function (idModal, titulo = null) {
         if (errorGeneral) {
             errorGeneral.classList.add("hidden");
             errorGeneral.textContent = "";
+        }
+
+        // Ocultar el campo "activo" y su etiqueta para que no aparezca en el modal
+        const activoInput = document.getElementById("activo");
+        if (activoInput) {
+            activoInput.style.display = "none";
+            const label = document.querySelector('label[for="activo"]');
+            if (label) label.style.display = "none";
         }
 
         // Documento: solo números
@@ -245,7 +256,17 @@ async function guardarEstudiante() {
     let apellido = document.getElementById("apellido").value.trim();
     let nombres = document.getElementById("nombres").value.trim();
     const email = document.getElementById("email").value.trim();
-    const activo = document.getElementById("activo").checked ? 1 : 0;
+
+    // Determinar el valor de "activo"
+    let activo;
+    if (window.editandoEstudianteId) {
+        // Edición: se mantiene el estado actual
+        const estudianteActual = window.estudiantesData.find(e => e.id_estudiante === window.editandoEstudianteId);
+        activo = estudianteActual ? estudianteActual.activo : 1; // fallback seguro
+    } else {
+        // Nuevo estudiante: siempre activo
+        activo = 1;
+    }
 
     // Validación de documento
     if (!documento) {
@@ -265,6 +286,18 @@ async function guardarEstudiante() {
     if (documento.length < 6 || documento.length > 15) {
         if (errorGeneral) {
             errorGeneral.textContent = "El documento debe tener entre 6 y 15 dígitos";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
+
+    // Validación de DNI duplicado
+    const existingEstudiante = window.estudiantesData.find(e =>
+        String(e.documento) === documento && e.id_estudiante !== window.editandoEstudianteId
+    );
+    if (existingEstudiante) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "Ya existe un estudiante registrado con ese documento";
             errorGeneral.classList.remove("hidden");
         }
         return;
@@ -388,7 +421,7 @@ function editarEstudiante(id) {
     document.getElementById("apellido").value = est.apellido || '';
     document.getElementById("nombres").value = est.nombres || '';
     document.getElementById("email").value = est.email || '';
-    document.getElementById("activo").checked = est.activo == 1;
+    // Ya no se manipula el checkbox "activo"
 
     window.toggleModalEstudiante('estudianteModal', 'Editar Estudiante');
 }
