@@ -90,11 +90,7 @@ function renderEstudiantes() {
                 <div class="text-xs text-slate-500">Nac: ${fechaNac}</div>
             </td>
             <td data-label="Email" class="px-6 py-4 text-slate-600">${est.email || ''}</td>
-            <td data-label="Estado" class="px-6 py-4 text-center">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorEstado}">
-                    ${textoEstado}
-                </span>
-            </td>
+            
             <td data-label="Acciones" class="px-6 py-4 text-right space-x-2">
                 <button onclick="editarEstudiante(${est.id_estudiante})" class="text-institucional-600 hover:text-institucional-900" title="Editar">
                     <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">

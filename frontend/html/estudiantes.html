@@ -36,7 +36,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </div>
-                        <input type="text" id="buscadorEstudiantes" oninput="window.filtrarEstudiantes()" placeholder="Buscar por documento, apellido o nombre..."
+                        <input type="text" id="buscadorEstudiantes" oninput="window.filtrarEstudiantes()"
+                            placeholder="Buscar por documento, apellido o nombre..."
                             class="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg focus:ring-institucional-500 focus:border-institucional-500 text-sm">
                     </div>
                 </div>
@@ -61,46 +62,12 @@
                             <th class="px-6 py-3 font-medium">Documento</th>
                             <th class="px-6 py-3 font-medium">Estudiante</th>
                             <th class="px-6 py-3 font-medium">Email</th>
-                            <th class="px-6 py-3 font-medium text-center">Estado</th>
                             <th class="px-6 py-3 font-medium text-right">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tablaEstudiantes" class="divide-y divide-slate-200 text-sm">
 
-                        <tr class="hover:bg-slate-50 transition-colors">
-                            <td data-label="Documento" class="px-6 py-4 text-slate-600">35.123.456</td>
-                            <td data-label="Estudiante" class="px-6 py-4">
-                                <div class="font-medium text-slate-800">Perez, Juan Ignacio</div>
-                                <div class="text-xs text-slate-500">Nac: 15/04/1990</div>
-                            </td>
-                            <td data-label="Email" class="px-6 py-4 text-slate-600">jperez@alumno.uner.edu.ar</td>
-                            <td data-label="Estado" class="px-6 py-4 text-center">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-                                    Activo
-                                </span>
-                            </td>
-                            <td data-label="Acciones" class="px-6 py-4 text-right space-x-2">
 
-                                <button onclick="window.toggleModalEstudiante('estudianteModal', 'Editar Estudiante')"
-                                    class="text-institucional-600 hover:text-institucional-900" title="Editar">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                        </path>
-                                    </svg>
-                                </button>
-
-                                <button onclick="confirmarEliminar()" class="text-red-600 hover:text-red-900"
-                                    title="Dar de baja">
-                                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -112,8 +79,10 @@
                     Mostrando <span class="font-medium text-slate-700">0</span> estudiantes
                 </div>
                 <div class="flex gap-2">
-                    <button id="btnPrevPageEstudiantes" onclick="cambiarPaginaEstudiantes(-1)" class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Anterior</button>
-                    <button id="btnNextPageEstudiantes" onclick="cambiarPaginaEstudiantes(1)" class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Siguiente</button>
+                    <button id="btnPrevPageEstudiantes" onclick="cambiarPaginaEstudiantes(-1)"
+                        class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Anterior</button>
+                    <button id="btnNextPageEstudiantes" onclick="cambiarPaginaEstudiantes(1)"
+                        class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Siguiente</button>
                 </div>
             </div>
         </div>
@@ -122,15 +91,18 @@
 
     <!-- Modal: en móvil ocupa toda la pantalla, en desktop se centra con max-width -->
     <div id="estudianteModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-2 sm:p-6">
-        <div class="bg-white w-full max-w-2xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-none flex flex-col">
+        <div
+            class="bg-white w-full max-w-2xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-none flex flex-col">
 
             <!-- Header del modal -->
-            <div class="bg-slate-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
+            <div
+                class="bg-slate-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
                 <h3 id="modalTitle" class="text-lg font-bold text-slate-800">Nuevo Estudiante</h3>
-                <button onclick="window.toggleModalEstudiante('estudianteModal')" class="text-slate-400 hover:text-slate-600"
-                    aria-label="Cerrar modal">
+                <button onclick="window.toggleModalEstudiante('estudianteModal')"
+                    class="text-slate-400 hover:text-slate-600" aria-label="Cerrar modal">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
                     </svg>
                 </button>
             </div>
@@ -183,11 +155,13 @@
             </div>
 
             <!-- Footer del modal: en mobile los botones se apilan -->
-            <div class="bg-slate-50 px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
+            <div
+                class="bg-slate-50 px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
                 <button type="button" onclick="window.toggleModalEstudiante('estudianteModal')"
                     class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition text-sm">Cancelar</button>
                 <button type="button" onclick="guardarEstudiante()"
-                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm shadow-sm">Guardar Datos</button>
+                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm shadow-sm">Guardar
+                    Datos</button>
             </div>
         </div>
     </div>
