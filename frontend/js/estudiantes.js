@@ -4,16 +4,49 @@ window.estudiantesData = [];
 window.currentPageEstudiantes = 1;
 window.editandoEstudianteId = null;
 
+// --- Control numérico para el campo documento (solo números) ---
+function controlarDocumentoNumerico(event) {
+    let valor = event.target.value;
+    let nuevoValor = valor.replace(/\D/g, '');
+    if (valor !== nuevoValor) {
+        event.target.value = nuevoValor;
+    }
+}
+
+function validarDocumentoAlPegar(event) {
+    event.preventDefault();
+    const textoPegado = (event.clipboardData || window.clipboardData).getData('text');
+    const soloNumeros = textoPegado.replace(/\D/g, '');
+    document.getElementById("documento").value = soloNumeros;
+}
+
+// --- Control alfabético para nombres y apellidos (sin números) ---
+function controlarCampoAlfabetico(event) {
+    // Permite letras (incluyendo acentos y ñ), espacios y guiones (para apellidos compuestos)
+    let valor = event.target.value;
+    let nuevoValor = valor.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s\-]/g, '');
+    if (valor !== nuevoValor) {
+        event.target.value = nuevoValor;
+    }
+}
+
+function validarPegadoAlfabetico(event) {
+    event.preventDefault();
+    const textoPegado = (event.clipboardData || window.clipboardData).getData('text');
+    const soloLetras = textoPegado.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s\-]/g, '');
+    event.target.value = soloLetras;
+}
+// ------------------------------------------------------------
+
 function renderEstudiantes() {
     const tabla = document.getElementById("tablaEstudiantes");
     if (!tabla) return;
 
-    const isMobile = window.innerWidth < 1054; // Mismo breakpoint que la CSS
+    const isMobile = window.innerWidth < 1054;
     const itemsPerPage = isMobile ? 5 : 10;
 
-    // Filtro de búsqueda
     const terminoBusqueda = document.getElementById("buscadorEstudiantes") ? document.getElementById("buscadorEstudiantes").value.toLowerCase().trim() : "";
-    
+
     let datosAFiltrar = window.estudiantesData;
     if (terminoBusqueda) {
         datosAFiltrar = datosAFiltrar.filter(est => {
@@ -33,12 +66,11 @@ function renderEstudiantes() {
 
     const startIndex = (window.currentPageEstudiantes - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
     const estudiantesPaginados = datosAFiltrar.slice(startIndex, endIndex);
 
     tabla.innerHTML = "";
 
-    estudiantesPaginados.forEach((est, index) => {
+    estudiantesPaginados.forEach((est) => {
         let colorEstado = est.activo ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800";
         let textoEstado = est.activo ? "Activo" : "Inactivo";
 
@@ -79,7 +111,6 @@ function renderEstudiantes() {
         tabla.appendChild(fila);
     });
 
-    // Paginacion
     const btnPrev = document.getElementById("btnPrevPageEstudiantes");
     const btnNext = document.getElementById("btnNextPageEstudiantes");
     const info = document.getElementById("paginacionInfoEstudiantes");
@@ -127,7 +158,6 @@ async function initEstudiantes() {
     try {
         const datos = await EstudianteApi.getEstudiantes();
         if (Array.isArray(datos)) {
-            // Ordenamos alfabéticamente por apellido (ignorando mayúsculas/minúsculas)
             window.estudiantesData = datos.sort((a, b) =>
                 (a.apellido || '').localeCompare(b.apellido || '', undefined, { sensitivity: 'base' })
             );
@@ -142,9 +172,6 @@ async function initEstudiantes() {
     renderEstudiantes();
 }
 
-// Ojo: toggleModal parece existir globalmente para otras vistas, pero lo defino con otro nombre para aislar si es necesario,
-// o uso el global si en main.js ya existe uno (en tu html llamas a `toggleModal`).
-// Vamos a usar uno específico para evitar conflicto si se pisan.
 window.toggleModalEstudiante = function (idModal, titulo = null) {
     const modal = document.getElementById(idModal);
     if (!modal) return;
@@ -155,13 +182,11 @@ window.toggleModalEstudiante = function (idModal, titulo = null) {
     }
 
     if (modal.classList.contains('hidden')) {
-        // Abrir
         if (titulo === 'Nuevo Estudiante') {
             document.getElementById("estudianteForm").reset();
             window.editandoEstudianteId = null;
         }
-        
-        // Limpiar mensajes de error
+
         const errorFecha = document.getElementById("error_fecha");
         if (errorFecha) {
             errorFecha.classList.add("hidden");
@@ -172,6 +197,33 @@ window.toggleModalEstudiante = function (idModal, titulo = null) {
             errorGeneral.classList.add("hidden");
             errorGeneral.textContent = "";
         }
+
+        // Documento: solo números
+        const campoDocumento = document.getElementById("documento");
+        if (campoDocumento) {
+            campoDocumento.removeEventListener('input', controlarDocumentoNumerico);
+            campoDocumento.removeEventListener('paste', validarDocumentoAlPegar);
+            campoDocumento.addEventListener('input', controlarDocumentoNumerico);
+            campoDocumento.addEventListener('paste', validarDocumentoAlPegar);
+        }
+
+        // Apellido: solo letras, espacios y guiones
+        const campoApellido = document.getElementById("apellido");
+        if (campoApellido) {
+            campoApellido.removeEventListener('input', controlarCampoAlfabetico);
+            campoApellido.removeEventListener('paste', validarPegadoAlfabetico);
+            campoApellido.addEventListener('input', controlarCampoAlfabetico);
+            campoApellido.addEventListener('paste', validarPegadoAlfabetico);
+        }
+
+        // Nombres: solo letras, espacios y guiones
+        const campoNombres = document.getElementById("nombres");
+        if (campoNombres) {
+            campoNombres.removeEventListener('input', controlarCampoAlfabetico);
+            campoNombres.removeEventListener('paste', validarPegadoAlfabetico);
+            campoNombres.addEventListener('input', controlarCampoAlfabetico);
+            campoNombres.addEventListener('paste', validarPegadoAlfabetico);
+        }
     }
 
     modal.classList.toggle("hidden");
@@ -180,25 +232,88 @@ window.toggleModalEstudiante = function (idModal, titulo = null) {
 }
 
 async function guardarEstudiante() {
-    const documento = document.getElementById("documento").value.trim();
+    const errorGeneral = document.getElementById("error_general");
+    const errorFecha = document.getElementById("error_fecha");
+
+    if (errorGeneral) {
+        errorGeneral.classList.add("hidden");
+        errorGeneral.textContent = "";
+    }
+    if (errorFecha) {
+        errorFecha.classList.add("hidden");
+        errorFecha.textContent = "";
+    }
+
+    let documento = document.getElementById("documento").value.trim();
     const fecha_nacimiento = document.getElementById("fecha_nacimiento").value;
-    const apellido = document.getElementById("apellido").value.trim();
-    const nombres = document.getElementById("nombres").value.trim();
+    let apellido = document.getElementById("apellido").value.trim();
+    let nombres = document.getElementById("nombres").value.trim();
     const email = document.getElementById("email").value.trim();
     const activo = document.getElementById("activo").checked ? 1 : 0;
 
-    const errorGeneral = document.getElementById("error_general");
-    if (errorGeneral) errorGeneral.classList.add("hidden");
-
-    if (!documento || !apellido || !nombres || !email) {
+    // Validación de documento
+    if (!documento) {
         if (errorGeneral) {
-            errorGeneral.textContent = "Por favor complete los campos obligatorios (*)";
+            errorGeneral.textContent = "El número de documento es obligatorio";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
+    if (!/^\d+$/.test(documento)) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "El documento debe contener solo números";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
+    if (documento.length < 6 || documento.length > 15) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "El documento debe tener entre 6 y 15 dígitos";
             errorGeneral.classList.remove("hidden");
         }
         return;
     }
 
-    // Validación de formato de email
+    // Validación de apellido (solo letras, espacios y guiones)
+    if (!apellido) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "El apellido es obligatorio";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
+    if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-]+$/.test(apellido)) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "El apellido solo puede contener letras, espacios y guiones";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
+
+    // Validación de nombres (solo letras, espacios y guiones)
+    if (!nombres) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "Los nombres son obligatorios";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
+    if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s\-]+$/.test(nombres)) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "Los nombres solo pueden contener letras, espacios y guiones";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
+
+    // Validación de email
+    if (!email) {
+        if (errorGeneral) {
+            errorGeneral.textContent = "El email es obligatorio";
+            errorGeneral.classList.remove("hidden");
+        }
+        return;
+    }
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (!emailRegex.test(email)) {
         if (errorGeneral) {
@@ -209,9 +324,6 @@ async function guardarEstudiante() {
     }
 
     // Validación de fecha de nacimiento
-    const errorFecha = document.getElementById("error_fecha");
-    if (errorFecha) errorFecha.classList.add("hidden");
-
     if (!fecha_nacimiento) {
         if (errorFecha) {
             errorFecha.textContent = "Ingrese una fecha válida";
@@ -239,24 +351,20 @@ async function guardarEstudiante() {
 
     try {
         if (window.editandoEstudianteId) {
-            // Edit
             const res = await EstudianteApi.updateEstudianteApi(window.editandoEstudianteId, payload);
             if (res) {
-                // Actualizar array local
                 const idx = window.estudiantesData.findIndex(e => e.id_estudiante === window.editandoEstudianteId);
                 if (idx !== -1) {
                     window.estudiantesData[idx] = { ...window.estudiantesData[idx], ...payload, id_estudiante: window.editandoEstudianteId };
                 }
             }
         } else {
-            // Create
             const res = await EstudianteApi.createEstudianteApi(payload);
             if (res) {
                 window.estudiantesData.unshift({ ...payload, id_estudiante: res.id_estudiante || res.id || Date.now() });
             }
         }
 
-        // Re-ordenamos alfabéticamente por si se modificó o agregó un apellido
         window.estudiantesData.sort((a, b) =>
             (a.apellido || '').localeCompare(b.apellido || '', undefined, { sensitivity: 'base' })
         );
@@ -294,14 +402,10 @@ async function confirmarEliminar(id) {
 
     try {
         await EstudianteApi.deleteEstudianteApi(id);
-        
-        // En lugar de borrarlo del array (filter), lo marcamos como inactivo localmente 
-        // para que se pinte de rojo y siga en la tabla.
         const idx = window.estudiantesData.findIndex(e => e.id_estudiante === id);
         if (idx !== -1) {
             window.estudiantesData[idx].activo = 0;
         }
-        
         renderEstudiantes();
     } catch (e) {
         alert("Error al eliminar estudiante.");
@@ -309,7 +413,7 @@ async function confirmarEliminar(id) {
     }
 }
 
-// Global exposure
+// Exposición global
 window.initEstudiantes = initEstudiantes;
 window.renderEstudiantes = renderEstudiantes;
 window.cambiarPaginaEstudiantes = cambiarPaginaEstudiantes;
