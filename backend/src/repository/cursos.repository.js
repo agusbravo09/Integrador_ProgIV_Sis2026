@@ -12,11 +12,23 @@ const ESTADOS = {
 };
 
 export const findAll = async () => {
-    return BaseRepo.findActives(TABLE_NAME, `id_curso_estado != ${ESTADOS.ELIMINADO}`);
+    const text = `
+        SELECT c.*, 
+               (SELECT COUNT(*)::int FROM inscripciones i WHERE i.id_curso = c.id_curso AND i.id_inscripcion_estado != 2) as ocupados
+        FROM ${TABLE_NAME} c
+        WHERE c.id_curso_estado != ${ESTADOS.ELIMINADO}
+    `;
+    return await query(text);
 }
 
 export const getById = async (id) => {
-    return BaseRepo.findActivesById(TABLE_NAME, ID_COLUMN, id, `id_curso_estado != ${ESTADOS.ELIMINADO}`);
+    const text = `
+        SELECT c.*, 
+               (SELECT COUNT(*)::int FROM inscripciones i WHERE i.id_curso = c.id_curso AND i.id_inscripcion_estado != 2) as ocupados
+        FROM ${TABLE_NAME} c
+        WHERE c.id_curso_estado != ${ESTADOS.ELIMINADO} AND c.${ID_COLUMN} = $1
+    `;
+    return await query(text, [id]);
 }
 
 export const create = async (curso) => {
