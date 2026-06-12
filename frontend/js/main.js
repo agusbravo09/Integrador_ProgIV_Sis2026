@@ -78,7 +78,9 @@ async function cambiarVista(vistaDestino, deHistorial = false) {
             initEstudiantes();
         }
         if (vistaDestino === 'curso_especifico' && typeof initCursoEspecifico === 'function') {
-            initCursoEspecifico();
+            setTimeout(() => {
+                initCursoEspecifico();
+            }, 100);
         }
 
         

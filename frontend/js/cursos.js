@@ -348,7 +348,11 @@ async function crearCurso() {
             errorGeneral.textContent = msg;
             errorGeneral.classList.remove("hidden");
         } else {
-            alert(msg);
+            Swal.fire({
+                title: "Error",
+                text: msg,
+                icon: "error"
+            });
         }
     }
 
@@ -409,7 +413,11 @@ async function crearCurso() {
                 }
             } catch (error) {
                 console.error('Error actualizando curso:', error);
-                mostrarError('No se pudo actualizar el curso. Revisa la consola para más detalles.');
+                Swal.fire({
+                    title: "Error",
+                    text: "No se pudo actualizar el curso.",
+                    icon: "error"
+                });
                 return;
             }
         } else {
@@ -448,9 +456,13 @@ async function crearCurso() {
                 id_curso: creado.id_curso || creado.id
             });
         }
-    } catch (error) {
+        } catch (error) {
         console.error('Error creando curso:', error);
-        mostrarError('No se pudo crear el curso. Revisa la consola para más detalles.');
+        Swal.fire({
+            title: "Error",
+            text: "No se pudo crear el curso.",
+            icon: "error"
+        });
         return;
     }
 
@@ -463,16 +475,38 @@ async function eliminarCurso(index) {
     const curso = window.cursosData?.[index];
     if (!curso) return;
 
-    const confirmar = confirm('¿Está seguro de que desea eliminar este curso?');
-    if (!confirmar) return;
+    const result = await Swal.fire({
+        title: "¿Está seguro?",
+        html: `Va a eliminar el curso <strong>"${curso.nombre}"</strong>`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#64748b",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!result.isConfirmed) return;
 
     if (curso.id_curso != null) {
         try {
             await CursoApi.deleteCursoApi(curso.id_curso);
-            curso.id_curso_estado = 4; // Estado 4 es ELIMINADO en tu base de datos
+            curso.id_curso_estado = 4;
+            
+            Swal.fire({
+                title: "Eliminado",
+                text: "El curso fue eliminado correctamente.",
+                icon: "success",
+                timer: 1500,
+                showConfirmButton: false
+            });
         } catch (error) {
             console.error('Error eliminando curso:', error);
-            alert('No se pudo eliminar el curso. Revisa la consola para más detalles.');
+            Swal.fire({
+                title: "Error",
+                text: "No se pudo eliminar el curso.",
+                icon: "error"
+            });
             return;
         }
     } else {
@@ -480,6 +514,34 @@ async function eliminarCurso(index) {
     }
 
     renderCursos();
+}
+
+function imprimirCurso(identifier) {
+    // Buscar el curso
+    let curso = null;
+    
+    if (typeof identifier === 'number' && identifier > 0) {
+        curso = window.cursosData.find(c => c.id_curso === identifier);
+    }
+    if (!curso) {
+        curso = window.cursosData[identifier];
+    }
+    
+    if (!curso) return;
+    
+    // Guardar el curso seleccionado
+    window.cursoSeleccionado = curso;
+    window.cursoSeleccionadoIndex = window.cursosData.indexOf(curso);
+    
+    // Ir a la vista de detalle y luego imprimir
+    if (typeof cambiarVista === 'function') {
+        cambiarVista('curso_especifico');
+        
+        // Esperar a que cargue y luego imprimir
+        setTimeout(() => {
+            window.print();
+        }, 500);
+    }
 }
 
 function editarCurso(index) {
@@ -519,3 +581,4 @@ window.crearCurso = crearCurso;
 window.eliminarCurso = eliminarCurso;
 window.editarCurso = editarCurso;
 window.initCursos = initCursos;
+window.imprimirCurso = imprimirCurso;
