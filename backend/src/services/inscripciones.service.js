@@ -8,6 +8,10 @@ export const getById = async (id) => {
     return InscripcionesRepo.getById(id);
 }
 
+export const getByCurso = async (id_curso) => {
+    return InscripcionesRepo.findByCourse(id_curso);
+}
+
 export const create = async (datos) => {
 
     const inscripcion = {

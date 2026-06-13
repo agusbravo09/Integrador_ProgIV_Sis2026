@@ -82,5 +82,23 @@ La API cuenta con 4 entidades principales, todas respetan las normas BREAD (Brow
     ```
     La API estará corriendo en `http://localhost:3000`.
 
+### Cómo ejecutar Front
+1. En la terminal, ir a la carpeta del front mediante `cd`.
+2. Ejecutar el siguiente comando:
+   ```bash
+   python -m http.server 8000
+
+3. Abrir en el navegador:
+
+* Para el main: http://127.0.0.1:8000/main.html
+
+* Para el login: http://127.0.0.1:8000/index.html
+
+Datos para iniciar:
+
+*Usuario: admin
+
+*Clave: admin
+
 ### Pruebas de Endpoints (Bruno)
 El proyecto incluye una carpeta `bruno_collection` la cual puedes importar en tu cliente REST [Bruno](https://www.usebruno.com/). Contiene las requests preconfiguradas con ejemplos en formato JSON para todas las entidades listas para hacer consultas a tu servidor local.
