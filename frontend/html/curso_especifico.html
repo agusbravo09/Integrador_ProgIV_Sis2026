@@ -1,6 +1,5 @@
 <div id="vista-curso-especifico" class="animate-fade-in flex flex-col gap-6 h-full pb-8"
-    data-tabla-alumnos="tabla-alumnos-inscriptos"
-    data-titulo-materia="curso-especifico-titulo">
+    data-tabla-alumnos="tabla-alumnos-inscriptos" data-titulo-materia="curso-especifico-titulo">
 
     <header
         class="px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-start sm:items-center rounded-2xl mb-4 sm:mb-8">
@@ -128,7 +127,7 @@
                     <span id="curso-stat-porcentaje" class="text-slate-500">0%</span>
                 </div>
                 <div class="w-full bg-slate-200 rounded-full h-2.5">
-                    <div id="curso-stat-barra" class="bg-orange-500 h-2.5 rounded-full" style="width: 0%"></div>
+                    <div id="curso-stat-barra" class="bg-orange-500 h-2.5 rounded-full w-0"></div>
                 </div>
                 <p id="curso-stat-ratio" class="text-xs text-slate-500 mt-2 text-right">0 / 0</p>
             </div>
@@ -149,8 +148,7 @@
                     <span id="alumnos-inscriptos-materia" class="text-institucional-600 font-semibold"></span>
                 </h2>
 
-                <p id="total-alumnos-inscriptos" class="text-xs sm:text-sm text-slate-500 mt-1"
-                    data-materia-filtro="">
+                <p id="total-alumnos-inscriptos" class="text-xs sm:text-sm text-slate-500 mt-1" data-materia-filtro="">
                     Total: 0 alumnos
                 </p>
             </div>
@@ -179,8 +177,7 @@
                     </tr>
                 </thead>
 
-                <tbody id="tabla-alumnos-inscriptos" class="divide-y divide-slate-200 text-sm"
-                    data-cargado-por="js"
+                <tbody id="tabla-alumnos-inscriptos" class="divide-y divide-slate-200 text-sm" data-cargado-por="js"
                     data-filtro-campo="materia">
                     <!-- Las filas las genera curso_especifico.js según la materia del título -->
                 </tbody>
