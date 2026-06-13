@@ -32,17 +32,17 @@ async function getAlumnosPorCurso() {
         const inscripciones = window.inscripcionesCache[cursoId] || [];
 
         return inscripciones.map(ins => ({
-            id: ins.id_inscripcion || ins.id || "—",
-            estudiante: ins.nombre_alumno || ins.estudiante || "Sin nombre",
-            dni: ins.dni_alumno || ins.dni || "—",
-            fechaHora: ins.fecha_inscripcion
-                ? new Date(ins.fecha_inscripcion).toLocaleDateString()
+            id: ins.id_inscripcion || "—",
+            estudiante: ins.nombre_alumno || `Estudiante #${ins.id_estudiante}`,
+            dni: ins.dni_alumno || "—",
+            fechaHora: ins.fecha_hora_inscripcion
+                ? new Date(ins.fecha_hora_inscripcion).toLocaleDateString()
                 : "—",
-            estado: ins.estado || "Confirmada",
+            estado: "Confirmada",
             curso: window.cursoSeleccionado?.nombre || ""
         }));
     } catch (error) {
-        console.error('Error cargando inscripciones:', error);
+        console.warn('API no disponible:', error.message);
         return [];
     }
 }
