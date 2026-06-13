@@ -101,3 +101,50 @@ button:disabled {
 .safe-area-bottom {
     padding-bottom: env(safe-area-inset-bottom);
 }
+
+/* ============ ESTILOS DE IMPRESIÓN ============ */
+@media print {
+    /* Ocultar sidebar y bottom nav */
+    #sidebar,
+    #bottom-nav,
+    #toggle-btn,
+    .bnav-btn,
+    button[onclick*="imprimir"],
+    button[onclick*="volver"],
+    button[onclick*="editar"],
+    button[onclick*="eliminar"] {
+        display: none !important;
+    }
+
+    /* Ajustar el contenido principal */
+    #contenido-dinamico {
+        margin-left: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Fondo blanco y texto negro */
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    /* Quitar sombras y bordes redondeados */
+    .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl {
+        box-shadow: none !important;
+    }
+
+    .rounded-2xl, .rounded-xl, .rounded-lg {
+        border-radius: 0 !important;
+    }
+
+    /* Asegurar que la tabla ocupe todo el ancho */
+    table {
+        width: 100% !important;
+    }
+
+    /* Evitar cortes de página en filas */
+    tr, td, th {
+        page-break-inside: avoid;
+    }
+}

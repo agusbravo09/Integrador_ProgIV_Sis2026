@@ -78,10 +78,7 @@
                     <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Cantidad de Horas</h3>
                     <p id="curso-detalle-horas" class="text-slate-800 font-medium">—</p>
                 </div>
-                <div>
-                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Inscriptos Máximos</h3>
-                    <p id="curso-detalle-maximos" class="text-slate-800 font-medium">—</p>
-                </div>
+               
                 <div>
                     <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Estado</h3>
                     <span id="curso-detalle-estado"
@@ -156,9 +153,7 @@
 
                         <th class="px-6 py-4 font-medium">Alumno</th>
                         <th class="px-6 py-4 font-medium">DNI</th>
-                        <th class="px-6 py-4 font-medium">Fecha de inscripción</th>
-                        <th class="px-6 py-4 font-medium text-center">Estado</th>
-                        <th class="px-6 py-4 font-medium text-right">Acciones</th>
+                        <th class="px-6 py-4 font-medium">Fecha de inscripción</th>            
 
                     </tr>
                 </thead>
@@ -186,7 +181,7 @@
     </div>
 
     <!-- Plantilla de fila: clonar desde JS al renderizar alumnos por materia -->
-    <template id="tpl-fila-alumno-inscripto">
+   <template id="tpl-fila-alumno-inscripto">
         <tr class="hover:bg-slate-50 transition-colors fila-alumno-inscripto">
             <td class="px-6 py-4" data-campo="estudiante">
                 <div class="font-medium text-slate-800" data-campo="nombre"></div>
@@ -194,13 +189,6 @@
             </td>
             <td class="px-6 py-4 text-slate-600 font-mono text-sm" data-campo="dni"></td>
             <td class="px-6 py-4 text-slate-600" data-campo="fecha"></td>
-            <td class="px-6 py-4 text-center" data-campo="estado"></td>
-            <td class="px-6 py-4 text-right" data-campo="acciones">
-                <button type="button"
-                    class="text-amber-600 hover:text-amber-800 bg-amber-50 px-2 py-1 rounded text-xs font-medium btn-diploma-alumno">
-                    Diploma
-                </button>
-            </td>
         </tr>
     </template>
 </div>
