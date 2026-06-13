@@ -50,3 +50,12 @@ export const remove = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getByCurso = async (req, res, next) => {
+  try {
+    const result = await InscripcionesService.getByCurso(req.params.id);
+    res.json(result || []);
+  } catch (err) {
+    next(err);
+  }
+};
