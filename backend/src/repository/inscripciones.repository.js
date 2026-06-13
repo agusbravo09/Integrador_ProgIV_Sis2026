@@ -17,6 +17,11 @@ export const getById = async (id) => {
     return BaseRepo.findActivesById(TABLE_NAME, ID_COLUMN, id, `id_inscripcion_estado != ${ESTADOS.CANCELADA}`);
 }
 
+export const findByCourse = async (id_curso) => {
+    const text = `SELECT * FROM ${TABLE_NAME} WHERE id_curso = $1 AND id_inscripcion_estado != ${ESTADOS.CANCELADA}`;
+    return await query(text, [id_curso]);
+}
+
 export const create = async (inscripcion) => {
     return BaseRepo.create(TABLE_NAME, inscripcion, 'fecha_hora_inscripcion');
 }
