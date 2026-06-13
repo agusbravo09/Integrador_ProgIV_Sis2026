@@ -46,12 +46,12 @@ button:disabled {
 
 
 /* ============================================
-   Tabla responsive: en pantallas chicas (<640px)
+   Tabla responsive: en pantallas chicas (<1054px)
    cada fila se convierte en una "tarjeta" (card).
    Usa el atributo data-label en cada <td> para
    mostrar el nombre de la columna como etiqueta.
    ============================================ */
-@media (max-width: 639px) {
+@media (max-width: 1054px) {
 
     /* Ocultamos el encabezado de la tabla */
     .responsive-table thead {

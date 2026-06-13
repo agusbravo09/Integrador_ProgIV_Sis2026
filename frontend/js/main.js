@@ -74,6 +74,9 @@ async function cambiarVista(vistaDestino, deHistorial = false) {
         if (vistaDestino === 'inscripciones' && typeof initInscripciones === 'function') {
             initInscripciones();
         }
+        if (vistaDestino === 'estudiantes' && typeof initEstudiantes === 'function') {
+            initEstudiantes();
+        }
         if (vistaDestino === 'curso_especifico' && typeof initCursoEspecifico === 'function') {
             initCursoEspecifico();
         }
