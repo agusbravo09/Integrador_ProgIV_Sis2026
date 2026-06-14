@@ -30,6 +30,7 @@ services:
       DB_NAME: fcad_cursos
       DB_USER: postgres
       DB_PASSWORD: admin_db
+      JWT_SECRET: tu_clave_super_super_segura
     ports:
       - "3000:3000"
     depends_on:
@@ -46,4 +47,4 @@ services:
       - backend
 
 volumes:
-  postgres_data:
+  postgres_data:
