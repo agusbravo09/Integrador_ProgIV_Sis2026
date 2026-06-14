@@ -1,6 +1,7 @@
 // curso_especifico.js
 import * as CursoApi from './api/api-cursos.js';
 import * as InscripcionApi from './api/api-inscripciones.js';
+import { confirmarEliminacion, mostrarExito, mostrarError } from './utils/swal.js';
 
 window.currentPageAlumnosCurso = 1;
 window.inscripcionesCache = {};
@@ -264,43 +265,19 @@ function editarCursoEspecifico() {
 async function eliminarCursoEspecifico() {
     if (!window.cursoSeleccionado) return;
 
-    const result = await Swal.fire({
-        title: "¿Está seguro?",
-        html: `Va a eliminar el curso <strong>"${window.cursoSeleccionado.nombre}"</strong>`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#dc2626",
-        cancelButtonColor: "#64748b",
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar"
-    });
+    const confirmado = await confirmarEliminacion(window.cursoSeleccionado.nombre);
+    if (!confirmado) return;
 
-    if (!result.isConfirmed) return;
-
-    if (window.cursoSeleccionado.id_curso) {
-        try {
-            await CursoApi.deleteCursoApi(window.cursoSeleccionado.id_curso);
-            window.cursoSeleccionado.id_curso_estado = 4;
-            
-            await Swal.fire({
-                title: "Eliminado",
-                text: "El curso fue eliminado correctamente.",
-                icon: "success",
-                timer: 1500,
-                showConfirmButton: false
-            });
-            
-            if (typeof cambiarVista === 'function') {
-                cambiarVista('cursos');
-            }
-        } catch (error) {
-            console.error('Error eliminando curso:', error);
-            Swal.fire({
-                title: "Error",
-                text: "No se pudo eliminar el curso.",
-                icon: "error"
-            });
-        }
+    try {
+        await CursoApi.deleteCursoApi(window.cursoSeleccionado.id_curso);
+        window.cursoSeleccionado.id_curso_estado = 4;
+        mostrarExito("Curso eliminado correctamente.");
+        setTimeout(() => {
+            if (typeof cambiarVista === 'function') cambiarVista('cursos');
+        }, 800);
+    } catch (error) {
+        console.error('Error:', error);
+        mostrarError("No se pudo eliminar el curso.");
     }
 }
 

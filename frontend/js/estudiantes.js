@@ -1,4 +1,5 @@
 import * as EstudianteApi from './api/api-estudiantes.js';
+import { confirmarEliminacion, mostrarExito, mostrarError } from './utils/swal.js';
 
 window.estudiantesData = [];
 window.currentPageEstudiantes = 1;
@@ -412,8 +413,8 @@ async function guardarEstudiante() {
         window.toggleModalEstudiante('estudianteModal');
         renderEstudiantes();
     } catch (e) {
-        alert("Error al guardar estudiante.");
         console.error(e);
+        mostrarError("Error al guardar estudiante.");
     }
 }
 
@@ -438,7 +439,11 @@ function editarEstudiante(id) {
 }
 
 async function confirmarEliminar(id) {
-    if (!confirm('¿Está seguro de que desea eliminar este estudiante?')) return;
+    const estudiante = window.estudiantesData.find(e => e.id_estudiante === id);
+    const nombre = estudiante ? `${estudiante.apellido}, ${estudiante.nombres}` : `ID: ${id}`;
+
+    const confirmado = await confirmarEliminacion(nombre);
+    if (!confirmado) return;
 
     try {
         await EstudianteApi.deleteEstudianteApi(id);
@@ -446,13 +451,13 @@ async function confirmarEliminar(id) {
         if (idx !== -1) {
             window.estudiantesData[idx].activo = 0;
         }
+        mostrarExito("Estudiante eliminado correctamente.");
         renderEstudiantes();
     } catch (e) {
-        alert("Error al eliminar estudiante.");
         console.error(e);
+        mostrarError("Error al eliminar estudiante.");
     }
 }
-
 // Exposición global
 window.initEstudiantes = initEstudiantes;
 window.renderEstudiantes = renderEstudiantes;
