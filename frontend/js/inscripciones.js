@@ -1,6 +1,21 @@
 let inscripcionesData = [];
 let cursosDisponibles = [];
+let todosLosCursos = [];
 let carritoCursos = [];
+let currentPageInscripciones = 1;
+const ITEMS_PER_PAGE_INSCRIPCIONES = 5;
+let currentSortColumnIns = 'fecha_hora_inscripcion';
+let currentSortDirectionIns = 'desc';
+
+window.sortInscripciones = function(col) {
+    if (currentSortColumnIns === col) {
+        currentSortDirectionIns = currentSortDirectionIns === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSortColumnIns = col;
+        currentSortDirectionIns = 'asc';
+    }
+    renderInscripciones();
+};
 
 async function initInscripciones() {
     await fetchInscripciones();
@@ -10,7 +25,7 @@ async function initInscripciones() {
 
 async function fetchInscripciones() {
     try {
-        const response = await fetch('/api/inscripciones');
+        const response = await fetch('http://localhost:3000/api/inscripciones');
         const data = await response.json();
         inscripcionesData = data || [];
         renderInscripciones();
@@ -25,9 +40,87 @@ function renderInscripciones() {
 
     tbody.innerHTML = '';
 
-    const sorted = [...inscripcionesData].sort((a, b) => new Date(b.fecha_hora_inscripcion) - new Date(a.fecha_hora_inscripcion));
+    const filterCursoId = document.getElementById('filtroCurso')?.value;
+    const filterAlumnoText = normalizeString(document.getElementById('filtroAlumno')?.value || '');
 
-    sorted.forEach(ins => {
+    let filtered = inscripcionesData;
+
+    if (filterCursoId || filterAlumnoText) {
+        filtered = inscripcionesData.filter(ins => {
+            let matchesCurso = true;
+            let matchesAlumno = true;
+
+            if (filterCursoId) {
+                matchesCurso = ins.id_curso.toString() === filterCursoId;
+            }
+
+            if (filterAlumnoText) {
+                const fullName = normalizeString((ins.estudiante_nombre || '') + ' ' + (ins.apellido || ''));
+                const dni = ins.dni || '';
+                matchesAlumno = fullName.includes(filterAlumnoText) || dni.includes(filterAlumnoText);
+            }
+
+            return matchesCurso && matchesAlumno;
+        });
+    }
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-slate-500 italic">Sin alumnos inscriptos</td></tr>`;
+        const infoPaginacion = document.getElementById('info-paginacion');
+        if (infoPaginacion) infoPaginacion.textContent = 'Mostrando 0 inscripciones';
+        const btnPrev = document.getElementById('btn-prev-page');
+        const btnNext = document.getElementById('btn-next-page');
+        if (btnPrev) btnPrev.disabled = true;
+        if (btnNext) btnNext.disabled = true;
+        return;
+    }
+
+    const sorted = [...filtered].sort((a, b) => {
+        let valA = a[currentSortColumnIns];
+        let valB = b[currentSortColumnIns];
+
+        if (currentSortColumnIns === 'fecha_hora_inscripcion') {
+            valA = new Date(valA).getTime();
+            valB = new Date(valB).getTime();
+        } else if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB ? valB.toLowerCase() : '';
+        }
+
+        if (valA < valB) return currentSortDirectionIns === 'asc' ? -1 : 1;
+        if (valA > valB) return currentSortDirectionIns === 'asc' ? 1 : -1;
+        return 0;
+    });
+
+    document.querySelectorAll('.sort-icon').forEach(icon => icon.innerHTML = '');
+    const activeIcon = document.getElementById(`sort-icon-${currentSortColumnIns}`);
+    if (activeIcon) {
+        activeIcon.innerHTML = currentSortDirectionIns === 'asc' ? '↑' : '↓';
+    }
+
+    const totalItems = sorted.length;
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE_INSCRIPCIONES) || 1;
+
+    if (currentPageInscripciones > totalPages) {
+        currentPageInscripciones = totalPages;
+    }
+
+    const startIndex = (currentPageInscripciones - 1) * ITEMS_PER_PAGE_INSCRIPCIONES;
+    const endIndex = Math.min(startIndex + ITEMS_PER_PAGE_INSCRIPCIONES, totalItems);
+    
+    const pageItems = sorted.slice(startIndex, endIndex);
+
+    const infoPaginacion = document.getElementById('info-paginacion');
+    if (infoPaginacion) {
+        infoPaginacion.textContent = `Mostrando ${startIndex + 1} - ${endIndex} de ${totalItems} inscripciones`;
+    }
+
+    const btnPrev = document.getElementById('btn-prev-page');
+    const btnNext = document.getElementById('btn-next-page');
+    if (btnPrev) btnPrev.disabled = currentPageInscripciones === 1;
+    if (btnNext) btnNext.disabled = currentPageInscripciones === totalPages;
+
+    pageItems.forEach(ins => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-100';
 
@@ -106,15 +199,20 @@ function setupInscripcionesEventListeners() {
     });
 
     btnNuevoEstudiante.addEventListener('click', () => {
-        if (window.toggleModalEstudiante) {
-            window.toggleModalEstudiante('estudianteModal', 'Nuevo Estudiante');
-            setTimeout(() => {
-                const docInput = document.getElementById('documento');
-                if (docInput && insDni.value) {
-                    docInput.value = insDni.value;
-                }
-            }, 100);
-        }
+        window.toggleModalInscripcion(); // Cerrar modal actual
+        window.cambiarVista('estudiantes'); // Cambiar a la vista de estudiantes
+        
+        setTimeout(() => {
+            if (window.toggleModalEstudiante) {
+                window.toggleModalEstudiante('estudianteModal', 'Nuevo Estudiante');
+                setTimeout(() => {
+                    const docInput = document.getElementById('documento');
+                    if (docInput && insDni.value) {
+                        docInput.value = insDni.value;
+                    }
+                }, 100);
+            }
+        }, 300); // Esperar que cargue la vista
     });
 
     btnEditarEstudiante.addEventListener('click', () => {
@@ -122,18 +220,42 @@ function setupInscripcionesEventListeners() {
         if (idEstudiante && window.editarEstudiante) {
             Swal.fire({
                 title: '¿Editar datos del estudiante?',
-                text: "Se abrirá el formulario para modificar sus datos.",
+                text: "Serás redirigido a la sección de estudiantes para editar sus datos.",
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, editar'
+                confirmButtonText: 'Sí, ir a editar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.editarEstudiante(parseInt(idEstudiante));
+                    window.toggleModalInscripcion(); // Cerrar modal actual
+                    window.cambiarVista('estudiantes'); // Cambiar vista
+                    setTimeout(() => {
+                        window.editarEstudiante(parseInt(idEstudiante));
+                    }, 300); // Esperar que cargue la vista
                 }
             });
         }
+    });
+
+    // Search and pagination triggers
+    document.getElementById('filtroCurso')?.addEventListener('change', () => {
+        currentPageInscripciones = 1;
+        renderInscripciones();
+    });
+    document.getElementById('filtroAlumno')?.addEventListener('input', () => {
+        currentPageInscripciones = 1;
+        renderInscripciones();
+    });
+    document.getElementById('btn-prev-page')?.addEventListener('click', () => {
+        if (currentPageInscripciones > 1) {
+            currentPageInscripciones--;
+            renderInscripciones();
+        }
+    });
+    document.getElementById('btn-next-page')?.addEventListener('click', () => {
+        currentPageInscripciones++;
+        renderInscripciones();
     });
 
     const originalGuardarEstudiante = window.guardarEstudiante;
@@ -157,7 +279,7 @@ async function buscarEstudiantePorDni(dni) {
     }
 
     try {
-        const response = await fetch(`/api/estudiantes/dni/${dni}`);
+        const response = await fetch(`http://localhost:3000/api/estudiantes/dni/${dni}`);
         if (response.ok) {
             const estudiante = await response.json();
             document.getElementById('insIdEstudiante').value = estudiante.id_estudiante;
@@ -199,12 +321,30 @@ function resetEstudianteForm() {
 
 async function fetchCursosParaCarrito() {
     try {
-        const response = await fetch('/api/cursos');
+        const response = await fetch('http://localhost:3000/api/cursos');
         const data = await response.json();
-        cursosDisponibles = data.map(c => {
-            const cupoDisponible = (c.inscriptos_max || 0) - (c.ocupados || 0);
-            return { ...c, cupoDisponible };
-        });
+        
+        todosLosCursos = data;
+        
+        // Poblar el filtro global de cursos
+        const selectFiltro = document.getElementById('filtroCurso');
+        if (selectFiltro) {
+            const prevVal = selectFiltro.value;
+            selectFiltro.innerHTML = '<option value="">Todos los cursos</option>';
+            todosLosCursos.forEach(c => {
+                const textoAñadido = c.ocupados === 0 ? ' (Sin alumnos)' : '';
+                selectFiltro.innerHTML += `<option value="${c.id_curso}">${c.nombre}${textoAñadido}</option>`;
+            });
+            selectFiltro.value = prevVal;
+        }
+
+        cursosDisponibles = data
+            .filter(c => c.id_curso_estado === 2) // Estado: Inscripción abierta
+            .map(c => {
+                const cupoDisponible = (c.inscriptos_max || 0) - (c.ocupados || 0);
+                return { ...c, cupoDisponible };
+            })
+            .filter(c => c.cupoDisponible > 0);
     } catch (error) {
         console.error('Error fetching cursos:', error);
     }
@@ -225,11 +365,21 @@ function mostrarSugerenciasCursos(texto) {
 
     const searchNormalized = normalizeString(texto);
 
-    const sugerencias = cursosDisponibles.filter(c =>
-        c.cupoDisponible > 0 &&
-        normalizeString(c.nombre).includes(searchNormalized) &&
-        !carritoCursos.find(carritoC => carritoC.id_curso === c.id_curso)
-    );
+    const idEstudianteSeleccionado = parseInt(document.getElementById('insIdEstudiante').value);
+
+    const sugerencias = cursosDisponibles.filter(c => {
+        const tieneCupoYNombre = c.cupoDisponible > 0 && normalizeString(c.nombre).includes(searchNormalized);
+        const estaEnCarrito = carritoCursos.find(carritoC => carritoC.id_curso === c.id_curso);
+        
+        // Verificar que no tenga ya una inscripcion activa (estado 1) en este curso
+        const yaInscripto = inscripcionesData.some(ins => 
+            ins.id_estudiante === idEstudianteSeleccionado && 
+            ins.id_curso === c.id_curso && 
+            ins.id_inscripcion_estado === 1
+        );
+
+        return tieneCupoYNombre && !estaEnCarrito && !yaInscripto;
+    });
 
     if (sugerencias.length === 0) {
         const li = document.createElement('li');
@@ -344,7 +494,7 @@ async function confirmarInscripcion() {
                 id_usuario_modificacion: 1
             };
 
-            const response = await fetch('/api/inscripciones', {
+            const response = await fetch('http://localhost:3000/api/inscripciones', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -412,7 +562,7 @@ async function eliminarInscripcion(id) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const res = await fetch(`/api/inscripciones/${id}`, { method: 'DELETE' });
+                const res = await fetch(`http://localhost:3000/api/inscripciones/${id}`, { method: 'DELETE' });
                 if (res.ok) {
                     Swal.fire({
                         title: 'Cancelada',

@@ -22,14 +22,12 @@
 
             <div class="p-4 border-b border-slate-200 bg-slate-50 flex gap-4 justify-between items-center">
                 <div class="flex gap-4 w-full">
-                    <select title="Filtrar por curso"
-                        class="rounded-lg border border-slate-300 px-4 py-2 text-sm bg-white">
-                        <option value="">Filtrar por Curso...</option>
-                        <option value="1">Programación Java Avanzada</option>
-                        <option value="2">Bases de Datos con MySQL</option>
+                    <select id="filtroCurso" title="Filtrar por curso"
+                        class="rounded-lg border border-slate-300 px-4 py-2 text-sm bg-white min-w-[200px]">
+                        <option value="">Todos los cursos</option>
                     </select>
                     <div class="relative flex-1 max-w-xs">
-                        <input type="text" placeholder="Buscar alumno..."
+                        <input type="text" id="filtroAlumno" placeholder="Buscar por DNI o nombre..."
                             class="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm">
                     </div>
                 </div>
@@ -40,12 +38,24 @@
                     <thead>
                         <tr
                             class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
-                            <th class="px-6 py-3 font-medium">Nº Ins.</th>
-                            <th class="px-6 py-3 font-medium">DNI</th>
-                            <th class="px-6 py-3 font-medium">Apellido</th>
-                            <th class="px-6 py-3 font-medium">Nombre</th>
-                            <th class="px-6 py-3 font-medium">Fecha/Hora</th>
-                            <th class="px-6 py-3 font-medium">Curso</th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('id_inscripcion')">
+                                Nº Ins. <span class="sort-icon ml-1" id="sort-icon-id_inscripcion"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('dni')">
+                                DNI <span class="sort-icon ml-1" id="sort-icon-dni"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('apellido')">
+                                Apellido <span class="sort-icon ml-1" id="sort-icon-apellido"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('estudiante_nombre')">
+                                Nombre <span class="sort-icon ml-1" id="sort-icon-estudiante_nombre"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('fecha_hora_inscripcion')">
+                                Fecha/Hora <span class="sort-icon ml-1" id="sort-icon-fecha_hora_inscripcion"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('curso_nombre')">
+                                Curso <span class="sort-icon ml-1" id="sort-icon-curso_nombre"></span>
+                            </th>
                             <th class="px-6 py-3 font-medium text-right">Acciones</th>
                         </tr>
                     </thead>
