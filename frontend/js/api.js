@@ -1,10 +1,22 @@
 const API_BASE_URL = 'http://localhost:3000/api';
 
+// Obtiene el token y crea las cabeceras requeridas
+function getHeaders(extraHeaders = {}) {
+    const token = localStorage.getItem('token');
+    return {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        ...extraHeaders
+    };
+}
+
 // GET all cursos
 //Retorna todos los cursos
 async function getCursos() {
     try {
-        const response = await fetch(`${API_BASE_URL}/cursos`);
+        const response = await fetch(`${API_BASE_URL}/cursos`, {
+            headers: getHeaders()
+        });
         const data = await response.json();
         console.log('GET /cursos response:', data);
         return data;
@@ -17,7 +29,9 @@ async function getCursos() {
 // Retorna un curso por id
 async function getCursoById(id) {
     try {
-        const response = await fetch(`${API_BASE_URL}/cursos/${id}`);
+        const response = await fetch(`${API_BASE_URL}/cursos/${id}`, {
+            headers: getHeaders()
+        });
         const data = await response.json();
         console.log(`GET /cursos/${id} response:`, data);
         return data;
@@ -33,9 +47,7 @@ async function createCursoApi(cursoData) {
     try {
         const response = await fetch(`${API_BASE_URL}/cursos`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: getHeaders(),
             body: JSON.stringify(cursoData)
         });
         const data = await response.json();
@@ -53,9 +65,7 @@ async function updateCursoApi(id, cursoData) {
     try {
         const response = await fetch(`${API_BASE_URL}/cursos/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: getHeaders(),
             body: JSON.stringify(cursoData)
         });
         const data = await response.json();
@@ -70,7 +80,8 @@ async function updateCursoApi(id, cursoData) {
 async function deleteCursoApi(id) {
     try {
         const response = await fetch(`${API_BASE_URL}/cursos/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: getHeaders()
         });
         const data = await response.json();
         console.log(`DELETE /cursos/${id} response:`, data);

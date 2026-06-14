@@ -1,16 +1,20 @@
 
 
-document.getElementById('loginForm').addEventListener('submit', function (e) {
-    e.preventDefault(); 
+// Si ya hay un token guardado, redirigimos directamente al dashboard
+if (localStorage.getItem('token')) {
+    window.location.href = 'main.html';
+}
+
+document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
     const btn = document.getElementById('loginBtn');
     const msgBox = document.getElementById('messageBox');
     const usuario = document.getElementById('nombre_usuario').value;
     const contrasenia = document.getElementById('password').value;
 
-    
     msgBox.innerHTML = '';
-    
+
     if (usuario.trim() === '' || contrasenia.trim() === '') {
         msgBox.innerHTML = `
             <div class="p-3 mb-6 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg flex items-center">
@@ -18,9 +22,9 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
                 Por favor, completa ambos campos.
             </div>
         `;
-        return; 
+        return;
     }
-    
+
     const originalBtnText = 'Ingresar';
     btn.disabled = true;
     btn.classList.add('opacity-75', 'cursor-not-allowed');
@@ -32,11 +36,26 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
         Validando credenciales...
     `;
 
-    
-    setTimeout(() => {
-        
-        if (usuario === 'admin' && contrasenia !== '') {
-            
+    try {
+        // Llamada al backend
+        const response = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nombre_usuario: usuario,
+                contrasenia: contrasenia
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Guardar el token en localStorage para enviarlo junto con otras peticiones
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
             msgBox.innerHTML = `
                 <div class="p-3 mb-6 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -45,28 +64,37 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
             `;
             btn.innerHTML = 'Redirigiendo...';
 
-            
             setTimeout(() => {
                 window.location.href = 'main.html';
             }, 1000);
-
         } else {
-            
+            // Mostrar error del backend (ej. contraseña incorrecta)
             msgBox.innerHTML = `
                 <div class="p-3 mb-6 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                    Usuario o contraseña incorrectos. (Prueba con 'admin')
+                    ${data.message || 'Usuario o contraseña incorrectos.'}
                 </div>
             `;
-            
             btn.disabled = false;
             btn.classList.remove('opacity-75', 'cursor-not-allowed');
             btn.innerHTML = originalBtnText;
         }
-    }, 1500);
+    } catch (error) {
+        // En caso de que el backend no responda o esté apagado
+        msgBox.innerHTML = `
+            <div class="p-3 mb-6 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                Error de conexión con el servidor. Inténtalo más tarde.
+            </div>
+        `;
+        btn.disabled = false;
+        btn.classList.remove('opacity-75', 'cursor-not-allowed');
+        btn.innerHTML = originalBtnText;
+    }
 });
+
 function togglePassword() {
-    
+
     const passwordInput = document.getElementById('password');
     const eye = document.getElementById("eyeIcon");
 
