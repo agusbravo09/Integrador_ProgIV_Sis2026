@@ -199,20 +199,32 @@ function setupInscripcionesEventListeners() {
     });
 
     btnNuevoEstudiante.addEventListener('click', () => {
-        window.toggleModalInscripcion(); // Cerrar modal actual
-        window.cambiarVista('estudiantes'); // Cambiar a la vista de estudiantes
-        
-        setTimeout(() => {
-            if (window.toggleModalEstudiante) {
-                window.toggleModalEstudiante('estudianteModal', 'Nuevo Estudiante');
+        Swal.fire({
+            title: '¿Crear nuevo estudiante?',
+            text: "Serás redirigido a la sección de estudiantes para registrarlo.",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, ir a crear'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.toggleModalInscripcion(); // Cerrar modal actual
+                window.cambiarVista('estudiantes'); // Cambiar a la vista de estudiantes
+                
                 setTimeout(() => {
-                    const docInput = document.getElementById('documento');
-                    if (docInput && insDni.value) {
-                        docInput.value = insDni.value;
+                    if (window.toggleModalEstudiante) {
+                        window.toggleModalEstudiante('estudianteModal', 'Nuevo Estudiante');
+                        setTimeout(() => {
+                            const docInput = document.getElementById('documento');
+                            if (docInput && insDni.value) {
+                                docInput.value = insDni.value;
+                            }
+                        }, 100);
                     }
-                }, 100);
+                }, 300); // Esperar que cargue la vista
             }
-        }, 300); // Esperar que cargue la vista
+        });
     });
 
     btnEditarEstudiante.addEventListener('click', () => {
