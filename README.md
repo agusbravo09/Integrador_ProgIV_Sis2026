@@ -55,50 +55,49 @@ La API cuenta con 4 entidades principales, todas respetan las normas BREAD (Brow
 
 ---
 
-## Cómo usar el proyecto (Entorno de Desarrollo)
+## Cómo usar el proyecto (Entorno Dockerizado)
 
-### Requisitos
-*   Node.js instalado localmente.
-*   Docker y Docker Compose (para levantar la base de datos PostgreSQL).
+El entorno completo está empaquetado en contenedores de Docker, por lo que **no es necesario tener Node.js ni PostgreSQL instalados en tu máquina local**, solo necesitas tener Docker y Docker Compose activos.
 
-### Pasos
-1.  **Levantar Base de Datos:**
-    En la raíz del proyecto ejecutar:
-    ```bash
-    docker-compose up -d
-    ```
-    *(La base de datos se inicializa automáticamente con el script `init.sql` aportando estructura y datos semilla).*
-2.  **Instalar Dependencias:**
-    Entrar al directorio backend:
-    ```bash
-    cd backend
-    npm install
-    ```
-3.  **Configurar Variables de Entorno:**
-    Renombrar o crear un archivo `.env` en la carpeta `backend` con las credenciales correspondientes a tu Docker de PostgreSQL.
-4.  **Iniciar el Servidor:**
-    ```bash
-    npm run dev
-    ```
-    La API estará corriendo en `http://localhost:3000`.
+### Pasos para iniciar
 
-### Cómo ejecutar Front
-1. En la terminal, ir a la carpeta del front mediante `cd`.
-2. Ejecutar el siguiente comando:
+1. **Clonar e iniciar el entorno:**
+   En la raíz del proyecto, ejecuta el siguiente comando en tu terminal para compilar las imágenes e iniciar todos los servicios:
    ```bash
-   python -m http.server 8000
+   docker compose up --build
+   ```
+   *(La base de datos se inicializará automáticamente con la estructura y los datos semilla del archivo `init.sql`).*
 
-3. Abrir en el navegador:
+2. **Acceder a la aplicación:**
+   Una vez que la terminal indique que los servidores están listos, podrás acceder a ellos a través de los siguientes puertos:
+   * **Frontend (Interfaz de Usuario)**: [http://localhost:8080](http://localhost:8080) (servido por Nginx).
+   * **Backend (API REST)**: [http://localhost:3000/api](http://localhost:3000/api) (Express).
+   * **Base de Datos (PostgreSQL)**: Puerto local `5432` (credenciales: `user: postgres`, `password: admin_db`, `database: fcad_cursos`).
 
-* Para el main: http://127.0.0.1:8000/main.html
+---
 
-* Para el login: http://127.0.0.1:8000/index.html
+## Autenticación y Seguridad (JWT)
 
-Datos para iniciar:
+El sistema implementa autenticación basada en **tokens JWT (JSON Web Tokens)**:
 
-*Usuario: admin
+1. **Inicio de Sesión**:
+   * Al ingresar credenciales correctas en la pantalla de login, el servidor firma un token de acceso seguro (válido por 2 horas).
+   * El frontend recibe este token y lo guarda de forma persistente en el `localStorage` del navegador, junto con los datos básicos del usuario.
+2. **Acceso Seguro a Rutas**:
+   * Todas las solicitudes que realiza el frontend para consultar, crear, modificar o eliminar registros (cursos, estudiantes, inscripciones y usuarios) incluyen el token en la cabecera HTTP de autorización: `Authorization: Bearer <token>`.
+   * Si intentas ingresar directamente a `main.html` sin haber iniciado sesión, el frontend detecta la ausencia del token y te redirige de inmediato a `index.html`.
+3. **Cierre de Sesión**:
+   * Al presionar "Cerrar Sesión", los datos de autenticación del `localStorage` son borrados, previniendo accesos no autorizados.
 
-*Clave: admin
+### Credenciales de Acceso
+Todas las contraseñas de los usuarios son: Usuario.{id_usuario}.   
+Ejemplo: **Usuario:** inovello, **Contraseña:** Usuario.5
 
-### Pruebas de Endpoints (Bruno)
-El proyecto incluye una carpeta `bruno_collection` la cual puedes importar en tu cliente REST [Bruno](https://www.usebruno.com/). Contiene las requests preconfiguradas con ejemplos en formato JSON para todas las entidades listas para hacer consultas a tu servidor local.
+---
+
+## Pruebas de Endpoints (Bruno)
+
+El proyecto incluye una carpeta `bruno_collection` la cual puedes importar en tu cliente REST [Bruno](https://www.usebruno.com/).
+* Contiene las requests preconfiguradas con ejemplos en formato JSON para todas las entidades listas para hacer consultas a tu servidor local.
+* **Autenticación en Bruno**: Para probar los endpoints protegidos, primero debes ejecutar la petición de la carpeta raíz **`Login`** para obtener el token, luego ve a la pestaña **Auth** de la consulta que desees probar, selecciona **Bearer Token** y pega el token JWT obtenido.
+
