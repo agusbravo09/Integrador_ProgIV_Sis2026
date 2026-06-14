@@ -28,7 +28,7 @@ export const create = async (req, res, next) => {
     const errors = validateUsuarioDTO(dto);
 
     if (errors.length > 0) {
-        return res.status(400).json({ message: "Errores de validación", errors });
+      return res.status(400).json({ message: "Errores de validación", errors });
     }
 
     const result = await UsuariosService.create(dto);
@@ -44,7 +44,7 @@ export const update = async (req, res, next) => {
     const errors = validateUsuarioDTO(dto);
 
     if (errors.length > 0) {
-        return res.status(400).json({ message: "Errores de validación", errors });
+      return res.status(400).json({ message: "Errores de validación", errors });
     }
 
     const result = await UsuariosService.update(req.params.id, dto);
@@ -61,10 +61,24 @@ export const remove = async (req, res, next) => {
   try {
     const result = await UsuariosService.remove(req.params.id);
     if (!result || result.length === 0) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "Usuario no encontrado" });
     }
     res.json({ message: "Usuario eliminado lógicamente (baja)" });
   } catch (err) {
     next(err);
+  }
+};
+
+export const login = async (req, res, next) => {
+  try {
+    const { nombre_usuario, contrasenia } = req.body;
+    if (!nombre_usuario || !contrasenia) {
+      return res.status(400).json({ message: "Se requiere nombre de usuario y contraseña" });
+    }
+
+    const result = await UsuariosService.login(nombre_usuario, contrasenia);
+    res.json(result);
+  } catch (err) {
+    res.status(401).json({ message: err.message });
   }
 };

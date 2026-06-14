@@ -23,3 +23,8 @@ export const update = async (id, usuario) => {
 export const eliminar = async (id) => {
     return BaseRepo.remove(TABLE_NAME, ID_COLUMN, id);
 }
+
+export const getByUsername = async (username) => {
+    return query(`SELECT * FROM ${TABLE_NAME} WHERE nombre_usuario = $1 AND activo = 1`,
+        [username]);
+}
