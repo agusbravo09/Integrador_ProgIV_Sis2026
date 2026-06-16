@@ -1,0 +1,19 @@
+meta {
+  name: Delete
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/inscripciones/:id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo1LCJub21icmVfdXN1YXJpbyI6Imlub3ZlbGxvIiwiaWF0IjoxNzgxNTcxOTMzLCJleHAiOjE3ODE1NzkxMzN9.EZyzFh7vhL7j5g53QjPnGO0WQHcGfoGRPh5rpECXgPs
+}
