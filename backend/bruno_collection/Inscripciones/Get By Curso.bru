@@ -1,0 +1,19 @@
+meta {
+  name: Get By Curso
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/cursos/:idCurso/inscripciones
+  body: none
+  auth: bearer
+}
+
+params:path {
+  idCurso: 
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo1LCJub21icmVfdXN1YXJpbyI6Imlub3ZlbGxvIiwiaWF0IjoxNzgxNTcxOTMzLCJleHAiOjE3ODE1NzkxMzN9.EZyzFh7vhL7j5g53QjPnGO0WQHcGfoGRPh5rpECXgPs
+}

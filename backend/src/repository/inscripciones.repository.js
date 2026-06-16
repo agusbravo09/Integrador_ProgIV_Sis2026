@@ -10,7 +10,23 @@ const ESTADOS = {
 };
 
 export const findAll = async () => {
-    return BaseRepo.findActives(TABLE_NAME, `id_inscripcion_estado != ${ESTADOS.CANCELADA}`);
+    const text = `
+        SELECT 
+            i.id_inscripcion,
+            i.id_estudiante,
+            e.documento AS dni,
+            e.apellido,
+            e.nombres AS estudiante_nombre,
+            i.id_curso,
+            c.nombre AS curso_nombre,
+            i.fecha_hora_inscripcion,
+            i.id_inscripcion_estado
+        FROM ${TABLE_NAME} i
+        INNER JOIN estudiantes e ON i.id_estudiante = e.id_estudiante
+        INNER JOIN cursos c ON i.id_curso = c.id_curso
+        WHERE i.id_inscripcion_estado != ${ESTADOS.CANCELADA}
+    `;
+    return await query(text);
 }
 
 export const getById = async (id) => {
