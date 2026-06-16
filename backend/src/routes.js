@@ -15,10 +15,12 @@ router.use(verificarToken);
 
 // estudiantes
 router.get('/estudiantes', ctrl.getAll);
+router.get('/estudiantes/dni/:dni', ctrl.getByDni);
 router.get('/estudiantes/:id', ctrl.getById);
 router.post('/estudiantes', ctrl.create);
 router.put('/estudiantes/:id', ctrl.update);
 router.delete('/estudiantes/:id', ctrl.remove);
+
 
 //cursos
 router.get('/cursos', ctrlCursos.getAll);

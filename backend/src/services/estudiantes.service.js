@@ -43,3 +43,8 @@ export const update = async (id, datos) => {
 export const remove = async (id) => {
     return EstudiantesRepo.eliminar(id);
 };
+
+export const getByDni = async (dni) => {
+    return EstudiantesRepo.getByDni(dni);
+};
+
