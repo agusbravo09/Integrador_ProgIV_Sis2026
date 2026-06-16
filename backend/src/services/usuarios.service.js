@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import * as UsuariosRepo from '../repository/usuarios.repository.js';
+import jwt from 'jsonwebtoken';
 
 const removeContrasenia = (usuarios) => {
     return usuarios.map(u => {
@@ -54,3 +55,37 @@ export const update = async (id, datos) => {
 export const remove = async (id) => {
     return UsuariosRepo.eliminar(id);
 };
+
+export const login = async (nombre_usuario, contrasenia) => {
+    //Buscar el usuario
+    const usuarios = await UsuariosRepo.getByUsername(nombre_usuario);
+    if (!usuarios || usuarios.length === 0) {
+        throw new Error('Usuario o contraseña incorrectos');
+    }
+
+    const usuario = usuarios[0];
+
+    //Comparar el hash de la contraseña recibida
+    const contraseniaHash = crypto.createHash('sha256').update(contrasenia).digest('hex');
+    if (usuario.contrasenia !== contraseniaHash) {
+        throw new Error('Usuario o contraseña incorrectos');
+    }
+
+    //Crear el token JWT
+    const token = jwt.sign(
+        { id_usuario: usuario.id_usuario, nombre_usuario: usuario.nombre_usuario },
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    );
+
+    return {
+        token,
+        usuario: {
+            id_usuario: usuario.id_usuario,
+            nombre: usuario.nombre,
+            apellido: usuario.apellido,
+            nombre_usuario: usuario.nombre_usuario
+        }
+    };
+};
+

@@ -9,6 +9,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/tailwind-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/global.css">
 </head>
 
@@ -120,15 +121,14 @@
             <div id="profile-box"
                 class="flex items-center py-3 rounded-xl bg-slate-50/50 mb-2 border border-white/60 transition-all duration-300 w-full overflow-hidden whitespace-nowrap">
                 <div class="w-12 flex justify-center flex-shrink-0">
-                    <div
+                    <div id="profile-initials"
                         class="w-8 h-8 rounded-full bg-institucional-600 flex items-center justify-center text-white font-bold text-xs">
                         AD
                     </div>
                 </div>
                 <div class="sidebar-text transition-all duration-300 opacity-100 max-w-[200px] pl-1">
                     <div class="flex flex-col text-left">
-                        <span class="text-sm font-bold text-slate-700">Admin</span>
-                        <span class="text-[11px] text-slate-500 leading-tight">Administrador</span>
+                        <span id="profile-name" class="text-sm font-bold text-slate-700">Admin</span>
                     </div>
                 </div>
             </div>
@@ -218,7 +218,7 @@
     <script type="module" src="js/estudiantes.js" defer></script>
     <script type="module" src="js/cursos.js" defer></script>
     <script src="js/inscripciones.js" defer></script>
-    
+
 </body>
 
 </html>

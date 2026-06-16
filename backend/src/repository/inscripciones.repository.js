@@ -17,8 +17,17 @@ export const getById = async (id) => {
     return BaseRepo.findActivesById(TABLE_NAME, ID_COLUMN, id, `id_inscripcion_estado != ${ESTADOS.CANCELADA}`);
 }
 
+//Lo pidio el front.
 export const findByCourse = async (id_curso) => {
-    const text = `SELECT * FROM ${TABLE_NAME} WHERE id_curso = $1 AND id_inscripcion_estado != ${ESTADOS.CANCELADA}`;
+    const text = `
+        SELECT 
+            i.*, 
+            (e.nombres || ' ' || e.apellido) AS nombre_alumno, 
+            e.documento AS dni_alumno 
+        FROM ${TABLE_NAME} i
+        INNER JOIN estudiantes e ON i.id_estudiante = e.id_estudiante
+        WHERE i.id_curso = $1 AND i.id_inscripcion_estado != ${ESTADOS.CANCELADA}
+    `;
     return await query(text, [id_curso]);
 }
 

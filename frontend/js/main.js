@@ -1,10 +1,33 @@
+// Si no hay token guardado, mandamos al usuario de vuelta al login
+if (!localStorage.getItem('token')) {
+    window.location.href = 'index.html';
+}
+
 // Variable global para almacenar la vista actualmente activa y evitar recargas duplicadas
 window.vistaActual = '';
 
 document.addEventListener("DOMContentLoaded", () => {
     // Escuchamos el evento 'hashchange' para manejar cuando el usuario va hacia atrás o adelante
     window.addEventListener("hashchange", manejarCambioRuta);
-    
+
+    // Cargar perfil del usuario logueado en el sidebar
+    const userJson = localStorage.getItem('usuario');
+    if (userJson) {
+        try {
+            const user = JSON.parse(userJson);
+            const nombreCompleto = `${user.nombre || ''} ${user.apellido || ''}`.trim();
+            const initials = `${user.nombre?.[0] || ''}${user.apellido?.[0] || ''}`.toUpperCase();
+
+            const elName = document.getElementById('profile-name');
+            const elInitials = document.getElementById('profile-initials');
+
+            if (elName) elName.textContent = nombreCompleto || 'Usuario';
+            if (elInitials) elInitials.textContent = initials || 'U';
+        } catch (e) {
+            console.error("Error al parsear el usuario de localStorage:", e);
+        }
+    }
+
     // Ejecutamos la función una vez al iniciar la aplicación para cargar la vista correcta basada en la URL actual
     manejarCambioRuta();
 });
@@ -13,10 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function manejarCambioRuta() {
     // Obtenemos el hash actual sin el símbolo '#' (ej: '#cursos' -> 'cursos')
     const hash = window.location.hash.slice(1);
-    
+
     // Si no hay hash en la URL, por defecto vamos a 'dashboard'
     const vistaDestino = hash || 'dashboard';
-    
+
     // Cargamos la vista correspondiente indicando que viene de un cambio de hash (deHistorial = true)
     cambiarVista(vistaDestino, true);
 }
@@ -29,7 +52,7 @@ async function cambiarVista(vistaDestino, deHistorial = false) {
 
     const contenedor = document.getElementById('contenido-dinamico');
 
-    
+
     contenedor.innerHTML = `
         <div class="flex h-[60vh] items-center justify-center text-slate-400 font-medium">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-institucional-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -41,20 +64,20 @@ async function cambiarVista(vistaDestino, deHistorial = false) {
     `;
 
     try {
-        
+
         const respuesta = await fetch(`html/${vistaDestino}.html`);
 
         if (!respuesta.ok) {
             throw new Error(`No se pudo encontrar el archivo html/${vistaDestino}.html`);
         }
 
-        
+
         const htmlTexto = await respuesta.text();
 
-        
+
         contenedor.innerHTML = htmlTexto;
 
-        
+
         actualizarMenu(vistaDestino);
 
         // Si el cambio de vista NO se originó por el historial (ej: clic directo), actualizamos el hash en la URL
@@ -64,7 +87,7 @@ async function cambiarVista(vistaDestino, deHistorial = false) {
 
         // Guardamos la vista actual globalmente
         window.vistaActual = vistaDestino;
-        
+
         if (vistaDestino === 'cursos' && typeof initCursos === 'function') {
             initCursos();
         }
@@ -83,7 +106,7 @@ async function cambiarVista(vistaDestino, deHistorial = false) {
             }, 100);
         }
 
-        
+
 
     } catch (error) {
         console.error("Error cargando la vista:", error);
@@ -152,81 +175,83 @@ function toggleSidebar() {
     const texts = document.querySelectorAll('.sidebar-text');
     const toggleIcon = document.getElementById('toggle-icon');
 
-    
+
     const logoWrapper = document.getElementById('sidebar-logo-wrapper');
     const toggleBtn = document.getElementById('toggle-btn');
     const profileBox = document.getElementById('profile-box');
 
-    
+
     if (sidebar.classList.contains('w-64')) {
 
-        
+
         sidebar.classList.remove('w-64');
         sidebar.classList.add('w-20');
 
-        
+
         if (mainContent) {
             mainContent.classList.remove('sm:ml-72', 'sm:w-[calc(100%-18rem)]');
             mainContent.classList.add('sm:ml-24', 'sm:w-[calc(100%-6rem)]');
         }
 
-        
+
         logoWrapper.classList.remove('w-40', 'opacity-100');
         logoWrapper.classList.add('w-0', 'opacity-0');
 
-        
+
         toggleBtn.classList.remove('right-4');
         toggleBtn.classList.add('right-5');
 
-        
+
         texts.forEach(text => {
             text.classList.remove('max-w-[200px]', 'opacity-100');
             text.classList.add('max-w-0', 'opacity-0');
         });
 
-        
+
         profileBox.classList.remove('bg-slate-50/50', 'border-white/60');
         profileBox.classList.add('bg-transparent', 'border-transparent');
 
-        
+
         toggleIcon.classList.add('rotate-180');
 
     } else {
-        
+
         sidebar.classList.remove('w-20');
         sidebar.classList.add('w-64');
 
-        
+
         if (mainContent) {
             mainContent.classList.remove('sm:ml-24', 'sm:w-[calc(100%-6rem)]');
             mainContent.classList.add('sm:ml-72', 'sm:w-[calc(100%-18rem)]');
         }
 
-        
+
         logoWrapper.classList.remove('w-0', 'opacity-0');
         logoWrapper.classList.add('w-40', 'opacity-100');
 
-        
+
         toggleBtn.classList.remove('right-5');
         toggleBtn.classList.add('right-4');
 
-        
+
         texts.forEach(text => {
             text.classList.remove('max-w-0', 'opacity-0');
             text.classList.add('max-w-[200px]', 'opacity-100');
         });
 
-        
+
         profileBox.classList.remove('bg-transparent', 'border-transparent');
         profileBox.classList.add('bg-slate-50/50', 'border-white/60');
 
-        
+
         toggleIcon.classList.remove('rotate-180');
     }
 }
 const logoutBtn = document.getElementById("logout-btn");
 if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
         window.location.href = "index.html";
     });
 }
