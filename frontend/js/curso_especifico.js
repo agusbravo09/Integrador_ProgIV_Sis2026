@@ -7,6 +7,38 @@ window.currentPageAlumnosCurso = 1;
 window.inscripcionesCache = {};
 const ROWS_PER_PAGE_ALUMNOS = 10;
 
+let isPrinting = false;
+
+// Eventos para expandir la lista de alumnos y cambiar el nombre del archivo PDF al imprimir
+window.addEventListener('beforeprint', () => {
+    isPrinting = true;
+
+    // Guardar el título original y cambiarlo al nombre del curso para nombrar el PDF
+    window.originalTitle = document.title;
+    if (window.cursoSeleccionado && window.cursoSeleccionado.nombre) {
+        document.title = window.cursoSeleccionado.nombre;
+    }
+
+    // fecha de impresión en el reporte
+    const fechaEl = document.getElementById('fecha-impresion-reporte');
+    if (fechaEl) {
+        fechaEl.textContent = new Date().toLocaleString();
+    }
+
+    renderAlumnosInscriptos();
+});
+
+window.addEventListener('afterprint', () => {
+    isPrinting = false;
+
+    // Restaurar el título de página original
+    if (window.originalTitle) {
+        document.title = window.originalTitle;
+    }
+
+    renderAlumnosInscriptos();
+});
+
 // ============ FUNCIONES BÁSICAS ============
 function getMateriaActual() {
     const elTitulo = document.getElementById("curso-especifico-titulo");
@@ -190,7 +222,7 @@ async function renderAlumnosInscriptos() {
 
     const inicio = (window.currentPageAlumnosCurso - 1) * ROWS_PER_PAGE_ALUMNOS;
     const fin = Math.min(inicio + ROWS_PER_PAGE_ALUMNOS, total);
-    const pagina = alumnos.slice(inicio, fin);
+    const pagina = isPrinting ? alumnos : alumnos.slice(inicio, fin);
 
     // Total label
     const totalLabel = document.getElementById("total-alumnos-inscriptos");
@@ -236,11 +268,11 @@ function cambiarPaginaAlumnos(direction) {
 }
 
 // ============ BOTONES DEL HEADER ============
-    function volverACursos() {
-        if (typeof cambiarVista === 'function') {
-            cambiarVista('cursos');
-        }
+function volverACursos() {
+    if (typeof cambiarVista === 'function') {
+        cambiarVista('cursos');
     }
+}
 
 function imprimirCursoEspecifico() {
     window.print();
@@ -248,12 +280,12 @@ function imprimirCursoEspecifico() {
 
 function editarCursoEspecifico() {
     if (window.cursoSeleccionadoIndex == null) return;
-    
+
     // Volver a la vista de cursos
     if (typeof cambiarVista === 'function') {
         cambiarVista('cursos');
     }
-    
+
     // Esperar a que se cargue el modal y abrirlo
     setTimeout(() => {
         if (typeof editarCurso === 'function') {
@@ -284,11 +316,11 @@ async function eliminarCursoEspecifico() {
 // ============ NAVEGACIÓN ============
 function verCursoEspecifico(identifier) {
     if (!window.cursosData) return;
-    
+
     // Buscar el curso por id_curso o por índice
     let cursoEncontrado = null;
     let indexEncontrado = null;
-    
+
     // Primero intentar buscar por id_curso
     if (typeof identifier === 'number' && identifier > 0) {
         indexEncontrado = window.cursosData.findIndex(c => c.id_curso === identifier);
@@ -296,22 +328,22 @@ function verCursoEspecifico(identifier) {
             cursoEncontrado = window.cursosData[indexEncontrado];
         }
     }
-    
+
     // Si no encuentra por ID, usar el índice directamente
     if (!cursoEncontrado && window.cursosData[identifier]) {
         cursoEncontrado = window.cursosData[identifier];
         indexEncontrado = identifier;
     }
-    
+
     if (!cursoEncontrado) {
         console.error('Curso no encontrado:', identifier);
         return;
     }
-    
+
     window.cursoSeleccionado = cursoEncontrado;
     window.cursoSeleccionadoIndex = indexEncontrado;
     window.inscripcionesCache = {};
-    
+
     if (typeof cambiarVista === 'function') {
         cambiarVista("curso_especifico");
     }
@@ -341,7 +373,7 @@ async function initCursoEspecifico() {
         window.cursoEspecificoListenersAdded = true;
     }
 }
-    
+
 
 // Exportar al scope global
 window.verCursoEspecifico = verCursoEspecifico;

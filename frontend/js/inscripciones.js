@@ -1,3 +1,6 @@
+import { getHeaders } from './utils/headers.js';
+import { API_BASE_URL } from './config.js';
+
 let inscripcionesData = [];
 let cursosDisponibles = [];
 let todosLosCursos = [];
@@ -7,7 +10,7 @@ const ITEMS_PER_PAGE_INSCRIPCIONES = 5;
 let currentSortColumnIns = 'fecha_hora_inscripcion';
 let currentSortDirectionIns = 'desc';
 
-window.sortInscripciones = function(col) {
+window.sortInscripciones = function (col) {
     if (currentSortColumnIns === col) {
         currentSortDirectionIns = currentSortDirectionIns === 'asc' ? 'desc' : 'asc';
     } else {
@@ -25,7 +28,7 @@ async function initInscripciones() {
 
 async function fetchInscripciones() {
     try {
-        const response = await fetch('http://localhost:3000/api/inscripciones');
+        const response = await fetch(`${API_BASE_URL}/inscripciones`, { headers: getHeaders() });
         const data = await response.json();
         inscripcionesData = data || [];
         renderInscripciones();
@@ -107,7 +110,7 @@ function renderInscripciones() {
 
     const startIndex = (currentPageInscripciones - 1) * ITEMS_PER_PAGE_INSCRIPCIONES;
     const endIndex = Math.min(startIndex + ITEMS_PER_PAGE_INSCRIPCIONES, totalItems);
-    
+
     const pageItems = sorted.slice(startIndex, endIndex);
 
     const infoPaginacion = document.getElementById('info-paginacion');
@@ -153,6 +156,8 @@ function renderInscripciones() {
         tbody.appendChild(tr);
     });
 }
+
+// getHeaders importado desde utils/headers.js
 
 function setupInscripcionesEventListeners() {
     const insDni = document.getElementById('insDni');
@@ -211,7 +216,7 @@ function setupInscripcionesEventListeners() {
             if (result.isConfirmed) {
                 window.toggleModalInscripcion(); // Cerrar modal actual
                 window.cambiarVista('estudiantes'); // Cambiar a la vista de estudiantes
-                
+
                 setTimeout(() => {
                     if (window.toggleModalEstudiante) {
                         window.toggleModalEstudiante('estudianteModal', 'Nuevo Estudiante');
@@ -291,7 +296,9 @@ async function buscarEstudiantePorDni(dni) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/api/estudiantes/dni/${dni}`);
+        const response = await fetch(`${API_BASE_URL}/estudiantes/dni/${dni}`, {
+            headers: getHeaders()
+        });
         if (response.ok) {
             const estudiante = await response.json();
             document.getElementById('insIdEstudiante').value = estudiante.id_estudiante;
@@ -333,11 +340,11 @@ function resetEstudianteForm() {
 
 async function fetchCursosParaCarrito() {
     try {
-        const response = await fetch('http://localhost:3000/api/cursos');
+        const response = await fetch(`${API_BASE_URL}/cursos`, { headers: getHeaders() });
         const data = await response.json();
-        
+
         todosLosCursos = data;
-        
+
         // Poblar el filtro global de cursos
         const selectFiltro = document.getElementById('filtroCurso');
         if (selectFiltro) {
@@ -382,11 +389,11 @@ function mostrarSugerenciasCursos(texto) {
     const sugerencias = cursosDisponibles.filter(c => {
         const tieneCupoYNombre = c.cupoDisponible > 0 && normalizeString(c.nombre).includes(searchNormalized);
         const estaEnCarrito = carritoCursos.find(carritoC => carritoC.id_curso === c.id_curso);
-        
+
         // Verificar que no tenga ya una inscripcion activa (estado 1) en este curso
-        const yaInscripto = inscripcionesData.some(ins => 
-            ins.id_estudiante === idEstudianteSeleccionado && 
-            ins.id_curso === c.id_curso && 
+        const yaInscripto = inscripcionesData.some(ins =>
+            ins.id_estudiante === idEstudianteSeleccionado &&
+            ins.id_curso === c.id_curso &&
             ins.id_inscripcion_estado === 1
         );
 
@@ -506,9 +513,9 @@ async function confirmarInscripcion() {
                 id_usuario_modificacion: 1
             };
 
-            const response = await fetch('http://localhost:3000/api/inscripciones', {
+            const response = await fetch(`${API_BASE_URL}/inscripciones`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(payload)
             });
 
@@ -574,7 +581,10 @@ async function eliminarInscripcion(id) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const res = await fetch(`http://localhost:3000/api/inscripciones/${id}`, { method: 'DELETE' });
+                const res = await fetch(`${API_BASE_URL}/inscripciones/${id}`, {
+                    method: 'DELETE',
+                    headers: getHeaders()
+                });
                 if (res.ok) {
                     Swal.fire({
                         title: 'Cancelada',
@@ -611,3 +621,6 @@ window.toggleModalInscripcion = function () {
 
 window.initInscripciones = initInscripciones;
 window.renderInscripciones = renderInscripciones;
+window.eliminarInscripcion = eliminarInscripcion;
+window.quitarCursoDelCarrito = quitarCursoDelCarrito;
+window.confirmarInscripcion = confirmarInscripcion;

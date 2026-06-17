@@ -1,15 +1,5 @@
-// api/api-inscripciones.js
-import { API_BASE_URL } from './api-cursos.js';
-
-// Obtiene el token y crea las cabeceras requeridas
-function getHeaders(extraHeaders = {}) {
-    const token = localStorage.getItem('token');
-    return {
-        'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-        ...extraHeaders
-    };
-}
+import { API_BASE_URL } from '../config.js';
+import { getHeaders } from '../utils/headers.js';
 
 async function getInscripcionesByCurso(idCurso) {
     try {
