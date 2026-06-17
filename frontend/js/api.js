@@ -1,14 +1,5 @@
-const API_BASE_URL = 'http://localhost:3000/api';
-
-// Obtiene el token y crea las cabeceras requeridas
-function getHeaders(extraHeaders = {}) {
-    const token = localStorage.getItem('token');
-    return {
-        'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-        ...extraHeaders
-    };
-}
+import { getHeaders } from './utils/headers.js';
+import { API_BASE_URL } from './config.js';
 
 // GET all cursos
 //Retorna todos los cursos
@@ -90,4 +81,6 @@ async function deleteCursoApi(id) {
         console.error(`Error en deleteCursoApi(${id}):`, error);
     }
 }
+
+export { getCursos, getCursoById, createCursoApi, updateCursoApi, deleteCursoApi, API_BASE_URL };
 

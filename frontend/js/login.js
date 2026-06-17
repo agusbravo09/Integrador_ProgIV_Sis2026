@@ -1,5 +1,7 @@
 
 
+import { API_BASE_URL } from './config.js';
+
 // Si ya hay un token guardado, redirigimos directamente al dashboard
 if (localStorage.getItem('token')) {
     window.location.href = 'main.html';
@@ -38,7 +40,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
     try {
         // Llamada al backend
-        const response = await fetch('http://localhost:3000/api/login', {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -94,7 +96,6 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 });
 
 function togglePassword() {
-
     const passwordInput = document.getElementById('password');
     const eye = document.getElementById("eyeIcon");
 
@@ -113,3 +114,5 @@ function togglePassword() {
         `;
     }
 }
+
+window.togglePassword = togglePassword;

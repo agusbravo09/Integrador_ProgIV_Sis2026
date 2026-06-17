@@ -1,14 +1,5 @@
-const API_BASE_URL = 'http://localhost:3000/api';
-
-// Obtiene el token y crea las cabeceras requeridas
-function getHeaders(extraHeaders = {}) {
-    const token = localStorage.getItem('token');
-    return {
-        'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-        ...extraHeaders
-    };
-}
+import { getHeaders } from '../utils/headers.js';
+import { API_BASE_URL } from '../config.js';
 
 // GET all estudiantes
 async function getEstudiantes() {
