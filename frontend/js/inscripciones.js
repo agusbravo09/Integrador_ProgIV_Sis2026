@@ -1,4 +1,13 @@
 let inscripcionesData = [];
+
+function getInscripcionesHeaders() {
+    const token = localStorage.getItem('token');
+    return {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    };
+}
+
 let cursosDisponibles = [];
 let todosLosCursos = [];
 let carritoCursos = [];
@@ -25,9 +34,13 @@ async function initInscripciones() {
 
 async function fetchInscripciones() {
     try {
-        const response = await fetch('http://localhost:3000/api/inscripciones');
+        const response = await fetch('http://localhost:3000/api/inscripciones', { headers: getInscripcionesHeaders() });
         const data = await response.json();
-        inscripcionesData = data || [];
+        
+        // Si el backend devuelve un error de autorización 401/403, data será un objeto JSON, no un array.
+        // Esto evita que el sort() o filter() crasheen después.
+        inscripcionesData = Array.isArray(data) ? data : [];
+        
         renderInscripciones();
     } catch (error) {
         console.error('Error fetching inscripciones:', error);
@@ -47,20 +60,12 @@ function renderInscripciones() {
 
     if (filterCursoId || filterAlumnoText) {
         filtered = inscripcionesData.filter(ins => {
-            let matchesCurso = true;
-            let matchesAlumno = true;
-
-            if (filterCursoId) {
-                matchesCurso = ins.id_curso.toString() === filterCursoId;
-            }
-
-            if (filterAlumnoText) {
-                const fullName = normalizeString((ins.estudiante_nombre || '') + ' ' + (ins.apellido || ''));
-                const dni = ins.dni || '';
-                matchesAlumno = fullName.includes(filterAlumnoText) || dni.includes(filterAlumnoText);
-            }
-
-            return matchesCurso && matchesAlumno;
+            const matchCurso = filterCursoId ? String(ins.id_curso) === filterCursoId : true;
+            const matchAlumno = filterAlumnoText 
+                ? normalizeString((ins.estudiante_nombre || '') + ' ' + (ins.apellido || '')).includes(filterAlumnoText) || 
+                  String(ins.dni || '').includes(filterAlumnoText)
+                : true;
+            return matchCurso && matchAlumno;
         });
     }
 
@@ -291,7 +296,7 @@ async function buscarEstudiantePorDni(dni) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/api/estudiantes/dni/${dni}`);
+        const response = await fetch(`http://localhost:3000/api/estudiantes/dni/${dni}`, { headers: getInscripcionesHeaders() });
         if (response.ok) {
             const estudiante = await response.json();
             document.getElementById('insIdEstudiante').value = estudiante.id_estudiante;
@@ -333,7 +338,7 @@ function resetEstudianteForm() {
 
 async function fetchCursosParaCarrito() {
     try {
-        const response = await fetch('http://localhost:3000/api/cursos');
+        const response = await fetch('http://localhost:3000/api/cursos', { headers: getInscripcionesHeaders() });
         const data = await response.json();
         
         todosLosCursos = data;
@@ -508,7 +513,7 @@ async function confirmarInscripcion() {
 
             const response = await fetch('http://localhost:3000/api/inscripciones', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getInscripcionesHeaders(),
                 body: JSON.stringify(payload)
             });
 
@@ -574,7 +579,10 @@ async function eliminarInscripcion(id) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const res = await fetch(`http://localhost:3000/api/inscripciones/${id}`, { method: 'DELETE' });
+                const res = await fetch(`http://localhost:3000/api/inscripciones/${id}`, { 
+                    method: 'DELETE',
+                    headers: getInscripcionesHeaders()
+                });
                 if (res.ok) {
                     Swal.fire({
                         title: 'Cancelada',
