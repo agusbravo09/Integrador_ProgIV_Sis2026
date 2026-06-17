@@ -51,6 +51,17 @@ export const create = async (inscripcion) => {
     return BaseRepo.create(TABLE_NAME, inscripcion, 'fecha_hora_inscripcion');
 }
 
+export const countActivasByCurso = async (id_curso) => {
+    const text = `SELECT COUNT(*)::int AS total FROM ${TABLE_NAME} WHERE id_curso = $1 AND id_inscripcion_estado != ${ESTADOS.CANCELADA}`;
+    const rows = await query(text, [id_curso]);
+    return rows[0].total;
+}
+
+export const findDuplicada = async (id_curso, id_estudiante) => {
+    const text = `SELECT * FROM ${TABLE_NAME} WHERE id_curso = $1 AND id_estudiante = $2 AND id_inscripcion_estado != ${ESTADOS.CANCELADA}`;
+    return await query(text, [id_curso, id_estudiante]);
+}
+
 export const eliminar = async (id) => {
     const text = `UPDATE ${TABLE_NAME} SET id_inscripcion_estado = ${ESTADOS.CANCELADA} WHERE ${ID_COLUMN} = $1 RETURNING *`;
     return await query(text, [id]);
