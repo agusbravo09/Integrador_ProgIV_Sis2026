@@ -63,7 +63,7 @@ function renderCursos() {
         if (curso.fecha_inicio) {
             const dateObj = new Date(curso.fecha_inicio);
             if (!isNaN(dateObj)) {
-                fechaMostrada = dateObj.toLocaleDateString();
+                fechaMostrada = dateObj.toLocaleDateString(undefined, { timeZone: 'UTC' });
             }
         }
 

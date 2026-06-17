@@ -83,7 +83,7 @@ function renderEstudiantes() {
         let fechaNac = "N/A";
         if (est.fecha_nacimiento) {
             const dateObj = new Date(est.fecha_nacimiento);
-            if (!isNaN(dateObj)) fechaNac = dateObj.toLocaleDateString();
+            if (!isNaN(dateObj)) fechaNac = dateObj.toLocaleDateString(undefined, { timeZone: 'UTC' });
         }
 
         fila.innerHTML = `
