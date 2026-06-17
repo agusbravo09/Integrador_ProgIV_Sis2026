@@ -1,0 +1,19 @@
+meta {
+  name: Get All
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/cursos
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo1LCJub21icmVfdXN1YXJpbyI6Imlub3ZlbGxvIiwiaWF0IjoxNzgxNTcxOTMzLCJleHAiOjE3ODE1NzkxMzN9.EZyzFh7vhL7j5g53QjPnGO0WQHcGfoGRPh5rpECXgPs
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3000/api
+}

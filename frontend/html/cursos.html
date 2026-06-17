@@ -1,0 +1,236 @@
+<div class="animate-fade-in flex flex-col h-full">
+
+
+    <!-- Header principal: en móvil se apila verticalmente, en desktop queda en fila -->
+    <header
+        class="bg-white shadow-sm px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-start sm:items-center rounded-2xl mb-4 sm:mb-8 border border-slate-200">
+        <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-800">Cursos Disponibles</h1>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Explora e inscríbete en nuestras propuestas formativas</p>
+        </div>
+
+
+        <button onclick="toggleCursoModal()"
+            class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-medium flex items-center shadow-sm transition-colors w-full sm:w-auto justify-center">
+
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                </path>
+            </svg>
+
+            Nuevo Curso
+        </button>
+    </header>
+
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+
+
+        <!-- Encabezado de la tabla: se apila en móvil -->
+        <div
+            class="px-4 sm:px-8 py-4 sm:py-6 border-b border-slate-200 flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between items-start sm:items-center">
+
+            <div>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-800">
+                    Lista de Cursos
+                </h2>
+
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                    Gestión y administración de cursos
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mt-4 sm:mt-0">
+                <div class="relative w-full sm:w-64">
+                    <input type="text" id="buscadorCursos" oninput="filtrarCursos()" placeholder="Buscar curso..."
+                        class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-institucional-500 focus:border-institucional-500 transition-colors">
+                    <svg class="w-5 h-5 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <select id="filtroEstadoCursos" onchange="filtrarCursos()" aria-label="Filtrar por estado" title="Filtrar por estado"
+                    class="w-full sm:w-48 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-institucional-500 text-slate-700 bg-white">
+                    <option value="">Todos los estados</option>
+                    <option value="1">Borrador</option>
+                    <option value="2">Inscripción abierta</option>
+                    <option value="3">Inscripción cerrada</option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <div class="overflow-x-auto">
+
+            <table class="responsive-table w-full text-left border-collapse">
+
+                <thead>
+                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+
+                        <th class="px-6 py-4 font-medium">Nombre</th>
+                        <th class="px-6 py-4 font-medium">Fecha de Inicio</th>
+                        <th class="px-6 py-4 font-medium">Horas</th>
+                        <th class="px-6 py-4 font-medium">Inscriptos</th>
+                        <th class="px-6 py-4 font-medium text-center">Estado</th>
+                        <th class="px-6 py-4 font-medium text-right">Acciones</th>
+
+                    </tr>
+                </thead>
+
+                <tbody id="tablaCursos" class="divide-y divide-slate-200 text-sm">
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="px-4 sm:px-8 py-4 border-t border-slate-200 flex items-center justify-between">
+            <div class="text-sm text-slate-500" id="paginacionInfo">
+                Mostrando 0 cursos
+            </div>
+            <div class="flex gap-2">
+                <button id="btnPrevPage" onclick="cambiarPaginaCursos(-1)"
+                    class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Anterior</button>
+                <button id="btnNextPage" onclick="cambiarPaginaCursos(1)"
+                    class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Siguiente</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal: en móvil ocupa toda la pantalla, en desktop se centra con max-width -->
+    <div id="cursoModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-2 sm:p-6">
+
+        <div
+            class="bg-white w-full max-w-4xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-none flex flex-col">
+
+
+            <div
+                class="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
+
+                <div>
+                    <h2 id="modalTitleCursos" class="text-xl font-bold text-slate-800">
+                        Nuevo Curso
+                    </h2>
+
+                    <p class="text-sm text-slate-500">
+                        Complete los datos del curso
+                    </p>
+                </div>
+
+                <button onclick="toggleCursoModal()" class="text-slate-400 hover:text-slate-700 text-2xl">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1">
+
+                <div id="error_general_curso"
+                    class="hidden mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm font-medium border border-red-200">
+                    <!-- Mensajes de error irán aquí -->
+                </div>
+
+                <form id="cursoForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="nombreCurso">
+                                Nombre del Curso
+                            </label>
+                            <input type="text" id="nombreCurso" autocomplete="off" oninput="validarFormularioCurso()"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                            <p id="errorNombreCurso" class="text-red-500 text-xs mt-1 hidden"></p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="estadoCurso">
+                                Estado del Curso
+                            </label>
+                            <select id="estadoCurso" onchange="validarFormularioCurso()"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                                <option value="1">Borrador</option>
+                                <option value="2">Inscripción abierta</option>
+                                <option value="3">Inscripción cerrada</option>
+                            </select>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="descripcionCurso">
+                                Descripción
+                            </label>
+                            <textarea id="descripcionCurso" rows="3" oninput="validarFormularioCurso()"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none resize-none"></textarea>
+                            <p id="errorDescripcionCurso" class="text-red-500 text-xs mt-1 hidden"></p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="fechaInicioCurso">
+                                Fecha de Inicio
+                            </label>
+                            <input type="date" id="fechaInicioCurso" min="1954-01-01" oninput="validarFormularioCurso()"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                            <p id="errorFechaInicioCurso" class="text-red-500 text-xs mt-1 hidden"></p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="cantidadHorasCurso">
+                                Cantidad de Horas
+                            </label>
+                            <input type="number" id="cantidadHorasCurso" placeholder="Ej: 60" min="1" step="1"
+                                inputmode="numeric" oninput="validarFormularioCurso()"
+                                onkeydown="return event.key !== '-' && event.key !== 'e' && event.key !== '+'"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                            <p id="errorCantidadHorasCurso" class="text-red-500 text-xs mt-1 hidden"></p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2" for="inscriptosMaximosCurso">
+                                Inscriptos Máximos
+                            </label>
+                            <input type="number" id="inscriptosMaximosCurso" placeholder="Ej: 40" min="1" step="1"
+                                inputmode="numeric" oninput="validarFormularioCurso()"
+                                onkeydown="return event.key !== '-' && event.key !== 'e' && event.key !== '+'"
+                                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-institucional-500 outline-none">
+                            <p id="errorInscriptosMaximosCurso" class="text-red-500 text-xs mt-1 hidden"></p>
+                        </div>
+
+                        <input type="hidden" id="idUsuarioModificacionCurso" value="1">
+                        <div class="md:col-span-2 text-sm text-slate-500 border-t border-slate-200 pt-4">
+
+                            <p>
+                                La fecha de modificación y el usuario responsable se actualizan automáticamente al
+                                guardar
+                                cambios.
+                            </p>
+
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+            <div
+                class="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
+
+                <button onclick="toggleCursoModal()"
+                    class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition text-sm">
+                    Cancelar
+                </button>
+
+                <button type="button" id="btnGuardarCurso" onclick="crearCurso()" disabled
+                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                    Crear Curso
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

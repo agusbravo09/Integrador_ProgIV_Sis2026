@@ -1,0 +1,22 @@
+meta {
+  name: Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/inscripciones
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo1LCJub21icmVfdXN1YXJpbyI6Imlub3ZlbGxvIiwiaWF0IjoxNzgxNTcxOTMzLCJleHAiOjE3ODE1NzkxMzN9.EZyzFh7vhL7j5g53QjPnGO0WQHcGfoGRPh5rpECXgPs
+}
+
+body:json {
+  {
+    "id_curso": 1,
+    "id_estudiante": 1
+  }
+}

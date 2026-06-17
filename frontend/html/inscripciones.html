@@ -1,0 +1,195 @@
+<div>
+
+    <header
+        class="bg-white shadow-sm px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-start sm:items-center rounded-2xl mb-4 sm:mb-8 border border-slate-200">
+        <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-800">Gestión de Inscripciones</h1>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Administración de inscripciones a cursos</p>
+        </div>
+
+        <button onclick="window.toggleModalInscripcion()"
+            class="bg-institucional-600 hover:bg-institucional-700 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-medium flex items-center shadow-sm transition-colors w-full sm:w-auto justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                </path>
+            </svg>
+            Nueva Inscripción
+        </button>
+    </header>
+
+    <div class="pb-8">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+
+            <div class="p-4 border-b border-slate-200 bg-slate-50 flex gap-4 justify-between items-center">
+                <div class="flex gap-4 w-full">
+                    <select id="filtroCurso" title="Filtrar por curso"
+                        class="rounded-lg border border-slate-300 px-4 py-2 text-sm bg-white min-w-[200px]">
+                        <option value="">Todos los cursos</option>
+                    </select>
+                    <div class="relative flex-1 max-w-xs">
+                        <input type="text" id="filtroAlumno" placeholder="Buscar por DNI o nombre..."
+                            class="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="responsive-table w-full text-left border-collapse">
+                    <thead>
+                        <tr
+                            class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('id_inscripcion')">
+                                Nº Ins. <span class="sort-icon ml-1" id="sort-icon-id_inscripcion"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('dni')">
+                                DNI <span class="sort-icon ml-1" id="sort-icon-dni"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('apellido')">
+                                Apellido <span class="sort-icon ml-1" id="sort-icon-apellido"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('estudiante_nombre')">
+                                Nombre <span class="sort-icon ml-1" id="sort-icon-estudiante_nombre"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('fecha_hora_inscripcion')">
+                                Fecha/Hora <span class="sort-icon ml-1" id="sort-icon-fecha_hora_inscripcion"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium cursor-pointer hover:bg-slate-200 transition" onclick="window.sortInscripciones('curso_nombre')">
+                                Curso <span class="sort-icon ml-1" id="sort-icon-curso_nombre"></span>
+                            </th>
+                            <th class="px-6 py-3 font-medium text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-inscripciones-body" class="divide-y divide-slate-200 text-sm">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="px-6 py-4 border-t border-slate-200 bg-white flex items-center justify-between">
+                <div class="text-sm text-slate-500" id="info-paginacion"></div>
+                <div class="flex gap-2">
+                    <button id="btn-prev-page"
+                        class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                    <button id="btn-next-page"
+                        class="px-3 py-1 border border-slate-300 rounded text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Inscripción -->
+    <div id="inscripcionModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 p-2 sm:p-6">
+        <div
+            class="bg-white w-full max-w-3xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-none flex flex-col">
+
+            <div
+                class="bg-slate-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
+                <h3 class="text-lg font-bold text-slate-800">Nueva Inscripción</h3>
+                <button onclick="window.toggleModalInscripcion()" class="text-slate-400 hover:text-slate-600"
+                    aria-label="Cerrar modal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1">
+                <p class="text-sm text-slate-500 mb-4">Busque al estudiante por DNI y seleccione los cursos.</p>
+
+                <form id="inscripcionForm">
+                    <div class="mb-6">
+                        <h3 class="font-bold border-b border-slate-200 pb-1 mb-4 flex justify-between items-center">
+                            <span>1. Datos del Estudiante</span>
+                            <div>
+                                <button type="button" id="btnNuevoEstudiante"
+                                    class="hidden text-sm bg-institucional-100 text-institucional-700 px-3 py-1 rounded hover:bg-institucional-200 transition">Nuevo
+                                    Estudiante</button>
+                                <button type="button" id="btnEditarEstudiante"
+                                    class="hidden text-sm bg-amber-100 text-amber-700 px-3 py-1 rounded hover:bg-amber-200 transition">Editar
+                                    Datos</button>
+                            </div>
+                        </h3>
+
+                        <div class="block mb-4">
+                            <label for="insDni" class="block mb-1 text-sm font-medium">DNI (Presione Enter para buscar) *</label>
+                            <input type="text" id="insDni" inputmode="numeric" maxlength="8"
+                                placeholder="Ingrese DNI (máx. 8 dígitos)..." title="DNI (máx. 8 dígitos)"
+                                class="w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-institucional-500 outline-none">
+                            <p id="insDniError" class="text-red-500 text-xs mt-1 hidden">Estudiante no encontrado. Puede
+                                crearlo.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="insNombre" class="block mb-1 text-sm font-medium text-slate-500">Nombre</label>
+                                <input type="text" id="insNombre" disabled title="Nombre del estudiante" placeholder="Nombre..."
+                                    class="w-full p-2 border border-slate-200 bg-slate-50 rounded-md text-slate-500">
+                            </div>
+                            <div>
+                                <label for="insApellido" class="block mb-1 text-sm font-medium text-slate-500">Apellido</label>
+                                <input type="text" id="insApellido" disabled title="Apellido del estudiante" placeholder="Apellido..."
+                                    class="w-full p-2 border border-slate-200 bg-slate-50 rounded-md text-slate-500">
+                            </div>
+                            <div>
+                                <label for="insEmail" class="block mb-1 text-sm font-medium text-slate-500">Email</label>
+                                <input type="text" id="insEmail" disabled title="Email del estudiante" placeholder="Email..."
+                                    class="w-full p-2 border border-slate-200 bg-slate-50 rounded-md text-slate-500">
+                            </div>
+                            <div>
+                                <label for="insFechaNac" class="block mb-1 text-sm font-medium text-slate-500">Fecha de Nacimiento</label>
+                                <input type="date" id="insFechaNac" disabled title="Fecha de nacimiento del estudiante"
+                                    class="w-full p-2 border border-slate-200 bg-slate-50 rounded-md text-slate-500">
+                            </div>
+                        </div>
+                        <input type="hidden" id="insIdEstudiante">
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="font-bold border-b border-slate-200 pb-1 mb-4">2. Selección de Cursos</h3>
+
+                        <div class="relative mb-4">
+                            <label for="insBuscadorCurso" class="block mb-1 text-sm font-medium">Buscar Curso *</label>
+                            <input type="text" id="insBuscadorCurso" title="Buscador de cursos"
+                                placeholder="Escriba para buscar cursos con cupo..." autocomplete="off" disabled
+                                class="w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-institucional-500 outline-none disabled:bg-slate-50 disabled:cursor-not-allowed">
+                            <ul id="insSugerenciasCursos"
+                                class="absolute z-10 w-full bg-white border border-slate-300 rounded-md mt-1 shadow-lg hidden max-h-48 overflow-y-auto">
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-medium mb-2">Cursos seleccionados:</p>
+                            <div class="border border-slate-200 rounded-lg overflow-hidden">
+                                <table class="w-full text-left text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
+                                        <tr>
+                                            <th class="px-4 py-2 font-medium">Curso</th>
+                                            <th class="px-4 py-2 font-medium w-16 text-center">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="insCarritoCursos" class="divide-y divide-slate-100">
+                                        <tr id="insCarritoVacio">
+                                            <td colspan="2" class="px-4 py-4 text-center text-slate-400 italic">No hay
+                                                cursos seleccionados</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div
+                class="bg-slate-50 px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 flex-shrink-0">
+                <button type="button" onclick="window.toggleModalInscripcion()"
+                    class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition text-sm">Cancelar</button>
+                <button type="button" onclick="confirmarInscripcion()" id="btnConfirmarInscripcion" disabled
+                    class="px-4 py-2 rounded-lg bg-institucional-600 hover:bg-institucional-700 text-white transition text-sm shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                    Confirmar Inscripción
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

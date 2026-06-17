@@ -1,0 +1,207 @@
+<div id="vista-curso-especifico" class="animate-fade-in flex flex-col gap-6 h-full pb-8"
+    data-tabla-alumnos="tabla-alumnos-inscriptos" data-titulo-materia="curso-especifico-titulo">
+
+    <!-- Cabecera exclusiva para impresión (oculta en pantalla) -->
+    <div class="hidden print:block border-b-2 border-slate-800 pb-4 mb-6">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Gestión Académica FCAD</h1>
+                <p class="text-sm text-slate-500">Reporte Oficial de Cursos y Alumnos Inscriptos</p>
+            </div>
+            <div class="text-right text-xs text-slate-400">
+                Impreso el: <span id="fecha-impresion-reporte"></span>
+            </div>
+        </div>
+    </div>
+
+    <header
+        class="px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-start sm:items-center rounded-2xl mb-4 sm:mb-8">
+        <div>
+            <h1 id="curso-especifico-titulo" class="text-xl sm:text-2xl font-bold text-slate-800">—</h1>
+            <p id="curso-especifico-subtitulo" class="text-xs sm:text-sm text-slate-500 mt-1">Seleccione un curso</p>
+            <!-- Valor usado por JS para filtrar alumnos por materia (debe coincidir con el título) -->
+            <span id="curso-especifico-materia-activa" class="sr-only" aria-hidden="true"></span>
+        </div>
+
+
+        
+        <div class="flex items-center gap-3">
+
+             <button onclick="volverACursos()"
+                class="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
+                <svg class="w-4 h-4 mr-2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Volver
+            </button>
+
+            <button onclick="imprimirCursoEspecifico()"
+                class="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
+                <svg class="w-4 h-4 mr-2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                    </path>
+                </svg>
+                Imprimir
+            </button>
+            <button onclick="editarCursoEspecifico()"
+                class="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
+                <svg class="w-4 h-4 mr-2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                    </path>
+                </svg>
+                Editar
+            </button>
+            <button onclick="eliminarCursoEspecifico()"
+                class="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors shadow-sm">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                    </path>
+                </svg>
+                Eliminar
+            </button>
+        </div>
+    </header>
+
+    <!-- Tarjeta Principal (Detalles + Estadísticas) -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col md:flex-row">
+
+        <!-- Detalles del Curso (Izquierda) -->
+              
+        <div class="p-8 md:w-2/3 border-b md:border-b-0 md:border-r border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Nombre</h3>
+                    <p id="curso-detalle-nombre" class="text-slate-800 font-medium">—</p>
+                </div>
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Fecha de Inicio</h3>
+                    <p class="text-slate-800 font-medium flex items-center">
+                        <svg class="w-4 h-4 mr-1 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <span id="curso-detalle-fecha-texto">—</span>
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Cantidad de Horas</h3>
+                    <p id="curso-detalle-horas" class="text-slate-800 font-medium">—</p>
+                </div>
+               
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Estado</h3>
+                    <span id="curso-detalle-estado"
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
+                        —
+                    </span>
+                </div>
+                <div class="md:col-span-2">
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Descripción</h3>
+                    <p id="curso-detalle-descripcion" class="text-slate-600 text-sm">—</p>
+                </div>
+            </div>
+        </div>
+        <!-- Estadísticas (Derecha) -->
+        <div class="p-8 md:w-1/3 bg-slate-50/50 flex flex-col justify-between">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500">Cupos Totales</h3>
+                    <p id="curso-stat-cupos" class="text-3xl font-bold text-slate-800 mt-1">40</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500">Inscriptos</h3>
+                    <p id="curso-stat-inscriptos" class="text-3xl font-bold text-blue-600 mt-1">0</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500">Disponibles</h3>
+                    <p id="curso-stat-disponibles" class="text-3xl font-bold text-green-600 mt-1">0</p>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-200">
+                <div class="flex justify-between text-sm font-medium mb-2">
+                    <span class="text-slate-600">Ocupación</span>
+                    <span id="curso-stat-porcentaje" class="text-slate-500">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                    <div id="curso-stat-barra" class="bg-orange-500 h-2.5 rounded-full w-0"></div>
+                </div>
+                <p id="curso-stat-ratio" class="text-xs text-slate-500 mt-2 text-right">0 / 0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta de Alumnos Inscriptos -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+
+
+        <!-- Encabezado de la tabla: se apila en móvil -->
+        <div
+            class="px-4 sm:px-8 py-4 sm:py-6 border-b border-slate-200 flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between items-start sm:items-center">
+
+            <div>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-800">
+                    Alumnos Inscriptos
+                    <span id="alumnos-inscriptos-materia" class="text-institucional-600 font-semibold"></span>
+                </h2>
+
+                <p id="total-alumnos-inscriptos" class="text-xs sm:text-sm text-slate-500 mt-1" data-materia-filtro="">
+                    Total: 0 alumnos
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="overflow-x-auto">
+
+            <table class="responsive-table w-full text-left border-collapse">
+
+                <thead>
+                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+
+                        <th class="px-6 py-4 font-medium">Alumno</th>
+                        <th class="px-6 py-4 font-medium">DNI</th>
+                        <th class="px-6 py-4 font-medium">Fecha de inscripción</th>            
+
+                    </tr>
+                </thead>
+
+                <tbody id="tabla-alumnos-inscriptos" class="divide-y divide-slate-200 text-sm" data-cargado-por="js"
+                    data-filtro-campo="materia">
+                    <!-- Las filas las genera curso_especifico.js según la materia del título -->
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginacion-alumnos-container" class="px-4 sm:px-8 py-4 border-t border-slate-200 flex items-center justify-between">
+            <div class="text-sm text-slate-500" id="paginacion-alumnos-info"></div>
+            <div class="flex gap-2">
+                <button id="btn-prev-alumnos" type="button"
+                    class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Anterior</button>
+                <button id="btn-next-alumnos" type="button"
+                    class="px-3 py-1 rounded border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm">Siguiente</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Plantilla de fila: clonar desde JS al renderizar alumnos por materia -->
+   <template id="tpl-fila-alumno-inscripto">
+        <tr class="hover:bg-slate-50 transition-colors fila-alumno-inscripto">
+            <td class="px-6 py-4" data-campo="estudiante">
+                <div class="font-medium text-slate-800" data-campo="nombre"></div>
+                <div class="text-xs text-slate-500" data-campo="inscripcion-id"></div>
+            </td>
+            <td class="px-6 py-4 text-slate-600 font-mono text-sm" data-campo="dni"></td>
+            <td class="px-6 py-4 text-slate-600" data-campo="fecha"></td>
+        </tr>
+    </template>
+</div>

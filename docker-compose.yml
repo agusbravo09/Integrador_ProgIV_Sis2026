@@ -1,6 +1,8 @@
 services:
   db:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.db
     container_name: postgres_fcad_progiv
     restart: always
     environment:
@@ -11,6 +13,38 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d fcad_cursos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: backend_fcad_progiv
+    restart: always
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: fcad_cursos
+      DB_USER: postgres
+      DB_PASSWORD: admin_db
+      JWT_SECRET: tu_clave_super_super_segura
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_fcad_progiv
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:

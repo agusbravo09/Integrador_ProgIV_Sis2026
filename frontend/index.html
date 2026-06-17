@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gestión Académica FCAD</title>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <script src="js/tailwind-config.js"></script>
+
+
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body class="min-h-screen flex items-center justify-center md:p-4 relative overflow-hidden">
+
+
+    <div class="fixed inset-0 z-0">
+
+        <div class="absolute inset-0 bg-institucional-50"></div>
+
+        <div
+            class="absolute inset-0 bg-[url('imgs/logoFCAD.svg')] bg-cover bg-center bg-no-repeat opacity-60 blur-3xl scale-125">
+        </div>
+
+    </div>
+
+
+    <div class="relative z-10 w-full md:max-w-[1000px] bg-white/70 backdrop-blur-md
+    rounded-none md:rounded-[3rem] shadow-none md:shadow-2xl
+    flex flex-col md:flex-row overflow-hidden
+    min-h-screen md:min-h-[700px]">
+
+
+        <div
+            class="bg-institucional-600 text-white px-10 py-12 md:p-12 flex flex-col justify-center items-center w-full md:w-[45%] rounded-none rounded-b-[4rem] md:rounded-b-none md:rounded-tr-[6rem] md:rounded-br-[6rem] z-10 relative shrink-0">
+
+            <div class="flex flex-col items-center text-center relative z-10">
+
+                <img src="imgs/Logo con texto.png" alt="Logo" class="w-36 md:w-48 mb-6 drop-shadow-md">
+
+                <h2 class="text-4xl md:text-5xl font-bold mb-2">
+                    ¡Bienvenido!
+                </h2>
+
+                <p class="text-sm text-institucional-100 font-medium">
+                    Sistema de Inscripción a Cursos
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="p-8 md:p-14 flex flex-col items-center w-full md:w-[55%] bg-transparent flex-grow justify-center">
+
+            <h2 class="text-3xl font-bold text-slate-800 tracking-tight text-center mb-8">
+                Iniciar Sesión
+            </h2>
+
+            <form id="loginForm" class="w-full space-y-4" novalidate>
+
+
+                <div class="relative">
+
+                    <input type="text" id="nombre_usuario" name="nombre_usuario" required autocomplete="username"
+                        placeholder="Usuario"
+                        class="w-full bg-slate-50 text-slate-700 rounded-lg pl-4 pr-10 py-3 border border-transparent outline-none focus:border-institucional-400 focus:ring-4 focus:ring-institucional-100 focus:bg-white transition-all text-sm placeholder-slate-400 font-medium">
+
+                    <svg class="w-5 h-5 text-slate-400 absolute right-4 top-3.5 pointer-events-none"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd" />
+
+                    </svg>
+
+                </div>
+
+
+                <div class="relative w-full">
+
+                    <input id="password" name="password" type="password" required autocomplete="current-password"
+                        placeholder="Contraseña"
+                        class="w-full px-4 py-3 pr-12 rounded-xl bg-white/60 backdrop-blur-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                    <button type="button" onclick="togglePassword()" title="Mostrar/ocultar contraseña"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+
+                        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
+                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
+                            <circle cx="12" cy="12" r="3" />
+
+                        </svg>
+
+                    </button>
+
+                </div>
+
+
+                <div id="messageBox" class="w-full" role="alert"></div>
+
+
+                <button id="loginBtn" type="submit" class="w-full bg-institucional-600 text-white rounded-lg py-3 font-semibold tracking-wide 
+                    hover:bg-institucional-700 transition-all duration-200 ease-out
+                    shadow-md hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0
+                    flex justify-center items-center">
+
+                    Ingresar
+
+                </button>
+
+            </form>
+
+            <div class="h-10 md:hidden"></div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script type="module" src="js/login.js" defer></script>
+
+</body>
+
+</html>

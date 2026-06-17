@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Integrador API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

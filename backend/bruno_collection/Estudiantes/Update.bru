@@ -1,0 +1,25 @@
+meta {
+  name: Update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/estudiantes/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1
+}
+
+body:json {
+  {
+    "documento": "12345678",
+    "apellido": "Pritchett",
+    "nombres": "Jay",
+    "email": "Pritchett1@example.com",
+    "fecha_nacimiento": "2001-04-12"
+  }
+}
