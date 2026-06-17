@@ -143,7 +143,7 @@ function actualizarDetallesCurso(curso) {
     const subtitulo = document.getElementById("curso-especifico-subtitulo");
     if (subtitulo) {
         const fecha = curso.fecha_inicio
-            ? new Date(curso.fecha_inicio).toLocaleDateString()
+            ? new Date(curso.fecha_inicio).toLocaleDateString(undefined, { timeZone: 'UTC' })
             : "Sin fecha";
         subtitulo.textContent = `Inicio: ${fecha} — ${curso.cantidad_horas || 0} horas`;
     }
@@ -155,7 +155,7 @@ function actualizarDetallesCurso(curso) {
     // Campos de detalle
     setTextIfExists("curso-detalle-nombre", curso.nombre || "—");
     setTextIfExists("curso-detalle-fecha-texto", curso.fecha_inicio
-        ? new Date(curso.fecha_inicio).toLocaleDateString()
+        ? new Date(curso.fecha_inicio).toLocaleDateString(undefined, { timeZone: 'UTC' })
         : "—");
     setTextIfExists("curso-detalle-horas", curso.cantidad_horas ? `${curso.cantidad_horas} h` : "—");
     setTextIfExists("curso-detalle-maximos", curso.inscriptos_max ? `${curso.inscriptos_max} alumnos` : "—");
